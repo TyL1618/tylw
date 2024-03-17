@@ -1,0 +1,1417 @@
+/* #########################################################電腦版框架################################################################ */
+body {
+	background-color: black;
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+	scrollbar-width: none; /* for Firefox */
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
+
+
+
+body::-webkit-scrollbar {
+	display: none; /* for Chrome, Safari, and Opera */
+}
+
+html {
+}
+
+txt {
+	color: green;
+}
+
+h1 {
+	text-align: center;
+	color: white;
+}
+
+h2 {
+	text-align: center;
+	color: white;
+}
+
+h3 {
+	text-align: center;
+	color: white;
+}
+
+h4 {
+	text-align: center;
+	color: white;
+}
+
+h5 {
+	text-align: center;
+	color: white;
+}
+
+h6 {
+	text-align: center;
+	color: white;
+}
+td {
+	text-align: center;
+	color: #90EE90;
+}
+
+th {
+	text-align: center;
+	color: #90EE90;
+}
+
+p {
+	text-align: center;
+	color: #90EE90;
+}
+
+img{
+	width: auto;
+	height: auto;
+    max-width: 100%;
+    max-height: 100%;
+	-drag: none;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+	-webkit-user-drag: none; 
+}
+
+.imgcollection {
+    max-width:100%;
+    max-height: 100%;
+	/*border-radius: 100px;*/
+}
+
+.imgprofile {
+    max-width: 20%;
+    max-height: 20%;
+}
+
+hr.split {
+    border: 0;
+    height: 6px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(255,255,255,0.75), rgba(0,0,0,0));
+}
+
+.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.top {
+	margin: 30% auto 0%;
+}
+
+.left {
+	float: left;
+	margin-left: 0%;
+}
+
+.right {
+	float: right;
+	margin-right: 0%;
+}
+
+.aboutcss {
+    color:white; 
+    font-size:1.4em; 
+    font-family:標楷體; 
+    line-height:35px;
+    width: 200px;
+    text-align: left; 
+}
+
+.multibr::before {
+  content: "\A\A\A"; 
+  white-space: pre;
+}
+
+}
+
+canvas { 
+	background: gray; 
+}
+
+section
+{
+	width: 20%; 
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.animated {
+  opacity: 0;
+}
+
+.fadeIn {
+  opacity: 1;
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+			-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none; /* Firefox */
+					-ms-user-select: none; /* Internet Explorer/Edge */
+						user-select: none; /* Non-prefixed version, currently
+							supported by Chrome and Opera */
+}
+/* #########################################################上排列表################################################################ */
+
+.showmenu{
+	display: none;
+}
+
+.container3 {
+	max-width: 80%;
+	width: 80%;
+	margin: 0 auto;
+	height: auto;
+}
+
+.menu {
+	float:right;
+}
+
+.menu li {
+	float: left;
+	display: block;
+	margin-left: 70px;
+	padding-top: 23px;
+	padding-bottom: 0px;
+	position: relative;
+}
+
+.menu li a {
+	display: block;
+	color: #444;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 25px;
+}
+
+header {
+	background: #55d6aa !important;
+	position: relative;
+}
+
+header::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+
+.logo {
+    float: left;
+    height: 60px;
+    width: 190px;
+    padding: 10px 0;
+    margin-left: -5%;
+    max-width: 50%;
+    max-height: 50%;
+    transition: all 0.5s ease; /* 添加過渡效果 */
+    display: flex; /* 使用 Flexbox 佈局 */
+    align-items: center; /* 垂直居中 */
+}
+
+
+ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu li a::before {
+	content: '';
+	display: block;
+	height: 5px;
+	background-color: #7B7B7B;
+
+	position: relative;
+	top: 0;
+	width: 0%;
+
+	transition: all ease-in-out 500ms;
+}
+
+.menu li a:hover::before {
+	width: 100%;
+}
+
+.content{
+	padding: 1em;
+	line-height: 1.8;
+}
+
+.content p{
+	margin-bottom: 1em;
+}
+
+/* #########################################################彩虹邊框################################################################ */
+.box {
+    position: relative;
+    width: 600px;
+    height: 274px;
+    border-radius: 3px;
+}
+
+.box::before,
+.box::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    top: -5px;
+    left: -5px;
+    border-radius: 5px;
+    background: linear-gradient(45deg,
+        #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+        #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff
+    );
+    background-size: 300%;
+    animation: border 12s linear infinite;
+}
+
+.box::after {
+    filter: blur(50px);
+}
+
+@keyframes border {
+    0%, 100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 300%;
+    }
+}
+/* #########################################################輸入文字特效################################################################ */
+
+.container {
+	width: 80%;
+	margin: 0% auto;
+}
+
+.typing-txt-block {
+	height: 12vh;
+	display: block;
+	background-image: url("./bg.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.typing-txt-block.bg-animation {
+	-webkit-animation: bg-animation 20s ease-in-out infinite;
+	animation: bg-animation 20s ease-in-out infinite;
+}
+
+@keyframes bg-animation {
+	0% {
+		background-position: top;
+	}
+	50% {
+		background-position: bottom;
+	}
+	100% {
+		background-position: top;
+	}
+}
+
+.typing-txt-block .container h1 {
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	text-transform: uppercase;
+	margin: 3% auto;
+	letter-spacing: 5px;
+	color: transparent;
+}
+
+.typing-txt-block .container h1::before {
+	content: attr(data-text);
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	overflow: hidden;
+	border-right: 1px solid #ffffff;
+	animation: type 3s steps(18), blink 0.5s infinite alternate;
+	-webkit-animation: type 3s steps(18), blink 0.5s infinite alternate;
+	white-space: nowrap;
+}
+
+@keyframes type {
+	0% {
+		width: 0%;
+	}
+	100% {
+		width: 100%;
+	}
+}
+
+@keyframes blink {
+	from {
+		border-color: transparent;
+	}
+	to {
+		border-color: #ffffff;
+	}
+}
+/* #########################################################solarsystem################################################################ */
+
+:root 
+{
+	color-scheme: only light !important;
+    --dark-color: rgb(0,0,0);
+    --glossy-red: rgba(238, 17, 17, 1);
+    --hidden-red: rgba(238, 17, 17, 0);
+    --light-red: rgba(238, 17, 17, .5);
+    --paths-theme: var(--very-light-red) var(--glossy-red);
+    --planets-theme: var(--light-red) var(--light-red) var(--light-red) var(--glossy-red); 
+    --very-light-red: rgba(238, 17, 17, .25);
+}
+
+*, *::after, *::before
+{
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+            box-sizing: content-box;
+}
+
+
+body #solar-system
+{
+    display: flex;
+    width: 100vw;
+    height: 70vh;
+
+    -webkit-transform: skewX(-45deg);
+       -moz-transform: skewX(-45deg);
+        -ms-transform: skewX(-45deg);
+         -o-transform: skewX(-45deg);
+            transform: skewX(-45deg);
+    -webkit-transform-origin: center;
+       -moz-transform-origin: center;
+        -ms-transform-origin: center;
+         -o-transform-origin: center;
+            transform-origin: center;
+
+    justify-content: center;
+    align-items: center;
+}
+
+/* ⚠ size of the sun is not respected here */
+section #sun
+{
+
+    position: fixed;
+    z-index: 100;
+    /* ✑ real radius of the sun: 696340km */
+
+    width: 174.085px; /* ✑ 40* too small compared to the #planets{} dimensions values */
+    height: 174.085px;
+
+    -webkit-transform: skewX(45deg);
+       -moz-transform: skewX(45deg);
+        -ms-transform: skewX(45deg);
+         -o-transform: skewX(45deg);
+            transform: skewX(45deg);
+
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+            background: var(--glossy-red);
+            background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
+
+    -webkit-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
+       -moz-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
+         -o-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
+        -ms-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
+            filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+    -webkit-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+       -moz-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+         -o-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+        -ms-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+}
+
+/* planets */
+article #mercury
+{
+    position: fixed;
+    z-index: 99;
+    top: 38px;
+
+    display: flex;
+
+    width: 24.397px; /* ✑ real radius of mercury: 24397km */
+    height: 24.397px;
+    /* ✑ rotation period of mercury: 58.645 days */
+
+    -webkit-animation: planets-rotation 29.3225s linear infinite;
+       -moz-animation: planets-rotation 29.3225s linear infinite;
+        -ms-animation: planets-rotation 29.3225s linear infinite;
+         -o-animation: planets-rotation 29.3225s linear infinite;
+            animation: planets-rotation 29.3225s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--planets-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    background: var(--hidden-red);
+
+    justify-content: center;
+    align-items: center;
+}
+article #venus
+{
+    position: fixed;
+    z-index: 99;
+    top: 15px;
+
+    display: flex;
+
+    width: 60.518px; /* ✑ real radius of venus: 60518km */
+    height: 60.518px;
+    /* ✑ rotation period of venus 243.023 days */
+
+    -webkit-animation: planets-rotation 121.513s linear infinite;
+       -moz-animation: planets-rotation 121.513s linear infinite;
+        -ms-animation: planets-rotation 121.513s linear infinite;
+         -o-animation: planets-rotation 121.513s linear infinite;
+            animation: planets-rotation 121.513s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--planets-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    background: var(--hidden-red);
+
+    justify-content: center;
+    align-items: center;
+}
+article #earth
+{
+    position: fixed;
+    z-index: 99;
+    top: 35px;
+
+    display: flex;
+
+    width: 63.71px; /* ✑ real radius of the earth: 6371km */
+    height: 63.71px;
+    /* ✑ animation-duration: .5s = 24hours on earth */
+
+    -webkit-animation: planets-rotation .4874s linear infinite;
+       -moz-animation: planets-rotation .4874s linear infinite;
+        -ms-animation: planets-rotation .4874s linear infinite;
+         -o-animation: planets-rotation .4874s linear infinite;
+            animation: planets-rotation .4874s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--planets-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    background: var(--hidden-red);
+
+    justify-content: center;
+    align-items: center;
+}
+article #earth::after
+{
+    position: inherit;
+
+    width: 40%;
+    height: 40%;
+
+    content: '';
+    -webkit-animation: earth-blinking 2s linear infinite;
+       -moz-animation: earth-blinking 2s linear infinite;
+        -ms-animation: earth-blinking 2s linear infinite;
+         -o-animation: earth-blinking 2s linear infinite;
+            animation: earth-blinking 2s linear infinite;
+
+    -webkit-border-radius: inherit;
+       -moz-border-radius: inherit;
+            border-radius: inherit;
+    background: var(--glossy-red);
+
+    -webkit-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+       -moz-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+         -o-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+        -ms-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+            filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+}
+article #mars
+{
+    position: fixed;
+    z-index: 99;
+    top: 288px;
+
+    display: flex;
+
+    width: 33.895px; /* ✑ real radius of mars: 33895km */
+    height: 33.895px;
+    /* ✑ animation-duration: .5s = 24hours on earth */
+
+    -webkit-animation: planets-rotation .5128s linear infinite;
+       -moz-animation: planets-rotation .5128s linear infinite;
+        -ms-animation: planets-rotation .5128s linear infinite;
+         -o-animation: planets-rotation .5128s linear infinite;
+            animation: planets-rotation .5128s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--planets-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    background: var(--hidden-red);
+
+    justify-content: center;
+    align-items: center;
+}
+article #mars::after,
+article #venus::after,
+article #mercury::after
+{
+    width: 40%;
+    height: 40%;
+
+    content: '';
+
+    -webkit-border-radius: inherit;
+       -moz-border-radius: inherit;
+            border-radius: inherit;
+    background: var(--glossy-red);
+
+    -webkit-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+       -moz-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+         -o-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+        -ms-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+            filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+}
+
+/* planets trajectory's
+⚠ the distances between the planets and the sun are not respected here because of the diameter ot it */
+section #mercury-trajectory
+{
+    position: fixed;
+    z-index: 98;
+
+    width: 203.085px; /* ✑ non-proportional */
+    height: 203.085px;
+    /* ✑ revolution of mercury: 87.969 days */
+
+    -webkit-animation: solar-revolution 43.9845s linear infinite;
+       -moz-animation: solar-revolution 43.9845s linear infinite;
+        -ms-animation: solar-revolution 43.9845s linear infinite;
+         -o-animation: solar-revolution 43.9845s linear infinite;
+            animation: solar-revolution 43.9845s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--paths-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+}
+section #venus-trajectory
+{
+    position: fixed;
+    z-index: 98;
+
+    width: 257.085px; /* ✑ non-proportional */
+    height: 257.085px;
+    /* ✑ revolution of venus: 224.667 days */
+
+    -webkit-animation: solar-revolution 112.3335s linear infinite;
+       -moz-animation: solar-revolution 112.3335s linear infinite;
+        -ms-animation: solar-revolution 112.3335s linear infinite;
+         -o-animation: solar-revolution 112.3335s linear infinite;
+            animation: solar-revolution 112.3335s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--paths-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+}
+section #earth-trajectory
+{
+    position: fixed;
+    z-index: 98;
+
+    width: 332.085px; /* ✑ non-proportional */
+    height: 332.085px;
+    /* ✑ revolution of the earth: 365.2422 days */
+
+    -webkit-animation: solar-revolution 182.6211s linear infinite;
+       -moz-animation: solar-revolution 182.6211s linear infinite;
+        -ms-animation: solar-revolution 182.6211s linear infinite;
+         -o-animation: solar-revolution 182.6211s linear infinite;
+            animation: solar-revolution 182.6211s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--paths-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+}
+section #mars-trajectory
+{
+    position: fixed;
+    z-index: 98;
+
+    width: 446.085px; /* ✑ non-proportional */
+    height: 446.085px;
+    /* ✑ revolution of mars: 686.885 days */
+
+    -webkit-animation: solar-revolution 343.4425s linear infinite;
+       -moz-animation: solar-revolution 343.4425s linear infinite;
+        -ms-animation: solar-revolution 343.4425s linear infinite;
+         -o-animation: solar-revolution 343.4425s linear infinite;
+            animation: solar-revolution 343.4425s linear infinite;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--paths-theme);
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+}
+
+/*
+▀▄▀▄▀▄▀▄▀▄▀▄ ANIMATIONS ▀▄▀▄▀▄▀▄▀▄▀▄
+*/
+
+@keyframes solar-revolution
+{
+    to
+    {
+        transform: rotate(360deg) ;
+    }
+}
+
+@keyframes planets-rotation
+{
+    to
+    {
+        transform: rotate(360deg) ;
+    }
+}
+@keyframes earth-blinking
+{
+    from
+    {
+        background-color: var(--glossy-red);
+
+        filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
+    }
+    to
+    {
+        background-color: var(--dark-color);
+
+        filter: drop-shadow(0 0 0 var(--light-red)) blur(0);
+    }
+}
+
+/* media queries
+smartphone*/
+@media only screen and (max-width: 768px)
+{
+    section #sun
+    {
+        width: 87.0425px;
+        height: 87.0425px;
+    }
+    section #mercury-trajectory
+    {
+        width: 101.5425px;
+        height: 101.5425px;
+    }
+    article #mercury
+    {
+        top: 17px;
+
+        width: 12.1985px;
+        height: 12.1985px;
+    }
+    section #venus-trajectory
+    {
+        width: 128.5425px;
+        height: 128.5425px;
+    }
+    article #venus
+    {
+        top: 6px;
+
+        width: 30.259px;
+        height: 30.259px;
+    }
+    section #earth-trajectory
+    {
+        width: 166.0425px;
+        height: 166.0425px;
+    }
+    article #earth
+    {
+        top: 16px;
+
+        width: 31.855px;
+        height: 31.855px;
+    }
+    section #mars-trajectory
+    {
+        width: 223.0425px;
+        height: 223.0425px;
+    }
+    article #mars
+    {
+        top: 56px;
+
+        width: 16.9475px;
+        height: 16.9475px;
+    }
+}
+
+/* 4K Ultra HD */
+@media only screen and (min-width: 1921px)
+{
+    section #sun
+    {
+        width: 348.17px;
+        height: 348.17px;
+    }
+    section #mercury-trajectory
+    {
+        width: 406.17px;
+        height: 406.17px;
+    }
+    article #mercury
+    {
+        top: 82px;
+
+        width: 48.794px; /* ✑ real diameter of mercury: 4879.4km*/
+        height: 48.794px;
+    }
+    section #venus-trajectory
+    {
+        width: 514.17px;
+        height: 514.17px;
+    }
+    article #venus
+    {
+        top: 28px;
+
+        width: 121.036px; /* ✑ real diameter of venus: 12103.6km */
+        height: 121.036px;
+    }
+    section #earth-trajectory
+    {
+        width: 664.17px;
+        height: 664.17px;
+    }
+    article #earth
+    {
+        top: 68px;
+
+        width: 127.42px; /* ✑ real diameter of the earth: 12742km */
+        height: 127.42px;
+    }
+    section #mars-trajectory
+    {
+        width: 892.14px;
+        height: 892.14px;
+    }
+    article #mars
+    {
+        top: 242px;
+
+        width: 67.79px; /* ✑ real diameter of mars: 6779km */
+        height: 67.79px;
+    }
+}
+/*
+8K Ultra HD ...(*￣０￣)ノ
+@media only screen and (min-width: 3841px) {}
+*/
+
+/* 載入圈圈 */
+#loading {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0.7;
+	background-color: #black;
+	z-index: 99;
+}
+
+.loader-wrapper {
+    width: 100px;
+    height: 100px;
+}
+
+.loader-wrapper .loader {
+    width: 100%;
+    height: 100%;
+    border: 10px solid transparent;
+    border-radius: 50%;
+    animation: rotate 5s linear infinite;
+}
+
+.loader-wrapper .loader-outer {
+    border-top-color: #4bc8eb;
+    border-bottom-color: #f13a8f;
+}
+
+.loader-wrapper .loader-inner {
+    border-top-color: #36f372;
+    border-bottom-color: #fff;
+    animation-duration: 4s;
+}
+
+@keyframes rotate {
+    0% {
+        transform: scale(1) rotate(360deg);
+    }
+
+    50% {
+        transform: scale(.6) rotate(-360deg);
+    }
+}
+
+/* 個人資料 */
+
+.card {
+	margin:5% auto 8%;
+    position: relative;
+    width: 360px;
+    height: 420px;
+    font-family: 'Open Sans';
+}
+
+.card .card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, .05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+}
+
+.card .circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: 2s ease-in infinite alternate;
+}
+
+.card .circle:nth-child(1) {
+    width: 120px;
+    height: 120px;
+    top: -50px;
+    left: -50px;
+    background: linear-gradient(
+        #e524c3, #8626b2
+    );
+    animation-name: move-up;
+}
+
+.card .circle:nth-child(2) {
+    width: 180px;
+    height: 180px;
+    bottom: -80px;
+    right: -86px;
+    background: linear-gradient(
+        #d64612, #e48307
+    );
+    animation-name: move-down;
+}
+
+@keyframes move-up {
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes move-down {
+    to {
+        transform: translateY(10px);
+    }
+}
+
+.card .profile img {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 12px solid rgba(255, 255, 255, .05);
+}
+
+.card .profile h2 {
+    color: #f9f9f9;
+    font-size: 26px;
+    margin-top: 8px;
+}
+
+.card .profile p {
+    color: #e0e0e0;
+    font-size: 18px;
+}
+
+.card .profile {
+    transform: translateY(20px);
+    transition: .4s ease-out;
+}
+
+.card:hover .profile {
+    transform: translateY(0);
+}
+
+.card .social-icons {
+    margin-top: 30px;
+}
+
+.card .social-icons i {
+    cursor: pointer;
+    color: #ddd;
+    margin: 0 8px;
+    font-size: 22px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: .2s;
+}
+
+.card:hover .social-icons i {
+    opacity: 1;
+    transform: translateY(0); 
+}
+
+.card .social-icons i:hover {
+    color: #e48307;
+}
+
+.card .social-icons i:nth-child(1) {
+    transition-delay: .1s;
+}
+
+.card .social-icons i:nth-child(2) {
+    transition-delay: .2s;
+}
+
+.card .social-icons i:nth-child(3) {
+    transition-delay: .3s;
+}
+
+.card .social-icons i:nth-child(4) {
+    transition-delay: .4s;
+}
+
+/* Galaxy */
+
+.blob {
+	margin:-5% auto 10%;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+    background: url('./Galaxy.jpg');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+    animation: blob 3.7s linear infinite;
+}
+
+@keyframes blob {
+    0%, 100% {
+        border-radius:
+            42% 56% 72% 28% / 42% 42% 56% 48%;
+    }
+
+    33% {
+        border-radius:
+            42% 28% 48% 48% / 28% 28% 72% 72%;
+    }
+
+    66% {
+        border-radius:
+            100% 56% 56% 100% / 100% 100% 56% 56%;
+    }
+}
+
+
+/* 骰子*/
+.container2 {
+	margin: 5% auto 10%;
+    display: grid;
+    place-items: center;
+    width: 250px;
+    padding: 60px 0 40px;
+    border-radius: 30px;
+    background: #eeeeee;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+}
+
+/*
+    Dice Styles
+*/
+
+.dice {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    transform-style: preserve-3d;
+    transition: 1s ease;
+}
+
+@keyframes rolling {
+    50% {
+        transform: rotateX(455deg) rotateY(455deg);
+    }
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    border: 5px solid #f6f3f0;
+    transform-style: preserve-3d;
+    background: linear-gradient(
+        145deg, #dddbd8, #fff
+    );
+}
+
+.face::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: #f6f3f0;
+    transform: translateZ(-1px);
+}
+
+.face::after {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #131210;
+}
+
+.front {
+    transform: translateZ(50px);
+}
+
+.back {
+    transform: rotateX(180deg) translateZ(50px);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(80px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(50px);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(50px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(50px);
+}
+
+.front::after {
+    width: 30px;
+    height: 30px;
+    background: #f63330;
+    margin: -15px 0 0 -15px;
+}
+
+.back::after {
+    margin: -35px 0 0 -30px;
+    box-shadow: 40px 0,
+                0 25px,
+                40px 25px,
+                0 50px,
+                40px 50px;
+}
+
+.top::after {
+    margin: -30px 0 0 -30px;
+    box-shadow: 40px 40px;
+}
+
+.bottom::after {
+    margin: -36px 0 0 -36px;
+    box-shadow: 26px 26px,
+                52px 52px,
+                52px 0,
+                0 52px;
+}
+
+.right::after {
+    margin: -30px 0 0 -30px;
+    box-shadow: 40px 0,
+    0 40px,
+    40px 40px;
+}
+
+.left::after {
+    margin: -35px 0 0 -35px;
+    box-shadow: 25px 25px,
+                50px 50px;
+}
+
+/*
+    Roll Button styles
+*/
+
+.roll {
+    cursor: pointer;
+    color: #b33951;
+    margin-top: 60px;
+    padding: 6px 12px;
+    border-radius: 3px;
+    font: 700 16px 'Montserrat';
+    border: 2px solid #b33951;
+    transition: .4s;
+}
+
+.roll:hover {
+    color: #fff;
+    background: #b33951;
+}
+/* #########################################################Footer################################################################ */
+.footer-content {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+	margin: 5px 0;
+	text-align: center;
+}
+
+.footer-content .copyright {
+    color: #fff;
+    margin-top: 10px;
+	text-align: center;
+}
+
+.footer-content .contact-info .email-link {
+    color: #81C0C0; /* 設置超連結的初始顏色 */
+    text-decoration: none; /* 移除超連結的下劃線 */
+}
+
+.footer-content .contact-info .email-link:hover {
+    color: #8080C0; /* 懸停時改變超連結的顏色 */
+}
+
+
+/* #########################################################RWD響應式頁面################################################################ */
+@media (max-width: 1106px) {
+/* #########################################################上排列表################################################################ */
+	.menu {
+		border-style:solid;
+		border-radius: 30px;
+		text-align: center;
+	/*隱藏選單開始*/
+		max-height: 0px;
+		overflow: hidden;
+	/*隱藏選單結束*/
+		transition: max-height 1.0s;
+		margin-top: 5px;
+		margin-left: 1px;
+		margin-right: 2px;
+	/*絕對定位疊在網頁上*/
+		position: absolute;
+		z-index: 100;
+	/*header 80px+1px boder 線條*/
+		top: 85px;
+		left: 0;
+		right: 0;
+		background: #005757;
+	}
+	.menu li:last-child{
+		margin-bottom: 15px;
+	}
+	.menu li{
+		display: block; 
+		float: none;
+		margin: 0px auto;
+		padding-top: 0px; /* 調整項目上方間距 */
+		padding-bottom: 0px; /* 調整項目下方間距 */
+	}
+	.menu li a{
+		font-size: 20px; 
+		line-height: 2;
+		transition: all 0.6s;
+		color : white;
+		padding-bottom: 0px;
+	}
+	.menu li a:hover{
+		background: #69CA62;
+		color: white;
+	}
+	.showmenu{
+		display: block;
+		float: right;
+		margin-top: 1em;
+	}
+	/*jQ點擊後動態在 body 加上 class */
+	.menu-show .menu{
+		max-height: 500px;
+	}
+	.menu li a::before {
+		height: 15px;
+		background-color: #80FFFF;
+		transition: all ease-in-out 400ms;
+	}
+/* #########################################################其他################################################################ */
+	.typing-txt-block .container h1	{
+		position: absolute;
+		top: 25px;
+		font-size:100%;
+	}
+	.typing-txt-block{
+		position: relative;
+		height: 45px;
+	}
+
+	svg {
+		display: block;
+		font: 10.5em 'Montserrat';
+		width: 360px;
+		height: 100px;
+		margin: 0 auto;
+	}
+	h1 {
+		margin: 10% auto;
+	}
+	.left {
+		float: center;
+	}
+	.right {
+		float: center;
+	}
+	hr.split {
+		align: center;
+	}
+	.aboutcss {
+	  color:white; 
+	  font-size:1.0em; 
+	  font-family:標楷體; 
+	  line-height:35px;
+	  width: 200px;
+	}
+
+	.imgprofile {
+		max-width: 50%;
+		max-height: 50%;
+	}
+	.blob {
+		margin:-5% auto 10%;
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+		border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+		background: url('./Galaxy.jpg');
+		background-size: cover;
+		background-position: center;
+		box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+		animation: blob 3.7s linear infinite;
+	}
+	.box {
+		position: relative;
+		width: 300px;
+		height: 137px;
+		border-radius: 3px;
+	}
+}
+@media (max-width: 500px) {
+    .logo {
+        width: 125px;
+        height: 40px;
+        margin: 0 auto; /* 水平置中 */
+    }
+	.showmenu{
+		margin-top: 0.5em;
+	}
+	.menu {
+		border-style:solid;
+		border-radius: 30px;
+		text-align: center;
+	/*隱藏選單開始*/
+		max-height: 0px;
+		overflow: hidden;
+	/*隱藏選單結束*/
+		transition: max-height 2.0s;
+		margin-top: 5px;
+		margin-left: 1px;
+		margin-right: 2px;
+	/*絕對定位疊在網頁上*/
+		position: absolute;
+		z-index: 100;
+	/*header 80px+1px boder 線條*/
+		top: 85px;
+		left: 0;
+		right: 0;
+		background: #005757;
+	}
+	.menu li:last-child{
+		margin-bottom: 15px;
+	}
+	.menu li{
+		display: block; 
+		float: none;
+		margin: 0px auto;
+	}
+	.menu li a{
+		font-size: 15px; 
+		line-height: 2;
+		transition: all 0.6s;
+		color : white;
+		padding-bottom: 0px;
+	}
+	.menu li a:hover{
+		background: #69CA62;
+		color: white;
+	}
+	.menu li a::before {
+		height: 10px;
+		background-color: #80FFFF;
+		transition: all ease-in-out 300ms;
+	}
+	
+}

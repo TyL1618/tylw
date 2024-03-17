@@ -1,0 +1,399 @@
+/* #########################################################電腦版框架################################################################ */
+body {
+	background-color: black;
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+	scrollbar-width: none; /* for Firefox */
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
+
+.cardtable{
+	position:absolute;
+	top:10%;
+	border:1px solid gray;
+	border-radius:8px
+}
+
+.cardtable2{
+	position:absolute;
+	top:0%;
+	border:0px solid gray;
+	border-radius:8px;
+	padding:0 auto 0;
+}
+
+body::-webkit-scrollbar {
+	display: none; /* for Chrome, Safari, and Opera */
+}
+
+html {
+}
+
+txt {
+	color: green;
+}
+
+h1 {
+	text-align: center;
+	color: white;
+}
+
+h2 {
+	text-align: center;
+	color: white;
+}
+
+h3 {
+	text-align: center;
+	color: white;
+}
+
+h4 {
+	text-align: center;
+	color: white;
+}
+
+h5 {
+	text-align: center;
+	color: white;
+}
+
+h6 {
+	text-align: center;
+	color: white;
+}
+td {
+	text-align: center;
+	color: #90EE90;
+}
+
+th {
+	text-align: center;
+	color: #90EE90;
+}
+
+p {
+	color: #90EE90;
+}
+
+img{
+	width: auto;
+	height: auto;
+    max-width: 100%;
+    max-height: 100%;
+	-drag: none;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+	-webkit-user-drag: none; 
+}
+
+.imgcollection {
+    max-width:100%;
+    max-height: 100%;
+	/*border-radius: 100px;*/
+}
+
+.imgprofile {
+    max-width: 20%;
+    max-height: 20%;
+}
+
+hr.split {
+    border: 0;
+    height: 6px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(255,255,255,0.75), rgba(0,0,0,0));
+}
+
+.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.top {
+	margin: 30% auto 0%;
+}
+
+.left {
+	float: left;
+	margin-left: 0%;
+}
+
+.right {
+	float: right;
+	margin-right: 0%;
+}
+
+.aboutcss {
+	color:white; 
+	font-size:1.4em; 
+	font-family:標楷體; 
+	line-height:35px;
+}
+
+canvas { 
+	background: gray; 
+}
+
+section
+{
+	width: 20%; 
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.animated {
+  opacity: 0;
+}
+
+.fadeIn {
+  opacity: 1;
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+			-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none; /* Firefox */
+					-ms-user-select: none; /* Internet Explorer/Edge */
+						user-select: none; /* Non-prefixed version, currently
+							supported by Chrome and Opera */
+}
+/* #########################################################上排列表################################################################ */
+
+.showmenu{
+	display: none;
+}
+
+.container3 {
+	max-width: 80%;
+	width: 80%;
+	margin: 0 auto;
+	height: auto;
+}
+
+.menu {
+	float:right;
+}
+
+.menu li {
+	float: left;
+	display: block;
+	margin-left: 70px;
+	padding-top: 23px;
+	padding-bottom: 0px;
+	position: relative;
+}
+
+.menu li a {
+	display: block;
+	color: #444;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 30px;
+}
+
+header {
+	background: #55d6aa;
+	position: relative;
+}
+
+header::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.logo {
+
+	float: left;
+  	height: 71px;
+	width: 106px;
+	padding: 10px 0;
+	margin: 0 auto 0;
+    max-width:50%;
+    max-height: 50%;
+}
+
+ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu li a::before {
+	content: '';
+	display: block;
+	height: 5px;
+	background-color: #444;
+
+	position: absolute;
+	top: 0;
+	width: 0%;
+
+	transition: all ease-in-out 250ms;
+}
+
+.menu li a:hover::before {
+	width: 100%;
+}
+
+.content{
+	padding: 1em;
+	line-height: 1.8;
+}
+
+.content p{
+	margin-bottom: 1em;
+}
+
+/* #########################################################彩虹邊框################################################################ */
+.box {
+    position: relative;
+    width: 1000px;
+    height: 200px;
+    border-radius: 3px;
+}
+
+.box::before,
+.box::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    top: -5px;
+    left: -5px;
+    border-radius: 8px;
+    background: linear-gradient(45deg,
+        #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+        #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff
+    );
+    background-size: 300%;
+    animation: border 20s linear infinite;
+}
+
+.box::after {
+    filter: blur(50px);
+}
+
+@keyframes border {
+    0%, 100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 300%;
+    }
+}
+
+/* #########################################################RWD響應式頁面################################################################ */
+@media (max-width: 1106px) {
+/* #########################################################上排列表################################################################ */
+	.menu {
+		border-style:solid;
+		border-radius: 30px;
+	/*隱藏選單開始*/
+		max-height: 0px;
+		overflow: hidden;
+	/*隱藏選單結束*/
+		transition: max-height 2.0s;
+		margin-top: 5px;
+		margin-left: 1px;
+		margin-right: 2px;
+	/*絕對定位疊在網頁上*/
+		position: absolute;
+		z-index: 100;
+	/*header 80px+1px boder 線條*/
+		top: 85px;
+		left: 0;
+		right: 0;
+		background: #005757;
+	}
+	.menu li:last-child{
+		margin-bottom: 15px;
+	}
+	.menu li{
+		float: none;
+	}
+	.menu li a{
+		transition: all 0.3s;
+		color : white;
+		padding-bottom: 0px;
+	}
+	.menu li a:hover{
+		background: #69CA62;
+		color: #444;
+	}
+	.showmenu{
+		display: block;
+		float: right;
+		margin: 1em;
+	}
+	/*jQ點擊後動態在 body 加上 class */
+	.menu-show .menu{
+		max-height: 500px;
+	}
+/* #########################################################其他################################################################ */
+	.typing-txt-block .container h1	{
+		position: absolute;
+		top: 25px;
+		font-size:100%;
+	}
+	.typing-txt-block{
+		position: relative;
+		height: 45px;
+	}
+
+	svg {
+		display: block;
+		font: 10.5em 'Montserrat';
+		width: 360px;
+		height: 100px;
+		margin: 0 auto;
+	}
+	h1 {
+		margin: 10% auto;
+	}
+	.left {
+		float: center;
+	}
+	.right {
+		float: center;
+	}
+	hr.split {
+		align: center;
+	}
+	.aboutcss {
+		color:white; 
+		font-size:1.0em; 
+		font-family:標楷體; 
+		line-height:35px;
+	}
+	.imgprofile {
+		max-width: 50%;
+		max-height: 50%;
+	}
+	.blob {
+		margin:-5% auto 10%;
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+		border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+		background: url('./sunset.jpg');
+		background-size: cover;
+		background-position: center;
+		box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+		animation: blob 3.7s linear infinite;
+	}
+	.box {
+		position: relative;
+		width: 300px;
+		height: 137px;
+		border-radius: 3px;
+	}
+}

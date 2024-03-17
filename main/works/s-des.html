@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height" />
+		<title>S-DES加解密實作</title>
+		<link rel="stylesheet" href="../../CSS.css">
+		<link rel="icon" type="image/x-icon" href="../../icon.png">
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="./S_DES_.js"></script>
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	</head>
+	<header>
+		<div class="container3">
+			<img src="../../tyl.png" class="logo"></img>
+			<div>
+				<ul class="menu" >
+					<li><a href="https://tyl1618.github.io/tyl/">Home</a></li>
+					<li><a href="https://tyl1618.github.io/tyl/main/about.html">About</a></li>
+					<li><a href="https://tyl1618.github.io/tyl/main/works.html">Works</a></li>
+					<!-- <li><a href="https://tyl1618.github.io/tyl/main/contact.html">Contact</a></li> -->
+				</ul>
+					<script>
+						$(document).ready(function() {
+							$('.showmenu').on('click', function(e){
+								e.preventDefault();	
+								$('body').toggleClass('menu-show');
+							});
+						});
+					</script>
+					<a href="#" class="showmenu">
+						<img src="../../menu.png" style="max-height: 100%; max-width: 100%; width: 30px; height: 30px; padding: 30%;"></img>
+					</a>
+			</div>
+		</div>
+	</header>
+
+	<body>
+	<h1><font face="DFKai-sb" color="white">網路安全導論 S-DES加解密</font></h1>
+	<div style="text-align: center; font-size:130%;">
+		<a href="S_DES_.js" target="show" download style="color:silver"> 下載演算法程式碼 </a> 
+	</div>	
+	<div class="center">
+		<form id="form" onsubmit="return false;"><font size="4" color="#90EE90" face="DFKai-sb">
+		  </br>
+		  請輸入8-bit的二進制訊息進行加密或解密:</font><br>
+		  <input type="text" id="inputText"  maxlength="8">
+		  <br><font size="4" color="#90EE90" face="DFKai-sb">
+		  請輸入10-bit的key:</font><br>
+		  <input type="text" id="inputKey"  maxlength="10"><br><br>
+		  <input type="radio" id="startMeChecked" name="encryptFlag" value="encrypt" checked onclick="setEncryptFlag(true);"><font size="4" color="#90EE90" face="DFKai-sb"> 加密 Encrypt </font>
+		  <input type="radio" name="encryptFlag" value="decrypt" onclick="setEncryptFlag(false);"><font size="4" color="#90EE90" face="DFKai-sb"> 解密 Decrypt </font>
+		  <br><br>
+		  <input type="submit" value="執行" onclick="inputHandler();">
+		  <input type="reset" value="重設">
+		</form>
+	</div>
+    <div id="inputError" align="center" style="display:none" text-align="center"><font size="4" color="#90EE90">There was an error with the input. Please re-enter</font></div>
+
+    <div id="TESTING"></div>
+    
+    <br>
+    <hr class="mainDivider">
+    
+
+    <div id="detailedOutput" align="center">
+      <h2>輸入的資料</h2>
+      <h3>Text</h3>
+      <table >
+        <body>
+          <tr id="originalText">
+          </tr>
+        </body>
+      </table>
+
+      <h3>Key</h3>
+      <table>
+        <body>
+          <tr id="originalKey">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="mainDivider">
+
+      <h2>生成Sub-Keys</h2>
+      <h3>原Key</h3>
+      <table>
+        <body>
+          <tr id="originalKeyCopy">
+          </tr>
+        </body>
+      </table>
+
+      <h3>經排列後P10</h3>
+      <table>
+        <body>
+          <tr id="afterP10Key">
+          </tr>
+        </body>
+      </table>
+
+      <h3>After split</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+          <h4 class="removeTopMargin">分割後左半部</h4>
+          <table>
+            <body>
+              <tr id="afterFirstSplitLeft">
+              </tr>
+            </body>
+          </table>
+        </div>
+        <div class="splitTable">
+          <h4 class="removeTopMargin">分割後右半部</h4>
+          <table>
+            <body>
+              <tr id="afterFirstSplitRight">
+              </tr>
+            </body>
+          </table>
+        </div>
+      </div>
+      
+
+      <h3>LS-1後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">經過Shift的左半部</h4>
+        <table>
+          <body>
+            <tr id="afterLeftLS1">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">經過Shift的右半部</h4>
+        <table>
+          <body>
+            <tr id="afterRightLS1">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第一subkey K1</h3>
+      <h4>LS-1跟LS-1的P8結果</h4>
+      <table>
+        <body>
+          <tr id="subKeyK1">
+          </tr>
+        </body>
+      </table>
+
+      <h3>將LS-1做LS-2後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">shift後的左半部</h4>
+        <table>
+          <body>
+            <tr id="afterLeftLS2">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">shift後的右半部</h4>
+        <table>
+          <body>
+            <tr id="afterRightLS2">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第二subkey K2</h3>
+      <h4>LS-2跟LS-2的P8結果</h4>
+      <table>
+        <body>
+          <tr id="subKeyK2">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="mainDivider">
+
+      <h2>加密/解密訊息</h2>
+      <h3>Input</h3>
+      <table>
+        <body>
+          <tr id="originalTextCopy">
+          </tr>
+        </body>
+      </table>
+      <h3>Subkey K1</h3>
+      <table>
+        <body>
+          <tr id="subKeyK1Copy">
+          </tr>
+        </body>
+      </table>
+      <h3>Subkey K2</h3>
+      <table>
+        <body>
+          <tr id="subKeyK2Copy">
+          </tr>
+        </body>
+      </table>
+
+      
+
+
+      <h3>IP後</h3>
+      <table>
+        <body>
+          <tr id="afterIP">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="inBetweenDivider">
+
+      <h2>第一輪</h2>
+
+      <h3>IP分割後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後的左半部</h4>
+        <table>
+          <body>
+            <tr id="afterIPSplitLeft">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後的右半部</h4>
+        <table>
+          <body>
+            <tr id="afterIPSplitRight">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第一次EP後</h3>
+      <table>
+        <body>
+          <tr id="afterEPRound1">
+          </tr>
+        </body>
+      </table>
+
+      <h3>如k1加密,k2解密，做xor後</h3>
+      <table>
+        <body>
+          <tr id="afterXORK1">
+          </tr>
+        </body>
+      </table>
+
+      <h3>將xor Key做分割後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後的左半部</h4>
+        <table>
+          <body>
+            <tr id="afterXORK1SplitLeft">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後的右半部</h4>
+        <table>
+          <body>
+            <tr id="afterXORK1SplitRight">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>替代後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">左邊S-box S0</h4>
+        <table>
+          <body>
+            <tr id="afterS0Round1">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">右邊S-box S1</h4>
+        <table>
+          <body>
+            <tr id="afterS1Round1">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第一輪P4後</h3>
+      <table>
+        <body>
+          <tr id="afterP4Round1">
+          </tr>
+        </body>
+      </table>
+
+      <h3>第一輪最後一次xor後</h3>
+      <table>
+        <body>
+          <tr id="afterFinalXORRound1">
+          </tr>
+        </body>
+      </table>
+
+      <h3>fk1結果</h3>
+      <table>
+        <body>
+          <tr id="resultOfRoundFunctionFK1">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="inBetweenDivider">
+
+      <h3>switch結果</h3>
+      <table>
+        <body>
+          <tr id="afterSwitch">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="mainDivider">
+
+      <h2>第二輪</h2>
+
+      <h3>交換分割後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後左半部</h4>
+        <table>
+          <body>
+            <tr id="afterSwitchSplitLeft">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後右半部</h4>
+        <table>
+          <body>
+            <tr id="afterSwitchSplitRight">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第二次EP後</h3>
+      <table>
+        <body>
+          <tr id="afterEPRound2">
+          </tr>
+        </body>
+      </table>
+
+      <h3>如k2加密,k1解密，做xor後</h3>
+      <table>
+        <body>
+          <tr id="afterXORK2">
+          </tr>
+        </body>
+      </table>
+
+      <h3>分割key xor後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後左半部</h4>
+        <table>
+          <body>
+            <tr id="afterXORK2SplitLeft">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">分割後右半部</h4>
+        <table>
+          <body>
+            <tr id="afterXORK2SplitRight">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>替代後</h3>
+      <div class="splitTableContainer">
+        <div class="splitTable">
+        <h4 class="removeTopMargin">左邊S-box S0</h4>
+        <table>
+          <body>
+            <tr id="afterS0Round2">
+            </tr>
+          </body>
+        </table>
+        </div>
+        <div class="splitTable">
+        <h4 class="removeTopMargin">右邊S-box S1</h4>
+        <table>
+          <body>
+            <tr id="afterS1Round2">
+            </tr>
+          </body>
+        </table>
+        </div>
+      </div>
+
+      <h3>第二輪P4</h3>
+      <table>
+        <body>
+          <tr id="afterP4Round2">
+          </tr>
+        </body>
+      </table>
+
+      <h3>第二輪最後xor後</h3>
+      <table>
+        <body>
+          <tr id="afterFinalXORRound2">
+          </tr>
+        </body>
+      </table>
+
+
+      <h3>fk2結果</h3>
+      <table>
+        <body>
+          <tr id="resultOfRoundFunctionFK2">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="inBetweenDivider">
+
+      <h3>最終結果IP Inverse</h3>
+      <table>
+        <body>
+          <tr id="finalResult">
+          </tr>
+        </body>
+      </table>
+
+      <br>
+      <hr class="mainDivider">
+
+    </div>
+    <script type="text/javascript">
+      $("#detailedOutput").hide();
+      $("#inputError").hide();
+      $("#startMeChecked").prop("checked", true);
+      encryptFlag = true;
+    </script>
+
+  </body>
+</html>
