@@ -1,123 +1,160 @@
 <!DOCTYPE html>
 <html translate="no">
-	<head>
-		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height" />
-		<meta name="google" content="notranslate">
-		<title>Works</title>
-		<link rel="icon" type="image/x-icon" href="../icon.png">
-		<link rel="stylesheet" href="../CSS.css">
-		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-			
-			.container {
-				max-width: 1125px;
-				margin: 0 auto;
-			}
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height" />
+    <meta name="google" content="notranslate">
+    <title>Works</title>
+    <link rel="icon" type="image/x-icon" href="../icon.png">
+    <link rel="stylesheet" href="../CSS.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-			.slot-machine {
-				background-image: url('slotbg.png');
-				background-size: cover; /* 保持圖片比例並填滿容器 */
-				background-position: center; /* 將圖片置中 */
-				width: 1125px;
-				height: 540px;
-				display: flex;
-				flex-wrap: wrap; /* 自動換行 */
-				justify-content: space-between; /* 每行元素之間平均分配 */
-				align-content: space-between; /* 行與行之間平均分配 */
-				margin: auto;
-				position: relative;
-			}
-			
-			/* 每個空格的位置 */
-			.slot-item {
-				width: 165px; /* 每行五個格子 */
-				height: 120px; /* 每行五個格子 */
-				background-color: rgba(255, 0, 0, 0.3); /* 方便測試，可以移除這行背景色 */
-				border: 1px solid red; /* 方便測試，可以移除這行紅色邊框 */
-				box-sizing: border-box; /* 讓寬度包含邊框 */
-				margin-bottom: 20px; /* 負值來調整與最右邊的間距 */
-			}
-			/* 新增的按鈕樣式 */
-			#autoButton {
-				display: block;
-				margin: auto;
-				margin-top: 20px;
-				width: 187px; /* 調整按鈕寬度 */
-				height: 87px; /* 調整按鈕高度 */
-				background-image: url('./auto.png'); /* 將按鈕背景設置為 auto.png */
-				background-size: cover; /* 保持圖片比例填滿按鈕 */
-				border: none;
-				cursor: pointer;
-			}
-		</style>
-	</head>
-	<body>
-	<header>
-		<div class="container">
-			<img src="../tyl.png" class="logo"></img>
-			<div>
-				<ul class="menu">
-					<li><a href="https://tyl1618.github.io/tylw/">Home</a></li>
-					<li><a href="https://tyl1618.github.io/tylw/main/about.html">About</a></li>
-					<li><a href="https://tyl1618.github.io/tylw/main/works.html">Works</a></li>
-				</ul>
-				<script>
-					$(document).ready(function() {
-						$('.showmenu').on('click', function(e){
-							e.preventDefault();
-							$('body').toggleClass('menu-show');
-						});
-					});
-				</script>
-				<a href="#" class="showmenu">
-					<img src="../menu.png" style="max-height: 100%; max-width: 100%; width: 30px; height: 30px; padding: 30%;"></img>
-				</a>
-			</div>
-		</div>
-	</header>
-	<hr align="center" width="70%" class="split"></hr>
-	<div class="slot-machine">
-		<!-- 在這裡放置水滸傳老虎機的介面 -->
-		<!-- 每個空格放置一個div，並指定對應的 CSS 類 -->
-		<div class="slot-item" style="margin-left: 112px; margin-top: 103px; margin-right: 20px;"></div>
-		<div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
-		<div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
-		<div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
-		<div class="slot-item" style="margin-top: 103px; margin-right: auto;"></div>
-		<div class="slot-item" style="margin-left: 112px; margin-bottom: 18px; margin-right: 20px;"></div>
-		<div class="slot-item" style="margin-bottom: 18px; margin-right: 21px;"></div>
-		<div class="slot-item" style="margin-bottom: 18px; margin-right: 20px;"></div>
-		<div class="slot-item" style="margin-bottom: 18px; margin-right: 22px;"></div>
-		<div class="slot-item" style="margin-bottom: 18px; margin-right: auto;"></div>
-		<div class="slot-item" style="margin-left: 112px; margin-bottom: 30px; margin-right: 19px;"></div>
-		<div class="slot-item" style="margin-bottom: 30px; margin-right: 23px;"></div>
-		<div class="slot-item" style="margin-bottom: 30px; margin-right: 22px;"></div>
-		<div class="slot-item" style="margin-bottom: 30px; margin-right: 19px;"></div>
-		<div class="slot-item" style="margin-bottom: 30px; margin-right: auto;"></div>
-	</div>
-	
-	<!-- 新增的開始按鈕 -->
-	<button id="autoButton">開始</button>
-	
-	<footer>
-		<hr align="center" width="70%" class="split"></hr>
-		<div class="footer-content">
-			<div class="contact-info">
-				<p>Email: <a href="mailto:tyl161803@gmail.com" class="email-link">tyl161803@gmail.com</a></p>
-			</div>
-			<div class="copyright">
-				&copy; tyl_1.618 All rights reserved.
-			</div>
-		</div>
-	</footer>
-	<!-- ------------------------------------------------------------------------------------ -->
+        .container {
+            max-width: 1125px;
+            margin: 0 auto;
+        }
 
-	</body>
+        .slot-machine {
+            background-image: url('slotbg.png');
+            background-size: cover;
+            background-position: center;
+            width: 1125px;
+            height: 540px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-content: space-between;
+            margin: auto;
+            position: relative;
+        }
+
+        .slot-item {
+            width: 165px;
+            height: 120px;
+            background-color: rgba(255, 0, 0, 0.3);
+            border: 1px solid red;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 165px 120px;
+            position: relative; /* 添加相對定位 */
+        }
+
+        /* 添加動畫效果 */
+        @keyframes slide {
+            0% { background-position: center 0; }
+            100% { background-position: center 100%; }
+        }
+
+        .slide-animation {
+            animation: slide 2s linear infinite; /* 調整速度和持續時間 */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <img src="../tyl.png" class="logo"></img>
+        <div>
+            <ul class="menu">
+                <li><a href="https://tyl1618.github.io/tylw/">Home</a></li>
+                <li><a href="https://tyl1618.github.io/tylw/main/about.html">About</a></li>
+                <li><a href="https://tyl1618.github.io/tylw/main/works.html">Works</a></li>
+            </ul>
+            <script>
+                $(document).ready(function() {
+                    $('.showmenu').on('click', function(e){
+                        e.preventDefault();
+                        $('body').toggleClass('menu-show');
+                    });
+                });
+            </script>
+            <a href="#" class="showmenu">
+                <img src="../menu.png" style="max-height: 100%; max-width: 100%; width: 30px; height: 30px; padding: 30%;"></img>
+            </a>
+        </div>
+    </div>
+</header>
+<hr align="center" width="70%" class="split"></hr>
+<div class="slot-machine" id="slotMachine">
+    <div class="slot-item" style="margin-left: 112px; margin-top: 103px; margin-right: 20px;"></div>
+    <div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
+    <div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
+    <div class="slot-item" style="margin-top: 103px; margin-right: 21px;"></div>
+    <div class="slot-item" style="margin-top: 103px; margin-right: auto;"></div>
+    <div class="slot-item" style="margin-left: 112px; margin-bottom: 18px; margin-right: 20px;"></div>
+    <div class="slot-item" style="margin-bottom: 18px; margin-right: 21px;"></div>
+    <div class="slot-item" style="margin-bottom: 18px; margin-right: 20px;"></div>
+    <div class="slot-item" style="margin-bottom: 18px; margin-right: 22px;"></div>
+    <div class="slot-item" style="margin-bottom: 18px; margin-right: auto;"></div>
+    <div class="slot-item" style="margin-left: 112px; margin-bottom: 30px; margin-right: 19px;"></div>
+    <div class="slot-item" style="margin-bottom: 30px; margin-right: 23px;"></div>
+    <div class="slot-item" style="margin-bottom: 30px; margin-right: 22px;"></div>
+    <div class="slot-item" style="margin-bottom: 30px; margin-right: 19px;"></div>
+    <div class="slot-item" style="margin-bottom: 30px; margin-right: auto;"></div>
+</div>
+
+<div id="buttonContainer" style="display: flex; justify-content: space-between; width: 400px; margin: auto; margin-top: 20px;">
+    <!-- 新增的開始按鈕 -->
+    <button id="autoButton" style="width: 180px; height: 60px; background-image: url('./autobutton.png'); background-size: cover; border: none; cursor: pointer; box-sizing: border-box;"></button>
+    <!-- 新增的停止按鈕 -->
+    <button id="stopButton" style="width: 180px; height: 60px; background-image: url('./stopbutton.png'); background-size: cover; border: none; cursor: pointer; box-sizing: border-box;"></button>
+</div>
+
+
+
+<footer>
+    <hr align="center" width="70%" class="split"></hr>
+    <div class="footer-content">
+        <div class="contact-info">
+            <p>Email: <a href="mailto:tyl161803@gmail.com" class="email-link">tyl161803@gmail.com</a></p>
+        </div>
+        <div class="copyright">
+            &copy; tyl_1.618 All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function() {
+        var images = ["sword.jpg", "spear.jpg", "ax.jpg", "lin.jpeg", "sung.jpg", "lu.jpg", "flag.jpg", "dragon.jpg"];
+
+        function startAnimation() {
+            // 先填充每個 slot-item
+            $('.slot-item').each(function() {
+                var randomImage = images[Math.floor(Math.random() * images.length)];
+                $(this).css('background-image', 'url(' + randomImage + ')');
+            });
+
+            // 啟動動畫效果
+            var interval = setInterval(function() {
+                $('.slot-item').each(function() {
+                    var randomImage = images[Math.floor(Math.random() * images.length)];
+                    $(this).css('background-image', 'url(' + randomImage + ')');
+                });
+            }, 100);
+
+            setTimeout(function() {
+                clearInterval(interval);
+                $('.slot-item').each(function() {
+                    var randomImage = images[Math.floor(Math.random() * images.length)];
+                    $(this).css('background-image', 'url(' + randomImage + ')');
+                });
+                setTimeout(startAnimation, 1000); // 開始新一輪動畫
+            }, 2500);
+        }
+
+        $('#autoButton').on('click', startAnimation); // 點擊按鈕開始動畫
+    });
+</script>
+</body>
 </html>
