@@ -7,100 +7,43 @@
 		<link rel="stylesheet" href="../../CSS.css">
 		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 		<style>
-			/* 問卷主體 */
-			main.container {
-				max-width: 800px;
-				margin: auto;
-				padding: 20px;
-				font-family: "Microsoft JhengHei", sans-serif;
-				background-color: #000000; /* 黑底 */
-				color: #ffffff; /* 文字白色 */
-				border-radius: 10px;
-				box-shadow: 0 0 15px rgba(255,255,255,0.2);
-			}
+		.container {
+			max-width: 900px;
+			margin: auto;
+			padding: 20px;
+		}
+		.questions-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 20px;
+			
+		}
+		.question {
+			border: 1px solid #ccc;
+			padding: 15px;
+			border-radius: 15px;
+			background-color: black;
+		}
+		button[type="submit"] {
+			display: inline-block;   /* 讓按鈕像文字一樣可以被置中 */
+			margin: 0 auto;          /* 自動左右邊距 */
+			padding: 10px 20px;
+			font-size: 16px;
+			cursor: pointer;
+		}
 
-			/* 標題 */
-			main h1, main h2 {
-				text-align: center;
-				margin-bottom: 20px;
-				color: #ffffff;
+		.options {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+		}
+		@media (max-width: 768px) {
+			.questions-grid {
+				grid-template-columns: 1fr;
 			}
+		}
+		</style>
 
-			/* 每題區塊 */
-			.question {
-				margin-bottom: 25px;
-				padding: 10px 15px;
-				border: 1px solid #444444; /* 淺灰框線區分題目 */
-				border-radius: 8px;
-			}
-
-			/* 題目文字 */
-			.question p {
-				font-size: 16px;
-				margin-bottom: 10px;
-			}
-
-			/* 選項排成一行 */
-			.question label {
-				display: inline-block;
-				margin-right: 15px;
-				cursor: pointer;
-				font-size: 14px;
-				color: #ffffff;
-				transition: color 0.2s;
-			}
-
-			/* 選項 hover 變色提示 */
-			.question label:hover {
-				color: #4CAF50; /* 綠色高亮 */
-			}
-
-			/* 調整 radio 圓圈大小 */
-			.question input[type="radio"] {
-				transform: scale(1.3);
-				margin-right: 5px;
-				vertical-align: middle;
-			}
-
-			/* 提交按鈕 */
-			button[type="submit"] {
-				padding: 10px 25px;
-				font-size: 16px;
-				background-color: #4CAF50;
-				color: white;
-				border: none;
-				border-radius: 6px;
-				cursor: pointer;
-				transition: 0.2s;
-				display: block;
-				margin: 20px auto;
-			}
-
-			button[type="submit"]:hover {
-				background-color: #45a049;
-			}
-
-			/* 結果區 */
-			#result {
-				text-align: center;
-				margin-top: 40px;
-				font-size: 16px;
-			}
-
-			#result p {
-				margin: 8px 0;
-				font-weight: bold;
-				color: #ffffff;
-			}
-
-			/* 最終傾向 */
-			#final-result {
-				margin-top: 15px;
-				font-size: 18px;
-				color: #FF5722;
-				font-weight: bold;
-			}
-			</style>
 	</head>
 	<header>
 		<div class="container3">
@@ -128,191 +71,223 @@
 	</header>
 	
 	<body>
-	<!-- ------------------------------------------------------------------------------------ -->
-	<main class="container" style="max-width: 800px; margin: auto; padding: 20px;">
-		<h1 style="text-align:center; margin:20px 0;">政見分類測試問卷</h1>
+	<main class="container">
+		<h1 class="text-center my-4">政見分類測試問卷</h1>
 		<form id="surveyForm">
+			<div class="questions-grid">
 
-			<!-- ================= 經濟政見 ================= -->
-			<section>
-				<h2>經濟政見</h2>
+				<!-- ================= 經濟政見 ================= -->
 				<div class="question">
 					<p>強化五大信賴產業：半導體、AI產業、軍工產業、安控產業、通訊產業</p>
-					<label><input type="radio" name="q1" value="green-1">1</label>
-					<label><input type="radio" name="q1" value="green-2">2</label>
-					<label><input type="radio" name="q1" value="green-3">3</label>
-					<label><input type="radio" name="q1" value="green-4">4</label>
-					<label><input type="radio" name="q1" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q1" value="green-1">1</label>
+						<label><input type="radio" name="q1" value="green-2">2</label>
+						<label><input type="radio" name="q1" value="green-3">3</label>
+						<label><input type="radio" name="q1" value="green-4">4</label>
+						<label><input type="radio" name="q1" value="green-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>具體發展觀光的10大方向，發揮台灣各領域特色及軟實力，吸引更多國際觀光客</p>
-					<label><input type="radio" name="q2" value="blue-1">1</label>
-					<label><input type="radio" name="q2" value="blue-2">2</label>
-					<label><input type="radio" name="q2" value="blue-3">3</label>
-					<label><input type="radio" name="q2" value="blue-4">4</label>
-					<label><input type="radio" name="q2" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q2" value="blue-1">1</label>
+						<label><input type="radio" name="q2" value="blue-2">2</label>
+						<label><input type="radio" name="q2" value="blue-3">3</label>
+						<label><input type="radio" name="q2" value="blue-4">4</label>
+						<label><input type="radio" name="q2" value="blue-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>從代工產業轉型為創新高附加價值產業，以AI驅動產業轉型</p>
-					<label><input type="radio" name="q3" value="white-1">1</label>
-					<label><input type="radio" name="q3" value="white-2">2</label>
-					<label><input type="radio" name="q3" value="white-3">3</label>
-					<label><input type="radio" name="q3" value="white-4">4</label>
-					<label><input type="radio" name="q3" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q3" value="white-1">1</label>
+						<label><input type="radio" name="q3" value="white-2">2</label>
+						<label><input type="radio" name="q3" value="white-3">3</label>
+						<label><input type="radio" name="q3" value="white-4">4</label>
+						<label><input type="radio" name="q3" value="white-5">5</label>
+					</div>
 				</div>
-			</section>
 
-			<!-- ================= 兩岸立場 ================= -->
-			<section>
-				<h2>兩岸立場</h2>
+				<!-- ================= 兩岸立場 ================= -->
 				<div class="question">
 					<p>若兩岸協議監督條例通過，可再討論貨貿、服貿 / 與中國溝通，堅持「台灣自主，兩岸和平」</p>
-					<label><input type="radio" name="q4" value="white-1">1</label>
-					<label><input type="radio" name="q4" value="white-2">2</label>
-					<label><input type="radio" name="q4" value="white-3">3</label>
-					<label><input type="radio" name="q4" value="white-4">4</label>
-					<label><input type="radio" name="q4" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q4" value="white-1">1</label>
+						<label><input type="radio" name="q4" value="white-2">2</label>
+						<label><input type="radio" name="q4" value="white-3">3</label>
+						<label><input type="radio" name="q4" value="white-4">4</label>
+						<label><input type="radio" name="q4" value="white-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>提升自我防衛 / 持續兩岸溝通 / 建立有原則的互動</p>
-					<label><input type="radio" name="q5" value="blue-1">1</label>
-					<label><input type="radio" name="q5" value="blue-2">2</label>
-					<label><input type="radio" name="q5" value="blue-3">3</label>
-					<label><input type="radio" name="q5" value="blue-4">4</label>
-					<label><input type="radio" name="q5" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q5" value="blue-1">1</label>
+						<label><input type="radio" name="q5" value="blue-2">2</label>
+						<label><input type="radio" name="q5" value="blue-3">3</label>
+						<label><input type="radio" name="q5" value="blue-4">4</label>
+						<label><input type="radio" name="q5" value="blue-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>堅定堅持民主自由的憲政體制 / 提升台灣嚇阻力 / 與民主國家建立更強夥伴關係</p>
-					<label><input type="radio" name="q6" value="green-1">1</label>
-					<label><input type="radio" name="q6" value="green-2">2</label>
-					<label><input type="radio" name="q6" value="green-3">3</label>
-					<label><input type="radio" name="q6" value="green-4">4</label>
-					<label><input type="radio" name="q6" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q6" value="green-1">1</label>
+						<label><input type="radio" name="q6" value="green-2">2</label>
+						<label><input type="radio" name="q6" value="green-3">3</label>
+						<label><input type="radio" name="q6" value="green-4">4</label>
+						<label><input type="radio" name="q6" value="green-5">5</label>
+					</div>
 				</div>
-			</section>
 
-			<!-- ================= 勞動政見 ================= -->
-			<section>
-				<h2>勞動政見</h2>
+				<!-- ================= 勞動政見 ================= -->
 				<div class="question">
 					<p>上任後每年撥1千億，若有超徵稅金也優先挹注勞保基金 / 工會門檻降至10人</p>
-					<label><input type="radio" name="q7" value="white-1">1</label>
-					<label><input type="radio" name="q7" value="white-2">2</label>
-					<label><input type="radio" name="q7" value="white-3">3</label>
-					<label><input type="radio" name="q7" value="white-4">4</label>
-					<label><input type="radio" name="q7" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q7" value="white-1">1</label>
+						<label><input type="radio" name="q7" value="white-2">2</label>
+						<label><input type="radio" name="q7" value="white-3">3</label>
+						<label><input type="radio" name="q7" value="white-4">4</label>
+						<label><input type="radio" name="q7" value="white-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>完成最低工資立法，持續調高基本工資，改善青年就業情形 / 補助在職青年參與職訓</p>
-					<label><input type="radio" name="q8" value="green-1">1</label>
-					<label><input type="radio" name="q8" value="green-2">2</label>
-					<label><input type="radio" name="q8" value="green-3">3</label>
-					<label><input type="radio" name="q8" value="green-4">4</label>
-					<label><input type="radio" name="q8" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q8" value="green-1">1</label>
+						<label><input type="radio" name="q8" value="green-2">2</label>
+						<label><input type="radio" name="q8" value="green-3">3</label>
+						<label><input type="radio" name="q8" value="green-4">4</label>
+						<label><input type="radio" name="q8" value="green-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>上市櫃公司、中小企業為員工加薪，調高可抵扣當年營利所得額 / 開徵富人稅</p>
-					<label><input type="radio" name="q9" value="blue-1">1</label>
-					<label><input type="radio" name="q9" value="blue-2">2</label>
-					<label><input type="radio" name="q9" value="blue-3">3</label>
-					<label><input type="radio" name="q9" value="blue-4">4</label>
-					<label><input type="radio" name="q9" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q9" value="blue-1">1</label>
+						<label><input type="radio" name="q9" value="blue-2">2</label>
+						<label><input type="radio" name="q9" value="blue-3">3</label>
+						<label><input type="radio" name="q9" value="blue-4">4</label>
+						<label><input type="radio" name="q9" value="blue-5">5</label>
+					</div>
 				</div>
-			</section>
 
-			<!-- ================= 能源政見 ================= -->
-			<section>
-				<h2>能源政見</h2>
+				<!-- ================= 能源政見 ================= -->
 				<div class="question">
 					<p>2035乾淨能源過半、2040停止燃煤發電、2050排碳歸零</p>
-					<label><input type="radio" name="q10" value="blue-1">1</label>
-					<label><input type="radio" name="q10" value="blue-2">2</label>
-					<label><input type="radio" name="q10" value="blue-3">3</label>
-					<label><input type="radio" name="q10" value="blue-4">4</label>
-					<label><input type="radio" name="q10" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q10" value="blue-1">1</label>
+						<label><input type="radio" name="q10" value="blue-2">2</label>
+						<label><input type="radio" name="q10" value="blue-3">3</label>
+						<label><input type="radio" name="q10" value="blue-4">4</label>
+						<label><input type="radio" name="q10" value="blue-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>加速發展地熱、氫能、生質能、海洋能 / 同時深度節能，淨零永續綠生活</p>
-					<label><input type="radio" name="q11" value="green-1">1</label>
-					<label><input type="radio" name="q11" value="green-2">2</label>
-					<label><input type="radio" name="q11" value="green-3">3</label>
-					<label><input type="radio" name="q11" value="green-4">4</label>
-					<label><input type="radio" name="q11" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q11" value="green-1">1</label>
+						<label><input type="radio" name="q11" value="green-2">2</label>
+						<label><input type="radio" name="q11" value="green-3">3</label>
+						<label><input type="radio" name="q11" value="green-4">4</label>
+						<label><input type="radio" name="q11" value="green-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>擴大發展太陽能、地熱、氫能、小型水利、生質能 / 高效燃煤、老舊機組轉為備用電力</p>
-					<label><input type="radio" name="q12" value="white-1">1</label>
-					<label><input type="radio" name="q12" value="white-2">2</label>
-					<label><input type="radio" name="q12" value="white-3">3</label>
-					<label><input type="radio" name="q12" value="white-4">4</label>
-					<label><input type="radio" name="q12" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q12" value="white-1">1</label>
+						<label><input type="radio" name="q12" value="white-2">2</label>
+						<label><input type="radio" name="q12" value="white-3">3</label>
+						<label><input type="radio" name="q12" value="white-4">4</label>
+						<label><input type="radio" name="q12" value="white-5">5</label>
+					</div>
 				</div>
-			</section>
 
-			<!-- ================= 住宅政見 ================= -->
-			<section>
-				<h2>住宅政見</h2>
+				<!-- ================= 住宅政見 ================= -->
 				<div class="question">
 					<p>大力蓋社宅、大力改囤房稅、大力補租金補貼 / 獎勵開發商做「長期租賃住宅」</p>
-					<label><input type="radio" name="q13" value="white-1">1</label>
-					<label><input type="radio" name="q13" value="white-2">2</label>
-					<label><input type="radio" name="q13" value="white-3">3</label>
-					<label><input type="radio" name="q13" value="white-4">4</label>
-					<label><input type="radio" name="q13" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q13" value="white-1">1</label>
+						<label><input type="radio" name="q13" value="white-2">2</label>
+						<label><input type="radio" name="q13" value="white-3">3</label>
+						<label><input type="radio" name="q13" value="white-4">4</label>
+						<label><input type="radio" name="q13" value="white-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>以容積獎勵促進都更、危老，回饋為社宅 / 大專院校退場，一定比例優先興建社宅、運動中心</p>
-					<label><input type="radio" name="q14" value="blue-1">1</label>
-					<label><input type="radio" name="q14" value="blue-2">2</label>
-					<label><input type="radio" name="q14" value="blue-3">3</label>
-					<label><input type="radio" name="q14" value="blue-4">4</label>
-					<label><input type="radio" name="q14" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q14" value="blue-1">1</label>
+						<label><input type="radio" name="q14" value="blue-2">2</label>
+						<label><input type="radio" name="q14" value="blue-3">3</label>
+						<label><input type="radio" name="q14" value="blue-4">4</label>
+						<label><input type="radio" name="q14" value="blue-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>擴大租金補貼：從28萬戶增加至50萬戶 / 未來8年內興辦至少13萬戶的社會住宅</p>
-					<label><input type="radio" name="q15" value="green-1">1</label>
-					<label><input type="radio" name="q15" value="green-2">2</label>
-					<label><input type="radio" name="q15" value="green-3">3</label>
-					<label><input type="radio" name="q15" value="green-4">4</label>
-					<label><input type="radio" name="q15" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q15" value="green-1">1</label>
+						<label><input type="radio" name="q15" value="green-2">2</label>
+						<label><input type="radio" name="q15" value="green-3">3</label>
+						<label><input type="radio" name="q15" value="green-4">4</label>
+						<label><input type="radio" name="q15" value="green-5">5</label>
+					</div>
 				</div>
-			</section>
 
-			<!-- ================= 長照政見 ================= -->
-			<section>
-				<h2>長照政見</h2>
+				<!-- ================= 長照政見 ================= -->
 				<div class="question">
 					<p>建立以長照社區整體照顧體系為基礎的共生社區 / 提升照護人員待遇</p>
-					<label><input type="radio" name="q16" value="green-1">1</label>
-					<label><input type="radio" name="q16" value="green-2">2</label>
-					<label><input type="radio" name="q16" value="green-3">3</label>
-					<label><input type="radio" name="q16" value="green-4">4</label>
-					<label><input type="radio" name="q16" value="green-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q16" value="green-1">1</label>
+						<label><input type="radio" name="q16" value="green-2">2</label>
+						<label><input type="radio" name="q16" value="green-3">3</label>
+						<label><input type="radio" name="q16" value="green-4">4</label>
+						<label><input type="radio" name="q16" value="green-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>老弱申請幫傭移工不需巴式量表 / 65歲以上長者健保費全額補助</p>
-					<label><input type="radio" name="q17" value="white-1">1</label>
-					<label><input type="radio" name="q17" value="white-2">2</label>
-					<label><input type="radio" name="q17" value="white-3">3</label>
-					<label><input type="radio" name="q17" value="white-4">4</label>
-					<label><input type="radio" name="q17" value="white-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q17" value="white-1">1</label>
+						<label><input type="radio" name="q17" value="white-2">2</label>
+						<label><input type="radio" name="q17" value="white-3">3</label>
+						<label><input type="radio" name="q17" value="white-4">4</label>
+						<label><input type="radio" name="q17" value="white-5">5</label>
+					</div>
 				</div>
+
 				<div class="question">
 					<p>老人健保免費納入排富條款 / 補助雇主聘用本國看護 / 80歲以上取消巴氏量表</p>
-					<label><input type="radio" name="q18" value="blue-1">1</label>
-					<label><input type="radio" name="q18" value="blue-2">2</label>
-					<label><input type="radio" name="q18" value="blue-3">3</label>
-					<label><input type="radio" name="q18" value="blue-4">4</label>
-					<label><input type="radio" name="q18" value="blue-5">5</label>
+					<div class="options">
+						<label><input type="radio" name="q18" value="blue-1">1</label>
+						<label><input type="radio" name="q18" value="blue-2">2</label>
+						<label><input type="radio" name="q18" value="blue-3">3</label>
+						<label><input type="radio" name="q18" value="blue-4">4</label>
+						<label><input type="radio" name="q18" value="blue-5">5</label>
+					</div>
 				</div>
-			</section>
+
+			</div>
 
 			<div style="text-align:center; margin:30px;">
 				<button type="submit">提交問卷</button>
 			</div>
 		</form>
 
-		<div id="result" style="margin-top:30px; text-align:center; display:none;">
+		<div id="result" class="text-center my-4" style="display:none;">
 			<h2>測試結果</h2>
 			<p id="score-green"></p>
 			<p id="score-blue"></p>
@@ -320,6 +295,7 @@
 			<h3 id="final-result"></h3>
 		</div>
 	</main>
+
 
 	<script>
 	document.getElementById("surveyForm").addEventListener("submit", function(e){
