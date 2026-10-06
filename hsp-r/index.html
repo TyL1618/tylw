@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>高敏感族群量表（修訂版）HSP-R 中文版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDF1F3;
+    --surface: #FFFFFF;
+    --ink: #1E2B36;
+    --muted: #55656F;
+    --line: #D3DCE2;
+    --accent: #4F5BA6;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #DDE1F3;
+    --track: #D9E0E5;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+    --serif: "Noto Serif TC", "Songti TC", "PMingLiU", "Source Han Serif TC", serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161C; --surface: #18212A; --ink: #E7EDF1; --muted: #9AA9B5;
+      --line: #2B3944; --accent: #9AA3E6; --accent-ink: #10161C;
+      --accent-soft: #263050; --track: #2B3944;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10161C; --surface: #18212A; --ink: #E7EDF1; --muted: #9AA9B5;
+    --line: #2B3944; --accent: #9AA3E6; --accent-ink: #10161C;
+    --accent-soft: #263050; --track: #2B3944;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.7;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 24px 20px 48px; }
+  h1, h2 { font-family: var(--serif); font-weight: 700; line-height: 1.4; margin: 0; }
+  p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .btn {
+    border: 1px solid var(--line); background: var(--surface);
+    padding: 12px 20px; border-radius: 999px; min-height: 48px;
+  }
+  .btn:hover:not(:disabled) { background: var(--accent-soft); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+  .btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+
+  /* intro */
+  .intro { padding-top: 32px; }
+  .intro h1 { font-size: clamp(28px, 7vw, 38px); margin-bottom: 8px; }
+  .intro .sub { color: var(--muted); margin-bottom: 28px; }
+  .intro ul { padding-left: 1.2em; margin: 0 0 28px; }
+  .intro li { margin-bottom: 8px; }
+  .intro .note { font-size: 14px; color: var(--muted); margin-top: 24px; }
+
+  /* question */
+  .top { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  .bar { height: 6px; background: var(--track); border-radius: 99px; overflow: hidden; margin-bottom: 40px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .3s ease; }
+  .q { font-size: clamp(22px, 5.6vw, 28px); min-height: 7.5em; margin-bottom: 8px; }
+  .scale {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+    max-width: 460px; margin: 0 auto;
+  }
+  .opt {
+    border: 0; background: transparent; padding: 8px 0; min-height: 64px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .dot {
+    width: calc(var(--k) * 1%); max-width: 64px; aspect-ratio: 1;
+    border-radius: 50%; border: 2px solid var(--accent); background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500; color: var(--accent);
+    transition: background .15s ease, color .15s ease, transform .15s ease;
+  }
+  .opt:hover .dot { background: var(--accent-soft); }
+  .opt[aria-checked="true"] .dot { background: var(--accent); color: var(--accent-ink); transform: scale(1.08); }
+  .ends {
+    display: flex; justify-content: space-between; max-width: 460px; margin: 6px auto 0;
+    font-size: 14px; color: var(--muted);
+  }
+  .nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; }
+
+  /* result */
+  .result h1 { font-size: clamp(26px, 6.5vw, 32px); margin-bottom: 24px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 20px; margin-bottom: 20px; }
+  .score-line { display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .score-num { font-family: var(--serif); font-size: 44px; font-weight: 700; line-height: 1.1; }
+  .score-lab { color: var(--muted); }
+  .track { position: relative; height: 10px; background: var(--track); border-radius: 99px; margin: 30px 6px 8px; }
+  .track .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 99px; }
+  .track .thr { position: absolute; top: -8px; bottom: -8px; width: 2px; background: var(--ink); }
+  .track .thr span { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .track-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 0 2px; }
+  .verdict { margin-top: 18px; }
+  .card h2 { font-size: 20px; margin-bottom: 14px; }
+  .sub-row { padding: 12px 0; border-top: 1px solid var(--line); }
+  .sub-row:first-of-type { border-top: 0; padding-top: 0; }
+  .sub-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 500; }
+  .sub-head b { font-family: var(--serif); font-size: 18px; font-weight: 700; }
+  .sub-bar { height: 8px; background: var(--track); border-radius: 99px; overflow: hidden; margin: 6px 0; }
+  .sub-bar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+  .sub-desc { font-size: 14px; color: var(--muted); }
+  .disclaimer { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .credit { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+  .credit a { color: var(--accent); word-break: break-all; }
+  .credit p + p { margin-top: 8px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar > i, .dot { transition: none; }
+  }
+</style>
+</head>
+<body>
+<main id="app"></main>
+
+<script>
+(function () {
+  var QUESTIONS = [
+    "你會注意到東西被移動過嗎？",
+    "你容易受到回饋（無論是負面或正面）的影響嗎？",
+    "你容易被強光、濃烈氣味、粗糙布料或近處的警笛聲等事物弄得不堪負荷嗎？",
+    "你能輕易察覺他人的感受嗎？",
+    "你會注意並欣賞細緻的香氣、味道、聲音或藝術作品嗎？",
+    "你容易受到周遭人們情緒的影響嗎？",
+    "你傾向於深入地思考事情嗎？",
+    "你擅長預料他人對某個情況可能有什麼感受嗎？",
+    "你會被強烈的刺激（例如巨大的噪音或混亂的場面）困擾嗎？",
+    "無論有沒有表現出來，你對自己的經歷通常反應強烈嗎？",
+    "別人會說你很擅長理解他們的感受或想法嗎？",
+    "你傾向於深深沉浸在音樂之中嗎？",
+    "你會發現自己在思考哲學性的問題嗎？",
+    "你似乎比別人更能察覺天氣的變化嗎？",
+    "當周遭同時發生很多事情時，你會感到不舒服的亢奮或緊繃嗎？",
+    "你會被藝術或音樂深深感動嗎？",
+    "你傾向於注意到季節更替（如冬天、春天等）的細微跡象嗎？",
+    "你喜歡深度的對話嗎？"
+  ];
+
+  var SUBSCALES = [
+    { name: "感覺過載", items: [3, 9, 15], desc: "被強光、噪音、混亂場面等強烈刺激弄得難以負荷的程度。" },
+    { name: "對正向體驗的敏感", items: [5, 12, 16], desc: "對細緻的氣味、聲音、藝術與音樂的欣賞與感動。" },
+    { name: "社交敏感", items: [4, 8, 11], desc: "察覺並理解他人感受與想法的程度。" },
+    { name: "思考深度", items: [7, 13, 18], desc: "傾向深入思考、探究哲學問題與喜歡深度對話。" },
+    { name: "情緒反應性", items: [2, 6, 10], desc: "容易受到回饋與周遭情緒影響、對經歷反應強烈。" },
+    { name: "細節敏感", items: [1, 14, 17], desc: "注意到環境中的細微變化，如物品位置、天氣與季節。" }
+  ];
+
+  var app = document.getElementById("app");
+  var answers = new Array(QUESTIONS.length).fill(null);
+  var idx = 0;
+  var view = "intro";
+  var advanceTimer = null;
+
+  function el(tag, attrs, children) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") n.className = attrs[k];
+      else if (k === "text") n.textContent = attrs[k];
+      else if (k.indexOf("on") === 0) n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) n.appendChild(c); });
+    return n;
+  }
+
+  function clear() { app.textContent = ""; window.scrollTo(0, 0); }
+
+  function avg(list) {
+    var vals = list.filter(function (v) { return v !== null; });
+    if (!vals.length) return null;
+    return vals.reduce(function (a, b) { return a + b; }, 0) / vals.length;
+  }
+  function fmt(n) { return n === null ? "—" : n.toFixed(2); }
+
+  /* ---------- intro ---------- */
+  function showIntro() {
+    view = "intro"; clear();
+    var ul = el("ul", null, [
+      el("li", { text: "共 18 題，約需 3 分鐘。" }),
+      el("li", { text: "每題請依「整體而言的你」，從 1（完全不會）到 7（非常）選出最貼近的數字。" }),
+      el("li", { text: "沒有對錯，憑直覺作答即可。若某題真的無法回答，可以跳過。" })
+    ]);
+    app.appendChild(el("section", { class: "intro" }, [
+      el("h1", { text: "高敏感族群量表" }),
+      el("p", { class: "sub", text: "Highly Sensitive Person Scale – Revised（HSP-R）中文版" }),
+      ul,
+      el("button", { class: "btn primary", text: "開始作答", onclick: function () { idx = 0; showQuestion(); } }),
+      el("p", { class: "note", text: "本頁為非官方的中文翻譯，僅供個人自我了解之用，結果不是診斷。" })
+    ]));
+  }
+
+  /* ---------- question ---------- */
+  function showQuestion() {
+    view = "question"; clear();
+    var total = QUESTIONS.length;
+
+    var top = el("div", { class: "top" }, [
+      el("span", { text: "第 " + (idx + 1) + " 題" }),
+      el("span", { text: (idx + 1) + " / " + total })
+    ]);
+    var bar = el("div", { class: "bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(total), "aria-valuenow": String(idx) }, [
+      el("i", { style: "width:" + (idx / total * 100) + "%" })
+    ]);
+    var q = el("h2", { class: "q", text: QUESTIONS[idx], id: "qtext" });
+
+    var scale = el("div", { class: "scale", role: "radiogroup", "aria-labelledby": "qtext" });
+    for (var v = 1; v <= 7; v++) {
+      (function (v) {
+        var k = 56 + (v - 1) * 7.4;
+        var b = el("button", {
+          class: "opt", role: "radio",
+          "aria-checked": answers[idx] === v ? "true" : "false",
+          "aria-label": String(v),
+          onclick: function () { choose(v); }
+        }, [ el("span", { class: "dot", style: "--k:" + k.toFixed(1), text: String(v) }) ]);
+        scale.appendChild(b);
+      })(v);
+    }
+    var ends = el("div", { class: "ends" }, [
+      el("span", { text: "完全不會" }),
+      el("span", { text: "中等" }),
+      el("span", { text: "非常" })
+    ]);
+
+    var back = el("button", { class: "btn", text: "上一題", onclick: function () { go(-1); } });
+    if (idx === 0) back.disabled = true;
+    var skip = el("button", { class: "btn", text: "跳過這題", onclick: function () { answers[idx] = null; go(1); } });
+    var nav = el("div", { class: "nav" }, [back, skip]);
+
+    app.appendChild(top); app.appendChild(bar); app.appendChild(q);
+    app.appendChild(scale); app.appendChild(ends); app.appendChild(nav);
+  }
+
+  function choose(v) {
+    answers[idx] = v;
+    var opts = app.querySelectorAll(".opt");
+    opts.forEach(function (o, i) { o.setAttribute("aria-checked", i + 1 === v ? "true" : "false"); });
+    clearTimeout(advanceTimer);
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    advanceTimer = setTimeout(function () { go(1); }, reduce ? 0 : 260);
+  }
+
+  function go(d) {
+    clearTimeout(advanceTimer);
+    var next = idx + d;
+    if (next < 0) return;
+    if (next >= QUESTIONS.length) { showResult(); return; }
+    idx = next; showQuestion();
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (view !== "question") return;
+    if (e.key >= "1" && e.key <= "7") choose(Number(e.key));
+  });
+
+  /* ---------- result ---------- */
+  function showResult() {
+    view = "result"; clear();
+    var overall = avg(answers);
+    var answered = answers.filter(function (v) { return v !== null; }).length;
+
+    var result = el("section", { class: "result" });
+    result.appendChild(el("h1", { text: "你的作答結果" }));
+
+    if (overall === null) {
+      result.appendChild(el("p", { class: "disclaimer", text: "你尚未回答任何一題，所以無法計算分數。請重新作答。" }));
+      result.appendChild(el("div", { class: "actions" }, [
+        el("button", { class: "btn primary", text: "重新作答", onclick: restart })
+      ]));
+      app.appendChild(result); app.appendChild(credit());
+      return;
+    }
+
+    /* overall card */
+    var pos = (overall - 1) / 6 * 100;
+    var thr = (5 - 1) / 6 * 100;
+    var track = el("div", { class: "track", role: "img", "aria-label": "平均分數 " + fmt(overall) + "，參考線為 5" }, [
+      el("div", { class: "fill", style: "width:" + pos + "%" }),
+      el("div", { class: "thr", style: "left:" + thr + "%" }, [ el("span", { text: "5" }) ])
+    ]);
+    var verdictText = overall > 5
+      ? "你的平均分數高於 5，顯示你有偏向高敏感的傾向。"
+      : "你的平均分數未超過 5，代表你目前的分數沒有達到「偏向高敏感」的參考線，仍落在敏感度光譜上的某個位置。";
+
+    result.appendChild(el("div", { class: "card" }, [
+      el("div", { class: "score-line" }, [
+        el("span", { class: "score-num", text: fmt(overall) }),
+        el("span", { class: "score-lab", text: "整體平均（滿分 7，共回答 " + answered + " 題）" })
+      ]),
+      track,
+      el("div", { class: "track-ends" }, [ el("span", { text: "1" }), el("span", { text: "7" }) ]),
+      el("p", { class: "verdict", text: verdictText })
+    ]));
+
+    /* subscales */
+    var subCard = el("div", { class: "card" }, [ el("h2", { text: "六個面向" }) ]);
+    SUBSCALES.forEach(function (s) {
+      var vals = s.items.map(function (n) { return answers[n - 1]; });
+      var a = avg(vals);
+      subCard.appendChild(el("div", { class: "sub-row" }, [
+        el("div", { class: "sub-head" }, [
+          el("span", { text: s.name }),
+          el("b", { text: fmt(a) })
+        ]),
+        el("div", { class: "sub-bar" }, [ el("i", { style: "width:" + (a === null ? 0 : (a - 1) / 6 * 100) + "%" }) ]),
+        el("p", { class: "sub-desc", text: s.desc })
+      ]));
+    });
+    result.appendChild(subCard);
+
+    result.appendChild(el("p", { class: "disclaimer", text: "分數會因性別、年齡、文化背景等因素而不同。這份量表不是診斷工具，只能呈現你大致落在敏感度連續光譜上的哪個位置。" }));
+    result.appendChild(el("div", { class: "actions" }, [
+      el("button", { class: "btn primary", text: "重新作答", onclick: restart }),
+      el("button", { class: "btn", text: "修改答案", onclick: function () { idx = 0; showQuestion(); } })
+    ]));
+    app.appendChild(result);
+    app.appendChild(credit());
+  }
+
+  function restart() {
+    answers = new Array(QUESTIONS.length).fill(null);
+    idx = 0; showIntro();
+  }
+
+  function credit() {
+    function link(url) { return el("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: url }); }
+    return el("footer", { class: "credit" }, [
+      el("p", { text: "本頁為 HSP-R 量表的非官方中文翻譯，僅供個人使用。如需正式或研究用途，請參考作者提供的資料。" }),
+      el("p", { text: "原始量表出處：Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. https://osf.io/preprints/psyarxiv/w7bqu（預印本，尚未經同儕審查）" }),
+      el("p", null, [ document.createTextNode("更多資訊："), link("https://sensitivityresearch.com/"), document.createTextNode(" 、 "), link("https://hsperson.com/") ])
+    ]);
+  }
+
+  showIntro();
+})();
+</script>
+</body>
+</html>
