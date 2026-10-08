@@ -37,7 +37,7 @@
 			<svg viewBox="0 0 24 24" class="i-open" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
 			<svg viewBox="0 0 24 24" class="i-close" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
 		</button>
-		<nav class="site-nav" id="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
+		<nav class="site-nav" id="site-nav" aria-label="主要選單"><a href="../../index.html">Home</a><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
 	</div>
 </header>
 <main id="main">
@@ -53,7 +53,7 @@
 		<p>我是軟體背景，現在負責儀器端的整套軟體。第一次接手新機台，PC 端的操作模式是「用 TCP 連線，然後讀寫暫存器」，這跟 Modbus TCP 長得一模一樣，所以我很自然地拿 <code>pymodbus</code> 這類標準函式庫去連，結果連不上。</p>
 		<p>後來才搞清楚，那台機器用的是自訂封包格式，只是外觀像 Modbus。更糟的是，幾個月後換了另一個專案，我又犯了一次同樣的錯。這篇是我事後整理出來的檢查清單，目的是讓第三次不會發生。</p>
 
-		<div class="callout"><p><strong>AI 協作標示</strong>　這個專案是我與 AI 助手（Claude）協作開發的。本文依專案的開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。文中不含公司、客戶或機型名稱，程式碼皆為示意。</p></div>
+		<div class="callout callout-sm"><p>Claude 協作 / CoDev with Claude</p></div>
 
 		<h2>為什麼會誤判</h2>
 		<ul>

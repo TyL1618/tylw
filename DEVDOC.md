@@ -55,7 +55,7 @@ exam/                      線上考卷系統（自成一格）
 
 - **筆記只放業界做過的事，只寫重點**：踩過哪些坑、用到哪些技術。大學作業不放筆記（它們只在作品頁）。不寫公司、客戶、機型名稱，也不寫任何特定機台的實際封包或內部細節；**不寫牽涉對方公司行為的內容**；範例程式碼一律是示意用的。每篇文章要標出「用到的技術」標籤。建議結構：症狀／情境（通用化）→ 根因或踩過的坑 → 做法 → 結果 → 帶走的幾件事。
 - **日期只寫到月份**（例如 `2026-09`），不寫到日。
-- **AI 協作要明確標示**：只在筆記範圍內：每篇文章開頭用 `{{> ai-note}}`，筆記頁頂端有說明。**頁尾與關於頁都不放**（使用者明確說過 AI 協作只在筆記內提到就好，頁尾只留 © 與名稱）。大學時期的作品與最初版網站是手寫的，沒有 AI。
+- **AI 協作要明確標示**：只在筆記範圍內：每篇文章開頭用 `{{> ai-note}}`（一小行「Claude 協作 / CoDev with Claude」），筆記頁頂端同一句。**頁尾與關於頁都不放**（使用者明確說過 AI 協作只在筆記內提到就好，頁尾只留 © 與名稱）。大學時期的作品與最初版網站是手寫的，沒有 AI。
 - **筆記是時間軸**：全文（有完整文章）與短記（幾行就說完）依月份由新到舊混排。清單與首頁的「技術筆記」區塊由 `tools/gen-notes-index.py` 依裡面的 `ENTRIES` 資料產生。
 - **新增筆記**：①（全文才需要）複製 `src/pages/main/notes/` 裡一篇，改 front matter 與內容；②在 `tools/gen-notes-index.py` 的 `ENTRIES` 加一筆（全文給 slug，短記給 `None`）；③依序執行 `python tools/gen-notes-index.py` 與 `node tools/build-site.mjs`。
 - **作品頁分兩區，用切換鈕「近期作品／過去作品」一次顯示一區**（淡出再淡入約 0.4 秒；支援方向鍵與網址 `#past`；沒有 JS 時兩區上下排列）。邏輯在 `site.js` 的 `data-tabs` 區塊。近期作品（TaiexRider、SecureChat、NeonSweep、UFO Duel、CyberMind）與過去作品（學生時期）。有與 Claude 協作的專案，卡片上有一行小字 `Co-developed with Claude`；早期無 AI 的作品不標。TaiexRider 只連 Google Play（不連網頁版、不連原始碼）。UFO Duel、CyberMind 連 Cloudflare Workers 上的線上版（`*.tyl161803.workers.dev`）。UFO Duel 的連線對戰依賴 Supabase，免費專案閒置會被暫停；單機模式不受影響。

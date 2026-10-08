@@ -90,16 +90,16 @@ def build_notes_page():
     return f'''---
 out: main/notes.html
 title: 筆記
-description: {{{{handle}}}} 的技術筆記：工作上做過的事，踩過哪些坑、用到哪些技術。依月份排列，有完整文章，也有短記。
+description: {{{{handle}}}} 的技術筆記：開發過程流水帳筆記，依月份排列。
 nav: notes
 ---
 <div class="wrap">
 	<div class="page-title reveal">
 		<h1>技術筆記 <span class="en" lang="en">/ Technical Notes</span></h1>
-		<p>工作上做過的事：踩過哪些坑、用到哪些技術，只寫重點。依月份由新到舊；標「全文」的有完整文章，標「短記」的是幾行就說完的紀錄。</p>
+		<p>開發過程流水帳筆記</p>
 	</div>
 
-	<div class="callout reveal" style="max-width: 70ch; margin-top: 8px"><p><strong>AI 協作標示</strong>　這裡談到的工作專案，是我與 AI 助手（Claude）協作開發的；筆記依開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。不含公司、客戶或機型名稱。</p></div>
+	<div class="callout callout-sm reveal" style="margin-top: 8px"><p>Claude 協作 / CoDev with Claude</p></div>
 
 	<section class="section reveal" style="padding-top: 24px">
 		<ul class="note-list">

@@ -15,7 +15,7 @@
 //   title        頁面標題（會自動加上「 — 網路代號」；首頁用 title_full 覆寫）
 //   （front matter 與內容裡可用 {{handle}}＝網路代號、{{real_name}}＝本名（只用羅馬拼音，不放中文全名））
 //   description  給搜尋引擎與分享預覽用的一句話
-//   nav          導覽列要標示哪一項：works | notes | about | contact | none
+//   nav          導覽列要標示哪一項：home | works | notes | about | contact | none
 //   css / js     額外載入的樣式／腳本，逗號分隔，路徑相對於「輸出檔」
 //   body_class   <body> 的 class
 //   sitemap      false 則不放進 sitemap
@@ -38,6 +38,7 @@ const CF_ANALYTICS_TOKEN = 'ed0323b6706c4dc79fd3122a069a953c';
 const CHECK = process.argv.includes('--check');
 
 const NAV = [
+	['home', 'index.html', 'Home'],
 	['works', 'main/works.html', 'Works'],
 	['notes', 'main/notes.html', 'Notes'],
 	['about', 'main/about.html', 'About'],
