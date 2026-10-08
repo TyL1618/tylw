@@ -1,158 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>BlackJack</title>
 		<link rel="stylesheet" href="./assets/css/blackjack.css">
-		<link rel="icon" type="image/x-icon" href="./assets/img/icon.png">
-		<script type="text/javascript" src="./assets/js/BJ.js"></script>
-		<link rel="stylesheet" href="../../../assets/css/site.css">
+		<link rel="icon" type="image/png" href="./assets/img/icon.png">
+		<script src="./assets/js/BJ.js"></script>
 	</head>
-		<!-- ------------------------------------------------------------------------------------ -->
 	<body>
-		<header>
-			<div class="container3">
-				<img src="./assets/img/logo.png" class="logo"></img>
-				<div>
-					<ul class="menu">
-						<li><a href="./cheat.html">Cheat Mode</a></li>
-					</ul>
-				</div>
-			</div>
+		<header class="site-header">
+			<img src="./assets/img/logo.png" class="logo" alt="Blackjack">
+			<nav>
+				<a href="../../works.html">&larr; Works</a>
+				<a href="./cheat.html">Cheat Mode</a>
+			</nav>
 		</header>
-		<style>
-			h1:hover {
-				color: #fff;
-				text-shadow: 	0 0 5px #03e9f4,
-								0 0 25px #03e9f4,
-								0 0 50px #03e9f4,
-								0 0 100px #03e9f4;
-		}
-		</style>
-		<!-- ------------------------------------------------------------------------------------ -->
-		<div>
-			<h1 class="noselect" style="font-family:標楷體; cursor:default; color:#white; transition: .5s">Decks/發牌區</h1>
-			<div>
-				<div class="box center" style="margin:0% auto 2%;width:180px;height:120px;">
-					<table class="center" width="100%" height="100%" style="background-color:black;border-radius:8px">
-						<td class="cardtable2" width="99%" height="99%" style="left:0%;" >
-							<img src="./assets/img/cards/back2.png"></img>
-						</td>
-					</table>
-				</div>
-			</div>
-			<hr align="center" width="70%" class="split"></hr>
-			<div> <!-- 莊家牌桌-->
-				<h1 class="noselect" style="font-family:標楷體; cursor:default; color:#white; transition: .5s">Dealer/莊家</h1>
-				<div class="box center" style="margin:0% auto 2%;">
-					<table class="center" width="100%" height="100%" style="background-color:black;border-radius:8px">
-						<td class="cardtable" width="11%" height="80%" style="left:4%;" >
-							<img id="dealertable1" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:24%;">
-							<img id="dealertable2" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:44%;">
-							<img id="dealertable3" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:64%;">
-							<img id="dealertable4" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:84%;">
-							<img id="dealertable5" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-					</table>
-				</div>
-				<div class="center" style="color:yellow;font-family:標楷體;font-size:20px;">莊家總點數 : 
-					<div id="DealerTotalPoints" style="color:yellow;font-family:標楷體;font-size:20px;">0</div>
-				</div>
-			</div>
-			<hr align="center" width="70%" class="split"></hr>
-			<div id="player1" style="display: block;">  <!-- 玩家1牌桌-->
-				<h1 class="noselect" style="font-family:標楷體; cursor:default; color:#white; transition: .5s">Player/玩家</h1>
-				<div class="box center" style="margin:0% auto 2%;">
-					<table class="center" width="100%" height="100%" style="background-color:black;border-radius:8px">
-						<td class="cardtable" width="11%" height="80%" style="left:4%;" >
-							<img id="player1table1" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:24%;">
-							<img id="player1table2" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:44%;">
-							<img id="player1table3" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:64%;">
-							<img id="player1table4" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:84%;">
-							<img id="player1table5" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-					</table>
-				</div>
-				<div class="center" style="color:yellow;font-family:標楷體;font-size:20px;">閒家總點數 : 
-					<div id="PlayerTotalPoints" style="color:yellow;font-family:標楷體;font-size:20px;">0</div>
-				</div>
-				<div class="center">
-					<input type=button id="startButton" value="start/開始" onclick="gamestart()">
-					<input type=button id="hitButton" value="Hit/抽牌" onclick="hit()" disabled>
-					<input type=button id="standButton" value="Stand/不抽" onclick="stand()" disabled>
-					<input type=button id="surrenderButton" value="Surrender/投降" onClick="surrender()" disabled>
-					<input type=button id="doubleButton" value="Double Chips/雙倍賭注" onClick="doublechips()" disabled>
-					<input type=button id="DuoplayButton" value="Split/切牌" onClick="duo()" disabled>
-					<input type=button id="ChipsButton" value="Assign Chips/賭金" onClick="chip()" disabled>
-					<input type=text size=6 id="chipsvalue" disabled>
-					<div class="center" style="color:#90EE90;font-family:標楷體;font-size:20px;">初始獎池:500元 (下注限額0~500元)
-						<div id="pool" style="color:yellow;font-family:標楷體;font-size:20px;"></div>
+
+		<main>
+			<section class="zone">
+				<h1 class="zone-title">Decks/發牌區</h1>
+				<div class="hand-box deck">
+					<div class="hand">
+						<div class="slot"><img src="./assets/img/cards/back2.png" alt="牌堆"></div>
 					</div>
 				</div>
+			</section>
+
+			<hr class="divider">
+
+			<section class="zone" id="dealer"><!-- 莊家牌桌 -->
+				<h1 class="zone-title">Dealer/莊家</h1>
+			<div class="hand-box">
+				<div class="hand">
+					<div class="slot"><img id="dealertable1" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="dealertable2" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="dealertable3" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="dealertable4" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="dealertable5" src="./assets/img/cards/black.png" alt=""></div>
+				</div>
 			</div>
-			<hr align="center" width="70%" class="split"></hr>
-			<div id="player2" style="display: none;">  <!-- 玩家2牌桌-->
-				<h1 class="noselect" style="font-family:標楷體; cursor:default; color:#white; transition: .5s">Player2/玩家2</h1>
-				<div class="box center" style="margin:0% auto 2%;">
-					<table class="center" width="100%" height="100%" style="background-color:black;border-radius:8px">
-						<td class="cardtable" width="11%" height="80%" style="left:4%;" >
-							<img id="player2table1" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:24%;">
-							<img id="player2table2" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:44%;">
-							<img id="player2table3" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:64%;">
-							<img id="player2table4" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-						<td class="cardtable" width="11%" height="80%" style="left:84%;">
-							<img id="player2table5" src="./assets/img/cards/black.png" width="100%" height="100%"></img>
-						</td>
-					</table>
+				<div class="stat">莊家總點數 : <span id="DealerTotalPoints">0</span></div>
+			</section>
+
+			<hr class="divider">
+
+			<section class="zone" id="player1"><!-- 玩家1牌桌 -->
+				<h1 class="zone-title">Player/玩家</h1>
+			<div class="hand-box">
+				<div class="hand">
+					<div class="slot"><img id="player1table1" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player1table2" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player1table3" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player1table4" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player1table5" src="./assets/img/cards/black.png" alt=""></div>
 				</div>
-				<div class="center">
-					<input type=button id="hitButton2" value="Hit/抽牌" onclick="hit()" disabled>
-					<input type=button id="standButton2" value="Stand/不抽" onclick="stand()" disabled>
-					<input type=button id="surrenderButton2" value="Surrender/投降" onClick="surrender()" disabled>
-					<input type=button id="doubleButton2" value="Double Chips/雙倍賭注" onClick="doublechips()" disabled>
-					<input type=button id="ChipsButton2" value="Assign Chips/賭金" onClick="chip()" disabled>
-					<input type=text size=6 id="chipsvalue2" disabled>
-					<div class="center" style="color:#90EE90;font-family:標楷體;font-size:20px;">初始獎池:500元 (下注限額0~500元)
-						<div id="pool2" style="color:yellow;font-family:標楷體;font-size:20px;"></div>
-					</div>
+			</div>
+				<div class="stat">閒家總點數 : <span id="PlayerTotalPoints">0</span></div>
+				<div class="controls">
+				<input type="button" id="startButton" class="btn-primary" value="start/開始" onclick="gamestart()">
+				<input type="button" id="hitButton" value="Hit/抽牌" onclick="hit()" disabled>
+				<input type="button" id="standButton" value="Stand/不抽" onclick="stand()" disabled>
+				<input type="button" id="surrenderButton" class="btn-danger" value="Surrender/投降" onclick="surrender()" disabled>
+				<input type="button" id="doubleButton" value="Double Chips/雙倍賭注" onclick="doublechips()" disabled>
+				<input type="button" id="DuoplayButton" value="Split/切牌" onclick="duo()" disabled>
+				<input type="button" id="ChipsButton" value="Assign Chips/賭金" onclick="chip()" disabled>
+				<input type="text" id="chipsvalue" size="6" inputmode="numeric" placeholder="0~500" aria-label="賭注金額" disabled>
 				</div>
-			<hr align="center" width="70%" class="split"></hr>
-		</div>
-		<!-- ------------------------------------------------------------------------------------ -->
+				<div class="pool-note">初始獎池:500元 (下注限額0~500元)</div>
+				<div id="pool" class="pool"></div>
+			</section>
+
+			<hr class="divider">
+
+			<section class="zone" id="player2" style="display: none;"><!-- 玩家2牌桌 -->
+				<h1 class="zone-title">Player2/玩家2</h1>
+			<div class="hand-box">
+				<div class="hand">
+					<div class="slot"><img id="player2table1" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player2table2" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player2table3" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player2table4" src="./assets/img/cards/black.png" alt=""></div>
+					<div class="slot"><img id="player2table5" src="./assets/img/cards/black.png" alt=""></div>
+				</div>
+			</div>
+			<div class="controls">
+				<input type="button" id="hitButton2" value="Hit/抽牌" onclick="hit()" disabled>
+				<input type="button" id="standButton2" value="Stand/不抽" onclick="stand()" disabled>
+				<input type="button" id="surrenderButton2" class="btn-danger" value="Surrender/投降" onclick="surrender()" disabled>
+				<input type="button" id="doubleButton2" value="Double Chips/雙倍賭注" onclick="doublechips()" disabled>
+				<input type="button" id="ChipsButton2" value="Assign Chips/賭金" onclick="chip()" disabled>
+				<input type="text" id="chipsvalue2" size="6" inputmode="numeric" placeholder="0~500" aria-label="玩家2賭注金額" disabled>
+			</div>
+			<div class="pool-note">初始獎池:500元 (下注限額0~500元)</div>
+			<div id="pool2" class="pool"></div>
+				<hr class="divider">
+			</section>
+		</main>
+
+		<section class="log" aria-live="polite">
+			<h2>遊戲紀錄</h2>
+			<div id="log"></div>
+		</section>
+
 		<footer>
-			<div class="footer-content">
-				<div class="contact-info">
-					<p>Email: <a href="mailto:tyl161803@gmail.com" class="email-link">tyl161803@gmail.com</a></p>
-				</div>
-				<div class="copyright">
-					&copy; tyl_1.618 All rights reserved.
-				</div>
-			</div>
+			<p>Email: <a href="mailto:tyl161803@gmail.com" class="email-link">tyl161803@gmail.com</a></p>
+			<div>&copy; tyl_1.618 All rights reserved.</div>
 		</footer>
-		<!-- ------------------------------------------------------------------------------------ -->
-		
 	</body>
 </html>

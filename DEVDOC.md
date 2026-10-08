@@ -26,8 +26,8 @@ main/
     gs-search.html         臺灣研究所資料檢索系統（查 Google 試算表）
     s-des.html             S-DES 加解密
     assets/js/             S_DES_.js、jquery-3.3.1.min.js（s-des 仍用 jQuery）
-    blackjack/             二十一點（BlackJack.html 與 cheat.html 兩種模式）
-      assets/css/          blackjack.css（自帶樣式，BlackJack.html 另外還載入 site.css）
+    blackjack/             二十一點（BlackJack.html 與 cheat.html 兩種模式；遊戲邏輯只靠元素 ID，改版面時 ID 要保留）
+      assets/css/          blackjack.css（自成一格的完整樣式，不依賴 site.css）
       assets/js/           BJ.js、BJcheat.js
       assets/img/          icon.png、logo.png
       assets/img/cards/    撲克牌、牌背、佔位圖（JS 以 ./assets/img/cards/XX.png 動態引用）

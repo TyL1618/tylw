@@ -23,25 +23,12 @@ tbl.style.border = '1px solid black';
 var operatecount = 0;
 function print(str)
 {
-	const body = document.body, tbl = document.createElement('table');
-	tbl.setAttribute('align', 'center');
-	tbl.style.width = '30%';
-	tbl.style.border = '1px solid black';
-	var count = 0;
-	
-
-	const tr = tbl.insertRow();
-	for (let j = 0; j < 1; j++) 
-	{
-		const tr = tbl.insertRow();
-		const td = tr.insertCell();
-		td.appendChild(document.createTextNode(str));
-		td.style.border = '1px solid white';
-		td.style.color = "white";
-		td.style.textAlign = "center";
-		count+=1;
-	}
-	body.appendChild(tbl);
+	// 把訊息加進頁面上的「遊戲紀錄」面板，並捲到最新一則
+	const log = document.getElementById('log');
+	const line = document.createElement('p');
+	line.textContent = str;
+	log.appendChild(line);
+	log.scrollTop = log.scrollHeight;
 }
 //--------------------------------------------------------玩家1全域變數
 var pool1=500;            //玩家總獎池
