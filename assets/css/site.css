@@ -348,6 +348,7 @@ h3 .en, .tag .en { font-weight: 400; }
 .skill-group:nth-child(6) { --hue: #f58fb4; }
 .skill-group:nth-child(7) { --hue: #ee7f6e; }
 .skill-group:nth-child(8) { --hue: #a3d65c; }
+.skill-group:nth-child(9) { --hue: #9aa8ff; }
 /* 每個技能分類一種淡淡的色相：底色與邊框各混入一點，文字維持原色 */
 .skill-group .tag {
 	padding: 3px 12px; border-color: var(--border-strong); background: var(--surface-2); color: var(--text); font-size: .8rem;
