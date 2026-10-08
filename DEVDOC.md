@@ -42,7 +42,7 @@ main/
   notes/                   技術筆記（一篇一個檔案）
   works/
     gs-search.html         臺灣研究所資料檢索系統
-    s-des.html             S-DES 加解密（仍用 jQuery 3.3.1，自行託管；演算法檔 S_DES_.js 是課堂作業原樣）
+    s-des.html             S-DES 加解密（仍用 jQuery 3.7.1，自行託管；演算法檔 S_DES_.js 是課堂作業原樣）
     assets/css|js/         這兩個頁面專用的樣式與腳本
     blackjack/             二十一點（BlackJack.html 一般模式、cheat.html 作弊模式）
       assets/css/js/img/   遊戲樣式、BJ.js／BJcheat.js、撲克牌（webp，JS 以 ./assets/img/cards/XX.webp 動態引用）
