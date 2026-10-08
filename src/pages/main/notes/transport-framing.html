@@ -1,0 +1,64 @@
+---
+out: main/notes/transport-framing.html
+title: 偶發的「讀回不一致」：傳輸層封包框架的錯位
+description: 對儀器寫入一長串設定後，偶爾會讀回不一致。根因是 TCP 傳輸層的收發框架會錯位，而且永遠不會自己恢復。
+nav: notes
+---
+<div class="wrap">
+	<header class="prose-head reveal">
+		<a class="back-link" href="{{root}}main/notes.html">← 技術筆記</a>
+		<h1>偶發的「讀回不一致」：一次傳輸層封包框架的錯位</h1>
+		<p class="meta"><time datetime="2026-09">2026-09</time>　・　儀器軟體／通訊協議</p>
+		<ul class="tags" aria-label="用到的技術"><li class="tag">TCP</li><li class="tag">socket</li><li class="tag">封包框架</li><li class="tag">Python</li><li class="tag">單元測試</li></ul>
+	</header>
+
+	<article class="prose reveal">
+		{{> ai-note}}
+
+		<h2>症狀</h2>
+		<p>PC 端用 TCP 對儀器寫入一長串設定（拆成數百次小封包的往返），寫完會再讀回來比對。結果<strong>有時候</strong>會跳出「讀回不一致」，重送一次又好了。不是儀器壞掉，也不是資料有問題。</p>
+
+		<h2>為什麼偏偏是「有時候」</h2>
+		<p>設定的步驟越多，往返次數就越多：這個案例要走數百次往返，每次還睡 20 ms，光睡眠就超過 8 秒；同一段時間裡，背景輪詢執行緒還在搶同一條連線（這台儀器只有單一 socket）。往返次數越多，中間出一次差錯的機率就越高，所以步驟少的設定幾乎不會遇到。</p>
+
+		<h2>三個會造成錯位的地方</h2>
+
+		<h3>1. 逾時把收到一半的封包丟掉（最嚴重）</h3>
+		<p>舊版的「收滿 N 個 byte」函式用區域變數當緩衝，逾時就直接回傳失敗。已經收到的半包留在 socket 裡沒人管，<strong>之後每一次 <code>recv</code> 都從封包中間開始，偏移固定的 byte 數，而且永遠不會自己恢復</strong>。修法是把緩衝存到物件上，逾時時不丟，下次呼叫接著收：</p>
+<pre><code>def _recv_exact(self, n):
+    # 緩衝存在物件上：逾時不丟掉已收到的半包，下次接著收
+    while len(self._rxbuf) &lt; n:
+        chunk = self._sock.recv(n - len(self._rxbuf))   # 逾時會丟 socket.timeout
+        if not chunk:
+            raise ConnectionError("closed")
+        self._rxbuf += chunk
+    data, self._rxbuf = self._rxbuf[:n], self._rxbuf[n:]
+    return data</code></pre>
+
+		<h3>2. 重送前沒有清管線</h3>
+		<p>上一次逾時後才姍姍來遲的回覆，還躺在緩衝區。重送之後它會被當成「這次的 ACK」，而且位址一模一樣，檢查一定通過。修法是<strong>每筆交易開頭、每次重送前都先把殘留清掉</strong>。所有 I/O 都在同一把鎖裡，所以交易開始時還留著的資料，一定是上一筆遲到的，清掉是安全的。</p>
+
+		<h3>3. ACK 只比對位址的低 2 個 byte</h3>
+		<p>改成比對完整的 24 位元位址；讀取也開始比對。回的是別筆交易的封包，就丟掉並清管線，而不是把別人的資料當成這一筆的內容回傳。</p>
+		<p>有一件事我<strong>刻意沒做</strong>：不比對指令碼。規格沒寫回覆會不會回傳指令碼，沒有實機可以驗證之前不加；猜錯的話，會把正常的回覆全部判成失敗。</p>
+
+		<h2>順帶修掉兩個讓它更難查的問題</h2>
+		<ul>
+			<li><strong>log 的 handler 掛錯地方</strong>：只掛在某個具名 logger 上，但大部分模組用的是 <code>logging.getLogger(__name__)</code>，它們往 root 傳、root 沒有 handler，所以<strong>那些模組的 log 從來沒有進過檔案</strong>。對話框叫使用者「去看日誌」，日誌裡卻什麼都沒有。改成 handler 掛在 root。</li>
+			<li><strong>對話框直接說差在哪</strong>：記錄「第幾步不符、第一個差異在第幾個 byte、寫入值與讀回值」，結果視窗直接顯示，不用再叫人翻日誌。</li>
+		</ul>
+
+		<h2>怎麼確認修對了</h2>
+		<p>用假 socket 重現三種情境：半包逾時、遲到的回覆、長串寫入中間有一次沒回，共 21 個測試。<strong>對舊版程式碼跑，14 個失敗</strong>；修好後全部通過。這一步很重要，它確認測試測的是真的行為，不是同義反覆。</p>
+
+		<h2>還沒做的，以及誠實的限制</h2>
+		<p>把每個封包塞更多資料、讓往返次數從數百次降到幾十次，是最直接降低出錯機率的辦法，但需要接上真實的板子驗證，所以我沒有動預設值。另外，<strong>寫這篇的時候，這次修正尚未經過實機驗證</strong>，只通過了假 socket 的測試。</p>
+
+		<h2>帶走的幾件事</h2>
+		<ul>
+			<li>「偶發」的錯誤通常是在說：<strong>某個狀態不會自己恢復</strong>，而且和次數有關。先問「什麼東西被留下來了」。</li>
+			<li>驗證「回覆屬於這次請求」不能只靠位址的一小部分；而且發現不對時，要清掉管線，不是繼續往下讀。</li>
+			<li>先把「看不到 log」這件事修好，後面的偵錯才有依據。</li>
+		</ul>
+	</article>
+</div>

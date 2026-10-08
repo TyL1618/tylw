@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>打包與發版的連環坑 — TyL</title>
+<meta name="description" content="防毒擋下、打包崩潰卻被批次檔誤判成功、免費方案的 50MB 上限，以及「Python 能跑、打包後不行」。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/main/notes/packaging-pitfalls.html">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="打包與發版的連環坑 — TyL">
+<meta property="og:description" content="防毒擋下、打包崩潰卻被批次檔誤判成功、免費方案的 50MB 上限，以及「Python 能跑、打包後不行」。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/main/notes/packaging-pitfalls.html">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="../../assets/js/site.js" defer></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="../../index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
+	</div>
+</header>
+<main id="main">
+<div class="wrap">
+	<header class="prose-head reveal">
+		<a class="back-link" href="../../main/notes.html">← 技術筆記</a>
+		<h1>打包與發版的連環坑：防毒、批次檔誤判、50 MB 上限，以及「Python 能跑、exe 不行」</h1>
+		<p class="meta"><time datetime="2026-08">2026-08</time>　・　儀器軟體／發版</p>
+		<ul class="tags" aria-label="用到的技術"><li class="tag">PyInstaller</li><li class="tag">批次檔</li><li class="tag">GitHub Releases</li><li class="tag">發版流程</li><li class="tag">Python</li></ul>
+	</header>
+
+	<article class="prose reveal">
+		<div class="callout"><p><strong>AI 協作標示</strong>　這個專案是我與 AI 助手（Claude）協作開發的。本文依專案的開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。文中不含公司、客戶或機型名稱，程式碼皆為示意。</p></div>
+
+		<p>把 Python 桌面程式打包成單一個 exe 交給客戶，是一條很長的路。這篇是同一個月裡連續踩到的四個坑，以及每一個我最後怎麼處理。</p>
+
+		<h2>坑 1：剛打包好的 exe 被防毒軟體擋下</h2>
+		<p>剛完成一個功能、重新打包後，執行時遇到「Windows 無法存取指定的裝置、路徑或檔案」，exe 打不開。追查後確認是企業防毒軟體擋下剛產生的檔案（不是 Windows Defender，也不是壞掉的 build），重開機後就消失了。</p>
+		<p><strong>決定：先關掉 UPX 壓縮。</strong>UPX 壓縮過的、未簽章的執行檔，是防毒軟體啟發式掃描最常誤判的來源之一（惡意程式也常用同一種手法偽裝）。關掉壓縮零成本，代價只是檔案變大。其他選項我都記錄下來，但沒有動工：請對方把安裝路徑加進白名單、程式碼簽章。</p>
+
+		<h2>坑 2：打包崩潰了，批次檔卻說「打包成功」</h2>
+		<p>一段終端機輸出顯示：PyInstaller 在組裝 exe 的階段丟出 <code>PermissionError</code>，但 log 最後卻印出「打包成功」，還繼續呼叫發布腳本。</p>
+		<p><strong>根因有兩個：</strong></p>
+		<ul>
+			<li><strong>PyInstaller 自己的缺口</strong>：組裝前會先刪除舊的 exe，但只有這一行沒有包進它自己的重試機制，而下面所有步驟都有。只要舊檔在那個瞬間被鎖住（防毒正在掃描，或使用者還開著上一個版本在測試），整個程式就崩潰。這不是我方程式能修的。</li>
+			<li><strong>我方的 bug</strong>：批次檔判斷「打包成功」的邏輯是「<code>dist</code> 底下有沒有那個檔案」。舊的 exe 因為被鎖住而沒刪掉，還在原地，所以條件成立，被誤判成功。</li>
+		</ul>
+		<p>更糟的是後果：如果我在那一刻按下確認，上傳到儲存空間的會是<strong>還沒更新的舊 exe</strong>，但資料庫裡的版本號已經被改成新版：「資料庫說有新版本，下載連結卻指向舊內容」。手動流程至少會讓人親手拖檔案、有機會肉眼發現異常；全自動化之後，判斷完全交給批次檔，判斷邏輯錯了就沒有人會發現。</p>
+		<p><strong>修法：</strong>真的檢查打包程式的結束代碼，再用「檔案存在」當第二層保險，兩個都過才走成功的路徑。我用 <code>goto</code> 加標籤，而不是 <code>if…else</code> 區塊，因為這個檔案已經有兩次「巢狀括號加上中文字串，讓 <code>cmd.exe</code> 解析出錯」的教訓。</p>
+<pre><code>pyinstaller main.spec
+if errorlevel 1 goto :build_failed
+if not exist "dist\app.exe" goto :build_failed
+rem ... 成功才往下呼叫發布腳本 ...
+goto :eof
+
+:build_failed
+echo Build failed. Not publishing.
+exit /b 1</code></pre>
+		<p>同一次修改，我又犯了一次已經犯過兩次的錯：在 <code>REM</code> 註解行裡塞了中文。檔案開頭明明寫著不能這樣做。<strong>值得記一筆給未來的自己</strong>：每次修改這個檔案，寫完就順手跑一次「找出非 ASCII 字元」的檢查，不要等犯錯後才想起來。另外要誠實：這次我沒有在真實的終端機上端到端驗證修改後的批次檔。</p>
+
+		<h2>坑 3：免費方案的單檔 50 MB 硬上限</h2>
+		<p>正式發版時，上傳到雲端儲存的那一步炸出「檔案過大」，但進度條已經顯示 100%，代表是伺服器收到完整檔案後才拒絕的。排除了儲存桶本身的限制，卡的是整個專案層級的上限，免費方案無法調整。</p>
+		<p>實際的 exe 大小是 52,430,750 bytes，而上限是 52,428,800，<strong>只超出不到 2 KB</strong>。這麼極限的邊界值意味著：就算這次擠進去，下一個版本多一點功能，馬上又撞牆，不值得花時間去瘦那 2 KB。換個地方放才是對的。</p>
+		<ul>
+			<li><strong>私有 repo 的 Release 附件</strong>：不支援匿名下載，只能在安裝檔裡內嵌一把有 repo 權限的 token（風險遠高於現有的唯讀金鑰），或把整個 repo 改成公開（連帶公開架構細節，不可逆）。兩條都排除。</li>
+			<li><strong>另一家的物件儲存</strong>：免費額度夠、沒有這種小上限，我也已經實作了一版。但實際去啟用訂閱時，即使畫面上寫應付 $0，仍然強制要求先綁信用卡。我沒有信用卡，這版作廢。</li>
+			<li><strong>定案</strong>：另外開一個<strong>只放發布用 exe</strong>、不放原始碼的公開 repo。公開 repo 的 Release 附件可以匿名下載，完全免費，也不暴露架構細節。下載網址用「最新版本」的穩定格式，版本號再怎麼變，網址都不用改。</li>
+		</ul>
+		<p>上傳走 REST API，用 <code>httpx</code> 直接發請求，不要求開發機安裝命令列工具。權限用細粒度的存取權杖，範圍限定在那一個只放 exe 的 repo，而且<strong>絕不放進會被打包進 exe 的地方</strong>。上傳進度條的包裝類別，在換了兩次上傳機制之後，原封不動沿用，只是刪掉那一版為了另一套 API 寫的累加邏輯，不必維護兩套。</p>
+
+		<h2>坑 4：Python 能跑，打包後的 exe 連不上資料庫</h2>
+		<p>剛發布的版本，我在自己的辦公室打包後執行，首頁一台機台都沒有。直接用 Python 跑有畫面，exe 沒有。第一反應是打包漏了什麼東西，但內建的「連線健康檢查」先給出了關鍵線索：<code>port should be of type int</code>。</p>
+		<p><strong>根因：前一天一個「防止閃退」的修正，只轉型了一半。</strong>讀取連接埠設定時，有外部設定檔的分支有做 <code>int()</code> 轉型；但「轉型失敗」和「完全沒設定」這兩個退回內建預設值的分支，直接拿了內建值。而內建值是解密出來的，<strong>全部都是字串</strong>。</p>
+		<p><strong>為什麼 Python 跑得動、exe 不行：</strong>開發機的專案目錄有外部設定檔，Python 走的是正確的分支。但交給客戶的 exe 設計上<strong>刻意不附設定檔</strong>（開箱即用），必然走進沒轉型的分支。這不是打包工具漏包東西，是純 Python 的邏輯 bug，跟 PyInstaller 無關。而且有 bug 的版本<strong>已經發布出去了</strong>，所以修好之後必須重新打包、重新發布，把它蓋掉。</p>
+
+		<h3>事後：把「開發機有設定檔、exe 沒有」這整類問題地毯式搜查</h3>
+		<ul>
+			<li>所有讀取環境變數的地方，逐一確認型別。</li>
+			<li>內建保底值的每個欄位，確認消費端的假設一致。</li>
+			<li>用 AST 掃過整個專案所有 import，和依賴清單比對，找到一個「只靠別的套件順便裝進來」的套件，明確釘上版本（目前沒有壞，純防禦）。</li>
+			<li>動態 SQL 的識別字，是否都過白名單；全專案有沒有裸的 <code>except:</code>。</li>
+			<li><strong>找到一個真正的缺口</strong>：主視窗建構的那兩行，完全沒有 <code>try/except</code> 保護。無主控台模式打包之後，只要這裡丟出例外，程式就會在視窗出現之前直接消失，使用者只會覺得「點了沒反應」，跟當機、被防毒擋下、點兩下太快完全分不出來。修法：接住例外，把完整的 traceback 寫進 log，先關掉開場畫面（免得蓋在錯誤視窗上面），再彈出視窗告訴使用者「啟動失敗，詳細錯誤在這個檔案」，最後乾淨地結束。</li>
+		</ul>
+		<p>這次搜查不是逐頁面逐元件的全專案審查，我也沒有假裝它是。</p>
+
+		<h2>帶走的幾件事</h2>
+		<ul>
+			<li><strong>「成功」要用結束代碼判斷，不要用「結果檔案存在」判斷。</strong>舊檔案會讓失敗看起來像成功。</li>
+			<li>自動化會把「肉眼有機會發現異常」的那一步拿掉，所以判斷邏輯必須比手動時更嚴格。</li>
+			<li>測試環境和交付環境的差異（有沒有設定檔、有沒有網路、有沒有除錯器），本身就是一個 bug 類別。要故意用「交付環境的樣子」跑一次。</li>
+			<li>「防止閃退」的修正，改到的分支要全部走一遍，不能只改有被測到的那一條。</li>
+			<li>啟動階段的錯誤，至少要讓使用者知道「出事了」以及去哪裡找原因。</li>
+		</ul>
+	</article>
+</div>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../../main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
+</html>

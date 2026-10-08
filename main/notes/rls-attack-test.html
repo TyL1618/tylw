@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自己攻擊自己的系統 — TyL</title>
+<meta name="description" content="把權限從「只在介面擋」收緊成資料庫層真的擋，結果那次遷移本身開了一扇後門。實際攻擊測試的結果與修法。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/main/notes/rls-attack-test.html">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="自己攻擊自己的系統 — TyL">
+<meta property="og:description" content="把權限從「只在介面擋」收緊成資料庫層真的擋，結果那次遷移本身開了一扇後門。實際攻擊測試的結果與修法。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/main/notes/rls-attack-test.html">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="../../assets/js/site.js" defer></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="../../index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
+	</div>
+</header>
+<main id="main">
+<div class="wrap">
+	<header class="prose-head reveal">
+		<a class="back-link" href="../../main/notes.html">← 技術筆記</a>
+		<h1>自己攻擊自己的系統：權限收緊的遷移，反而開了一扇後門</h1>
+		<p class="meta"><time datetime="2026-07">2026-07</time>　・　儀器軟體／資安</p>
+		<ul class="tags" aria-label="用到的技術"><li class="tag">PostgreSQL</li><li class="tag">RLS</li><li class="tag">Supabase</li><li class="tag">Python</li><li class="tag">資安測試</li></ul>
+	</header>
+
+	<article class="prose reveal">
+		<div class="callout"><p><strong>AI 協作標示</strong>　這個專案是我與 AI 助手（Claude）協作開發的。本文依專案的開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。文中不含公司、客戶或機型名稱，程式碼皆為示意。</p></div>
+
+		<h2>背景</h2>
+		<p>這個桌面程式有三種角色，原本的權限只在介面上擋：沒有權限的人，按鈕是灰的。我們把它改成資料庫層的<strong>列級安全（RLS）</strong>，讓資料庫自己拒絕不該有的寫入。之後我要求從「內部人員濫用」和「外部入侵」兩個面向各檢查一遍。</p>
+		<p>這篇記錄的不是理論推測，而是<strong>真的執行過攻擊測試、真的打穿</strong>的結果。每一項都是先實測成功、修補後再實測失敗。</p>
+
+		<h2>1. 最嚴重，而且是遷移本身造成的</h2>
+		<p>那次遷移裡，新帳號註冊時會觸發一個函式，替使用者建立資料列。函式直接信任客戶端傳來的使用者中繼資料裡的 <code>role</code> 欄位。結果：<strong>任何人</strong>，只要拿得到內嵌在安裝檔裡的公開金鑰（不需要任何既有帳號），就能這樣做：</p>
+		<ol>
+			<li>註冊時帶上 <code>role = system_admin</code>，成功。</li>
+			<li>資料庫裡真的多出一筆管理者。</li>
+			<li>用它登入，成功寫入受保護的資料表。</li>
+		</ol>
+		<p>也就是說，整套收緊，攻擊者多打一次註冊就完全繞過。<strong>這是我們在遷移時引入的設計缺陷，不是既有程式碼的問題</strong>。</p>
+		<p><strong>修法：改成邀請制。</strong><code>role</code> 不再由客戶端決定：</p>
+		<ul>
+			<li>新增邀請表，<strong>開啟 RLS 但刻意不建立任何 policy</strong>：客戶端連讀都讀不到，只有用 <code>SECURITY DEFINER</code> 定義的函式碰得到。</li>
+			<li>發邀請的 RPC 在內部檢查呼叫者是不是管理者，<strong>這才是真正的防線</strong>。</li>
+			<li>註冊函式只從邀請表拿角色（15 分鐘有效），<strong>完全不看客戶端傳的中繼資料</strong>；沒有有效邀請就丟例外，整筆交易回滾。</li>
+			<li>保留一個啟動條件：整張使用者表完全是空的時候，第一位註冊者自動成為管理者，否則新環境會沒人能發邀請，變成死鎖。</li>
+			<li>附帶好處：不必靠「記得去後台關閉公開註冊」這種容易忘記的手動步驟。</li>
+		</ul>
+
+		<h2>2. 匿名就能讀走機台清單與帳號清單</h2>
+		<p>修補前，只要有那把公開金鑰，匿名就能讀到完整的機台清單（含負責人的真實姓名）和完整的帳號清單（使用者名稱加角色，方便針對性攻擊）。把 SELECT policy 從「任何人」改成「必須已登入」。</p>
+		<p>有一張設定表我<strong>刻意</strong>維持公開讀取，不是漏掉：它在使用者登入之前就要被讀取（顯示客製的名稱），收緊會讓登入頁壞掉。這種「刻意的例外」要寫下來，否則下次檢查的人會把它當成漏洞。</p>
+
+		<h2>3. 檔案儲存匿名可以列出、上傳、刪除</h2>
+		<p>實測：匿名可以列出、上傳、<strong>刪除</strong>兩個 bucket 裡的檔案，等於能把所有機台照片和公司標誌刪掉，或換成任意內容。奇怪的是，原本的 SQL 裡根本沒建過 DELETE 的 policy，代表手動在後台設定時留下過名稱不明的寬鬆規則。重建後：讀取維持公開（照片靠公開網址下載），新增、更新、刪除收成只有管理者。</p>
+		<p><strong>踩到的坑：</strong>儲存區 policy 裡呼叫的函式，<strong>一定要加 <code>public.</code> 的 schema 前綴</strong>。儲存的請求不走 PostgREST，<code>search_path</code> 和一般資料表的 policy 不一樣，不加前綴會找不到函式。</p>
+
+		<h2>4. 停用帳號的三道防護</h2>
+		<p>原本的停用函式只檢查「呼叫者的角色」，完全不檢查對象是誰。所以可以停用自己（把自己鎖在門外）、低權限的管理者可以停用高權限的管理者。補上三道防護，並新增重新啟用。我也誠實記錄了一個發現：「不能停用最後一個管理者」這道防護實際上<strong>不可能被觸發</strong>，因為要走到那裡，呼叫者本身就必須是管理者，而前面的檢查已經擋掉了其他情況。</p>
+
+		<h2>5. 同一類問題的第三次：介面與資料庫不一致</h2>
+		<p>資料池的「新增數據」，任何角色都能按，但資料表在遷移後已收緊成只有管理者可寫。一般使用者按下去，只會拿到一個看不懂的資料庫錯誤。這已經是同一類問題的<strong>第三次</strong>。教訓：<strong>每次收緊一張表的 RLS，就要把 App 裡所有會寫這張表的入口一併清點，介面上要同步擋。</strong></p>
+
+		<h2>修補前後</h2>
+		<table>
+			<thead><tr><th>測試</th><th>修補前</th><th>修補後</th></tr></thead>
+			<tbody>
+				<tr><td>匿名註冊成管理者</td><td>成功</td><td>被擋下並回滾</td></tr>
+				<tr><td>匿名讀機台資料（含姓名）</td><td>讀到</td><td>0 筆</td></tr>
+				<tr><td>匿名讀帳號清單</td><td>全部列舉</td><td>0 筆</td></tr>
+				<tr><td>匿名上傳或刪除檔案</td><td>成功</td><td>被拒絕</td></tr>
+				<tr><td>公開網址下載照片</td><td>可</td><td>可（沒有被收緊弄壞）</td></tr>
+				<tr><td>管理者用邀請制建帳號</td><td>—</td><td>成功</td></tr>
+				<tr><td>進階管理者停用系統管理者</td><td>成功</td><td>被擋下</td></tr>
+			</tbody>
+		</table>
+
+		<h2>檢查過、沒有問題的</h2>
+		<ul>
+			<li><strong>SQL injection</strong>：動態拼接的 SQL 只用在資料表名稱，而表名全部來自寫死的字典，不是使用者輸入；所有「值」都用參數化。</li>
+			<li><strong>log 檔</strong>：沒有密碼或金鑰。</li>
+		</ul>
+
+		<h2>帶走的幾件事</h2>
+		<ul>
+			<li><strong>資安修補本身，是最容易引入新漏洞的地方。</strong>修完一定要用「攻擊者」的角度再測一次，不是只測「正常使用者還能不能用」。</li>
+			<li>實測攻擊勝過推論。「理論上擋得住」和「我試過了、被擋下」是兩種不同強度的結論。</li>
+			<li><strong>永遠不要信任客戶端傳來、而且攻擊者可以任意填寫的欄位</strong>（例如使用者中繼資料）。</li>
+			<li>內嵌在安裝檔裡的金鑰，一律當作公開的。真正的防線在資料庫那一側。</li>
+			<li>刻意的例外要記錄成「刻意」，不然就會被當成漏洞，或被別人「順手修掉」而弄壞功能。</li>
+		</ul>
+	</article>
+</div>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../../main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
+</html>

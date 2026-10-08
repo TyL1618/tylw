@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>程式什麼都沒做就自己閃退 — TyL</title>
+<meta name="description" content="從 Windows 事件檢視器的當機紀錄，追到 Qt 執行緒生命週期的 race condition，並改用執行緒池根治。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/main/notes/qthread-crash.html">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="程式什麼都沒做就自己閃退 — TyL">
+<meta property="og:description" content="從 Windows 事件檢視器的當機紀錄，追到 Qt 執行緒生命週期的 race condition，並改用執行緒池根治。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/main/notes/qthread-crash.html">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="../../assets/js/site.js" defer></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="../../index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
+	</div>
+</header>
+<main id="main">
+<div class="wrap">
+	<header class="prose-head reveal">
+		<a class="back-link" href="../../main/notes.html">← 技術筆記</a>
+		<h1>程式「什麼都沒做就自己閃退」：從當機紀錄追到 Qt 執行緒的 race condition</h1>
+		<p class="meta"><time datetime="2026-07">2026-07</time>　・　儀器軟體／穩定性</p>
+		<ul class="tags" aria-label="用到的技術"><li class="tag">PyQt</li><li class="tag">多執行緒</li><li class="tag">QThreadPool</li><li class="tag">當機分析</li><li class="tag">Windows 事件檢視器</li></ul>
+	</header>
+
+	<article class="prose reveal">
+		<div class="callout"><p><strong>AI 協作標示</strong>　這個專案是我與 AI 助手（Claude）協作開發的。本文依專案的開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。文中不含公司、客戶或機型名稱，程式碼皆為示意。</p></div>
+
+		<h2>症狀</h2>
+		<p>桌面程式放著不動，掛在副螢幕上，過一陣子「什麼都沒做就自己閃退」。沒有錯誤視窗，只是消失。</p>
+		<p>我們先前把閃退歸因於「同步的網路呼叫夾在兩個對話框之間」，修完之後<strong>還是閃退</strong>。這是這次最重要的提醒：第一個看起來合理的解釋，不一定是真的。</p>
+
+		<h2>決定性的證據：當機紀錄</h2>
+		<p>Windows 事件檢視器裡有三筆 <code>python.exe</code> 的當機紀錄，三筆的特徵完全一致：</p>
+		<ul>
+			<li>出錯的模組：<code>Qt6Core.dll</code></li>
+			<li>例外代碼：<code>0xc0000409</code></li>
+			<li>出錯的位移：三次都是同一個</li>
+		</ul>
+		<p>關鍵在 <code>0xc0000409</code>：它是 <code>STATUS_STACK_BUFFER_OVERRUN</code>，也就是 Windows 的 <code>__fastfail</code> 機制。<strong>這不是記憶體被寫壞，而是程式自己主動呼叫 abort 自殺</strong>。三次位移完全相同，代表每次都死在同一個檢查點。Qt 只有在確認自己的不變式被違反時才會這樣做，其中之一就是「一個仍在執行的執行緒物件被銷毀」。</p>
+
+		<h2>根因</h2>
+		<p>舊版的非同步工具要求每個呼叫端自己保管執行緒物件的參照，每處都寫成類似這樣：</p>
+<pre><code>thread, worker = run_async(fn, callback, *args)
+entry = (thread, worker)
+self._workers.append(entry)
+thread.finished.connect(lambda: self._workers.remove(entry))   # 危險</code></pre>
+		<p><code>QThread</code> 的 <code>finished</code> 訊號是在「事件迴圈已經結束、但原生執行緒還沒有真正終止」的空檔發出的。最後那行 lambda 就在這個瞬間移走了最後一個 Python 參照，物件被銷毀；Qt 看到一個還在跑的執行緒被銷毀，直接 abort。</p>
+		<p>這是 race condition，時序剛好對上才會炸，所以是偶發的。而背景輪詢的計時器每隔幾秒就會生出一條新執行緒，等於一直在賭這個 race。這完全對應「什麼都沒做、放著就閃退」。</p>
+
+		<h2>根治：不再自己管執行緒的生命週期</h2>
+		<p>把整個非同步工具改成 <code>QThreadPool</code> ＋ <code>QRunnable</code>：執行緒由 Qt 自己建立、重用、回收，<strong>Python 這邊完全沒有執行緒物件的生命週期要管</strong>，race condition 從源頭消失。連帶的好處：</p>
+		<ul>
+			<li>不必每次查詢都建立一條新的作業系統執行緒（輪詢改成每 500 ms 之後，這件事變得重要）。</li>
+			<li>七個檔案、十處樣板程式碼一併簡化，所有「自己保管 worker 清單」的程式碼都移除。</li>
+			<li>callback 包上 <code>RuntimeError</code> 保護：查詢還在飛的時候使用者把視窗關掉，不會再丟例外。</li>
+		</ul>
+		<p>關閉視窗的流程也補了一步：<strong>先停掉輪詢計時器，再等既有的查詢收尾</strong>。不然關閉過程中每 500 ms 還會再丟出一輪新查詢，永遠等不完。</p>
+
+		<h2>順便做的：把「查詢頻率」改成跟機台數量脫鉤</h2>
+		<p>我希望資料刷新越快越好，所以輪詢從 2～3 秒改成 500 ms。但<strong>不能只改計時器的數字</strong>：原本每一輪是「每台機器各查一次」，每個查詢都是獨立的背景工作。改成一條連線、兩個查詢就把所有機台的資料整批查回來，連線數和機台數量完全脫鉤。實測查回一台耗時約 0.12 秒，8 秒內回呼觸發 15 次，符合預期。</p>
+
+		<h2>帶走的幾件事</h2>
+		<ul>
+			<li>遇到沒有錯誤訊息的閃退，<strong>先去看作業系統留下的當機紀錄</strong>。例外代碼與位移是否每次一致，直接告訴你是隨機的記憶體問題，還是同一個地方的主動中止。</li>
+			<li>需要「每個呼叫端自己記得收尾」的設計，遲早有人漏掉。把責任收回給框架。</li>
+			<li>第一個合理的解釋被推翻時，不要把它當成失敗，那是在縮小範圍。</li>
+		</ul>
+	</article>
+</div>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../../main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
+</html>
