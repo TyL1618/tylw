@@ -7,6 +7,46 @@
 		document.addEventListener(type, (e) => { if (!inField(e)) e.preventDefault(); });
 	});
 
+	// -0. 作品頁「近期／過去」切換：淡出目前這區、淡入另一區；支援方向鍵與網址 #past
+	const tabs = document.querySelector('[data-tabs]');
+	const stage = document.querySelector('[data-tab-stage]');
+	if (tabs && stage) {
+		const btns = Array.from(tabs.querySelectorAll('[role="tab"]'));
+		const panelOf = (b) => document.getElementById(b.getAttribute('aria-controls'));
+		let current = btns[0];
+		let busy = false;
+		btns.forEach((b) => { if (b !== current) panelOf(b).hidden = true; });
+		const select = (btn, animate) => {
+			if (btn === current || busy) return;
+			const from = panelOf(current), to = panelOf(btn);
+			btns.forEach((b) => { b.setAttribute('aria-selected', String(b === btn)); b.tabIndex = b === btn ? 0 : -1; });
+			current = btn;
+			try { history.replaceState(null, '', btn.id === 'tab-past' ? '#past' : location.pathname + location.search); } catch (e) { /* ignore */ }
+			if (!animate) { from.hidden = true; to.hidden = false; return; }
+			busy = true;
+			stage.style.minHeight = stage.offsetHeight + 'px'; // 切換中先撐住高度，頁尾不會跳動
+			from.classList.add('is-fading');
+			setTimeout(() => {
+				from.hidden = true; from.classList.remove('is-fading');
+				to.classList.add('is-fading'); to.hidden = false;
+				void to.offsetWidth;
+				to.classList.remove('is-fading');
+				setTimeout(() => { stage.style.minHeight = ''; busy = false; }, 240);
+			}, 220);
+		};
+		btns.forEach((b, i) => {
+			b.addEventListener('click', () => select(b, true));
+			b.addEventListener('keydown', (e) => {
+				const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: btns.length - 1 }[e.key];
+				if (n === undefined) return;
+				e.preventDefault();
+				const t = btns[(n + btns.length) % btns.length];
+				t.focus(); select(t, true);
+			});
+		});
+		if (location.hash === '#past') select(btns[1], false);
+	}
+
 	// 0. 手機版漢堡選單：點按鈕開關；點選項、按 Esc、點選單外面、放大到桌機寬度都會收起
 	const navBtn = document.querySelector('.nav-toggle');
 	const nav = document.getElementById('site-nav');

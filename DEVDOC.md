@@ -56,7 +56,7 @@ exam/                      線上考卷系統（自成一格）
 - **AI 協作要明確標示**：只在筆記範圍內：每篇文章開頭用 `{{> ai-note}}`，筆記頁頂端有說明。**頁尾與關於頁都不放**（使用者明確說過 AI 協作只在筆記內提到就好，頁尾只留 © 與名稱）。大學時期的作品與最初版網站是手寫的，沒有 AI。
 - **筆記是時間軸**：全文（有完整文章）與短記（幾行就說完）依月份由新到舊混排。清單與首頁的「技術筆記」區塊由 `tools/gen-notes-index.py` 依裡面的 `ENTRIES` 資料產生。
 - **新增筆記**：①（全文才需要）複製 `src/pages/main/notes/` 裡一篇，改 front matter 與內容；②在 `tools/gen-notes-index.py` 的 `ENTRIES` 加一筆（全文給 slug，短記給 `None`）；③依序執行 `python tools/gen-notes-index.py` 與 `node tools/build-site.mjs`。
-- **作品頁分兩區**：「近期專案」（TaiexRider、SecureChat、NeonSweep、UFO Duel、CyberMind）與「學生時期作品」。有與 Claude 協作的專案，卡片上有一行小字 `Co-developed with Claude`；早期無 AI 的作品不標。TaiexRider 只連 Google Play（不連網頁版、不連原始碼）。UFO Duel、CyberMind 連 Cloudflare Workers 上的線上版（`*.tyl161803.workers.dev`）。UFO Duel 的連線對戰依賴 Supabase，免費專案閒置會被暫停；單機模式不受影響。
+- **作品頁分兩區，用切換鈕「近期作品／過去作品」一次顯示一區**（淡出再淡入約 0.4 秒；支援方向鍵與網址 `#past`；沒有 JS 時兩區上下排列）。邏輯在 `site.js` 的 `data-tabs` 區塊。近期作品（TaiexRider、SecureChat、NeonSweep、UFO Duel、CyberMind）與過去作品（學生時期）。有與 Claude 協作的專案，卡片上有一行小字 `Co-developed with Claude`；早期無 AI 的作品不標。TaiexRider 只連 Google Play（不連網頁版、不連原始碼）。UFO Duel、CyberMind 連 Cloudflare Workers 上的線上版（`*.tyl161803.workers.dev`）。UFO Duel 的連線對戰依賴 Supabase，免費專案閒置會被暫停；單機模式不受影響。
 - **新增作品**：在 `assets/img/works/` 放一張 960x600 的 webp 縮圖，在 `src/partials/` 新增 `card-xxx.html`，到 `works.html`（和首頁）引用，建置。
 - **改色／字型／間距**：只動 `assets/css/site.css` 最上面的 `:root` 變數。
 - **二十一點的遊戲邏輯只靠元素 ID**，改版面時 ID 與 `onclick` 要保留。
