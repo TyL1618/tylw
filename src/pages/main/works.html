@@ -1,18 +1,30 @@
 ---
 out: main/works.html
 title: 作品
-description: {{handle}} 的作品：網頁二十一點、研究所資料檢索系統、S-DES 加解密，以及 GlowScript 物理模擬。
+description: {{handle}} 的作品：Google Play 上架的 Android 遊戲、PWA、桌面軟體，以及學生時期的網頁作品。
 nav: works
 ---
 <div class="wrap">
 	<div class="page-title reveal">
 		<h1>作品</h1>
-		<p>大多是學生時期的課程作業與專題，純前端、不依賴後端。每一個都附上試玩連結。</p>
+		<p>近期的專案放在前面，學生時期的課程作業與專題在後面。</p>
 	</div>
 </div>
 
 <section class="section wrap reveal" style="padding-top: 24px">
-	<h2 class="sr-only">全部作品</h2>
+	<div class="section-head"><h2>近期專案</h2></div>
+	<div class="cards">
+		{{> card-taiexrider}}
+		{{> card-securechat}}
+		{{> card-neonsweep}}
+		{{> card-ufo-duel}}
+		{{> card-cybermind}}
+	</div>
+</section>
+
+<section class="section wrap reveal" style="padding-top: 8px">
+	<div class="section-head"><h2>學生時期作品</h2></div>
+	<p class="section-note">大學課程作業與專題，純前端、不依賴後端，都可以直接試玩。</p>
 	<div class="cards">
 		{{> card-blackjack}}
 		{{> card-gs-search}}

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>作品 — TyL</title>
-<meta name="description" content="TyL 的作品：網頁二十一點、研究所資料檢索系統、S-DES 加解密，以及 GlowScript 物理模擬。">
+<meta name="description" content="TyL 的作品：Google Play 上架的 Android 遊戲、PWA、桌面軟體，以及學生時期的網頁作品。">
 <meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://tyl1618.github.io/tylw/main/works.html">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="TyL">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="作品 — TyL">
-<meta property="og:description" content="TyL 的作品：網頁二十一點、研究所資料檢索系統、S-DES 加解密，以及 GlowScript 物理模擬。">
+<meta property="og:description" content="TyL 的作品：Google Play 上架的 Android 遊戲、PWA、桌面軟體，以及學生時期的網頁作品。">
 <meta property="og:url" content="https://tyl1618.github.io/tylw/main/works.html">
 <meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,12 +44,109 @@
 <div class="wrap">
 	<div class="page-title reveal">
 		<h1>作品</h1>
-		<p>大多是學生時期的課程作業與專題，純前端、不依賴後端。每一個都附上試玩連結。</p>
+		<p>近期的專案放在前面，學生時期的課程作業與專題在後面。</p>
 	</div>
 </div>
 
 <section class="section wrap reveal" style="padding-top: 24px">
-	<h2 class="sr-only">全部作品</h2>
+	<div class="section-head"><h2>近期專案</h2></div>
+	<div class="cards">
+		<article class="card">
+	<a class="card-thumb" href="https://play.google.com/store/apps/details?id=com.tylapp.taiexrider" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/taiexrider.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="https://play.google.com/store/apps/details?id=com.tylapp.taiexrider" target="_blank" rel="noopener">台股騎士 <span lang="en">TaiexRider</span></a></h3>
+		<p>Google Play 正式上架的 Android 遊戲。把前一個交易日的台股走勢變成 2D 霓虹機車賽道，有每日排名賽、收藏車庫與任務系統。以 React 開發，用 Capacitor 打包成 Android App 上架。</p>
+		<p class="coop">Co-developed with Claude</p>
+		<ul class="tags">
+			<li class="tag">React</li>
+			<li class="tag">TypeScript</li>
+			<li class="tag">Matter.js</li>
+			<li class="tag">Capacitor</li>
+			<li class="tag">Supabase</li>
+			<li class="tag">Cloudflare Pages</li>
+		</ul>
+		<div class="card-links">
+			<a href="https://play.google.com/store/apps/details?id=com.tylapp.taiexrider" target="_blank" rel="noopener">在 Google Play 安裝 ↗</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="https://securechat-011.pages.dev" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/securechat.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="https://securechat-011.pages.dev" target="_blank" rel="noopener">SecureChat</a></h3>
+		<p>邀請制的端對端加密私人通訊 PWA。訊息在裝置端以 AES-256-GCM 加密後才送出，伺服器上只有密文；支援 WebRTC 點對點直連、指紋解鎖與推播通知。需要邀請連結才能註冊。</p>
+		<p class="coop">Co-developed with Claude</p>
+		<ul class="tags">
+			<li class="tag">PWA</li>
+			<li class="tag">Web Crypto API</li>
+			<li class="tag">WebRTC</li>
+			<li class="tag">Supabase</li>
+			<li class="tag">Service Worker</li>
+		</ul>
+		<div class="card-links">
+			<a href="https://securechat-011.pages.dev" target="_blank" rel="noopener">開啟 App ↗</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="https://github.com/TyL1618/NeonSweep" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/neonsweep.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="https://github.com/TyL1618/NeonSweep" target="_blank" rel="noopener">NeonSweep</a></h3>
+		<p>Windows 磁碟清理工具，PyQt6 的深色霓虹介面。掃描、預覽、清理三段式：刪除前一定先讓你看到會刪什麼並勾選確認。另有大檔案、重複檔案、開發快取、系統空間與磁碟健康（S.M.A.R.T.）診斷。</p>
+		<p class="coop">Co-developed with Claude</p>
+		<ul class="tags">
+			<li class="tag">Python</li>
+			<li class="tag">PyQt6</li>
+			<li class="tag">WinAPI</li>
+			<li class="tag">PyInstaller</li>
+		</ul>
+		<div class="card-links">
+			<a href="https://github.com/TyL1618/NeonSweep" target="_blank" rel="noopener">GitHub ↗</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="https://ufo-duel.tyl161803.workers.dev" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/ufo-duel.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="https://ufo-duel.tyl161803.workers.dev" target="_blank" rel="noopener">UFO Duel</a></h3>
+		<p>回合制多人射擊 PWA。2 到 4 名玩家操控飛碟，在隨機地圖上輪流移動或射擊，子彈會在硬牆間反彈、擊破軟牆。有單機（Bot）、私人連線與快速配對模式。</p>
+		<p class="coop">Co-developed with Claude</p>
+		<ul class="tags">
+			<li class="tag">React</li>
+			<li class="tag">TypeScript</li>
+			<li class="tag">Canvas</li>
+			<li class="tag">Supabase Realtime</li>
+			<li class="tag">Tailwind CSS</li>
+		</ul>
+		<div class="card-links">
+			<a href="https://ufo-duel.tyl161803.workers.dev" target="_blank" rel="noopener">開始遊玩 ↗</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="https://cybermind.tyl161803.workers.dev" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/cybermind.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="https://cybermind.tyl161803.workers.dev" target="_blank" rel="noopener">CyberMind</a></h3>
+		<p>記憶挑戰 PWA。先記住盤面，再回答顏色、位置、順序、數量、反向五種題型，越後面越難。內建繁中與英文、可暫停計時、音效。</p>
+		<p class="coop">Co-developed with Claude</p>
+		<ul class="tags">
+			<li class="tag">React 19</li>
+			<li class="tag">TypeScript</li>
+			<li class="tag">Tailwind CSS 4</li>
+			<li class="tag">Framer Motion</li>
+			<li class="tag">Capacitor</li>
+		</ul>
+		<div class="card-links">
+			<a href="https://cybermind.tyl161803.workers.dev" target="_blank" rel="noopener">開始遊玩 ↗</a>
+		</div>
+	</div>
+</article>
+	</div>
+</section>
+
+<section class="section wrap reveal" style="padding-top: 8px">
+	<div class="section-head"><h2>學生時期作品</h2></div>
+	<p class="section-note">大學課程作業與專題，純前端、不依賴後端，都可以直接試玩。</p>
 	<div class="cards">
 		<article class="card">
 	<a class="card-thumb" href="../main/works/blackjack/BlackJack.html" tabindex="-1" aria-hidden="true"><img src="../assets/img/works/blackjack.webp" width="960" height="600" loading="lazy" alt=""></a>

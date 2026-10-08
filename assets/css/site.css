@@ -143,6 +143,7 @@ main { display: block; flex: 1 0 auto; }
 	margin-bottom: 22px;
 }
 .section-head h2 { font-size: 1.35rem; }
+.section-note { margin: -6px 0 18px; color: var(--muted); font-size: .95rem; }
 .section-head a { font-size: .92rem; color: var(--muted); text-decoration: none; }
 .section-head a:hover { color: var(--accent); }
 
@@ -228,6 +229,7 @@ main { display: block; flex: 1 0 auto; }
 .card h3 a { color: var(--text); text-decoration: none; }
 .card h3 a:hover { color: var(--accent); }
 .card p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.65; }
+.card p.coop { font-size: .8rem; color: var(--muted); opacity: .75; }
 .card-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: auto; padding-top: 6px; font-size: .9rem; font-weight: 500; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
