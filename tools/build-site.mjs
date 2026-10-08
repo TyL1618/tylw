@@ -33,7 +33,7 @@ const HANDLE = 'TyL';
 const REAL_NAME = '蔡昀龍';
 const SITE = HANDLE;
 const OG_IMAGE = 'assets/img/og-image.png';
-// Cloudflare Web Analytics 的 token（匿名、不使用 cookie）。留空就不載入統計，也不顯示頁尾說明。
+// Cloudflare Web Analytics 的 token（匿名、不使用 cookie）。留空就不載入統計。頁尾不放任何說明（使用者決定）。
 const CF_ANALYTICS_TOKEN = 'ed0323b6706c4dc79fd3122a069a953c';
 const CHECK = process.argv.includes('--check');
 
@@ -99,7 +99,6 @@ function render({ meta, content, src }) {
 		body_class: meta.body_class ?? '', site: SITE,
 		analytics: CF_ANALYTICS_TOKEN
 			? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${CF_ANALYTICS_TOKEN}"}'></script>` : '',
-		footer_note: CF_ANALYTICS_TOKEN ? '<span>匿名訪客統計（Cloudflare Web Analytics，不使用 cookie）</span>' : '',
 	};
 	let html = layout.replace('{{content}}', () => fill(includePartials(content, src).trim()));
 	html = includePartials(html, 'layout.html');
