@@ -1,5 +1,44 @@
 # DEVDOC
 
+## 個人網站（根目錄、`main/`）
+
+純靜態（原生 HTML/CSS/JS，無建置步驟、無後端），部署在 GitHub Pages：<https://tyl1618.github.io/tylw/>。
+`exam/` 是獨立的線上考卷系統（見下一節），刻意不連到個人網站，也不共用 CSS/JS。
+
+### 目錄結構
+
+```
+index.html            首頁（太陽系動畫）
+CSS.css               全站共用樣式（含手機版選單）
+site.js               全站共用腳本：手機選單開關、隱藏載入圈圈（不依賴 jQuery）
+icon.png tyl.png menu.png   favicon／logo／選單圖示
+main/
+  about.html          關於我
+  works.html          作品列表（只放下面三個作品與兩個 GlowScript 外連）
+  contact.html        聯絡方式
+  course-team-code.html   大學課程與同學合作的程式碼（紀念用，沒有任何連結指向它）
+  works/
+    blackjack/        二十一點（BlackJack.html 與 cheat.html 兩種模式，自帶 CSS 與圖片）
+    gs-search.html    臺灣研究所資料檢索系統（查 Google 試算表）
+    s-des.html + S_DES_.js + jquery-3.3.1.min.js   S-DES 加解密（仍用 jQuery）
+exam/                 線上考卷系統
+```
+
+### 慣例
+
+- 頁面之間一律用**相對路徑**連結，這樣本機預覽（`python -m http.server`）跟線上行為一致。
+- 新增頁面：複製 `main/about.html` 的 `<head>` 與 `<header>`，並在每一頁的選單加上連結。
+- 每頁都要有 `<meta charset="utf-8">`（否則本機預覽中文會亂碼）與 `width=device-width` 的 viewport。
+- 區塊標題用 `class="section-title"`（標楷體＋滑過發光），分隔線用 `<hr class="split">`（`narrow` 為 50% 寬）。
+- 本機預覽時瀏覽器可能快取舊的 CSS/HTML，改了沒反應就強制重新整理。
+
+### 外部相依
+
+- Font Awesome 4.7（`about`、`contact` 的社群圖示）、AOS 2.3.4（捲動進場動畫）：都從 cdnjs 載入，版本已固定。
+- `gs-search.html` 的資料來源是一份 Google 試算表（網址與各分頁 gid 寫在頁面內的 `SHEET_URL`、`SHEETS`）。
+
+---
+
 ## 線上考卷系統（`exam/`）
 
 高職英文選擇題考卷的自動批改網頁。純靜態（原生 HTML/CSS/JS，無建置步驟、無後端），

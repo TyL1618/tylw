@@ -3,3 +3,6 @@ ENG/
 
 # 明文答案備份（只留在本機，絕不可提交）
 exam/exams-plain/
+
+# 套件目錄不進版控
+node_modules/

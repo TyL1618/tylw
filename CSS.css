@@ -3,97 +3,49 @@ body {
 	background-color: black;
 	-ms-overflow-style: none; /* for Internet Explorer, Edge */
 	scrollbar-width: none; /* for Firefox */
-	overflow-y: scroll; 
+	overflow-y: scroll;
 	overflow-x: hidden;
 }
-
-
 
 body::-webkit-scrollbar {
 	display: none; /* for Chrome, Safari, and Opera */
 }
 
-html {
-}
-
-txt {
-	color: green;
-}
-
-h1 {
+h1, h2, h3, h4, h5, h6 {
 	text-align: center;
 	color: white;
 }
 
-h2 {
-	text-align: center;
-	color: white;
-}
-
-h3 {
-	text-align: center;
-	color: white;
-}
-
-h4 {
-	text-align: center;
-	color: white;
-}
-
-h5 {
-	text-align: center;
-	color: white;
-}
-
-h6 {
-	text-align: center;
-	color: white;
-}
-td {
+td, th, p {
 	text-align: center;
 	color: #90EE90;
 }
 
-th {
-	text-align: center;
-	color: #90EE90;
-}
-
-p {
-	text-align: center;
-	color: #90EE90;
-}
-
-img{
+img {
 	width: auto;
 	height: auto;
-    max-width: 100%;
-    max-height: 100%;
-	-drag: none;
+	max-width: 100%;
+	max-height: 100%;
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-	-webkit-user-drag: none; 
+	user-select: none;
+	-webkit-user-drag: none;
 }
 
 .imgcollection {
-    max-width:100%;
-    max-height: 100%;
-	/*border-radius: 100px;*/
-}
-
-.imgprofile {
-    max-width: 20%;
-    max-height: 20%;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 hr.split {
-    border: 0;
-    height: 6px;
-    background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(255,255,255,0.75), rgba(0,0,0,0));
+	width: 70%;
+	border: 0;
+	height: 6px;
+	background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(255,255,255,0.75), rgba(0,0,0,0));
+}
+
+hr.split.narrow {
+	width: 50%;
 }
 
 .center {
@@ -102,68 +54,52 @@ hr.split {
 	margin-right: auto;
 }
 
-.top {
-	margin: 30% auto 0%;
-}
-
-.left {
-	float: left;
-	margin-left: 0%;
-}
-
-.right {
-	float: right;
-	margin-right: 0%;
-}
-
 .aboutcss {
-    color:white; 
-    font-size:1.4em; 
-    font-family:標楷體; 
-    line-height:35px;
-    width: 200px;
-    text-align: left; 
+	color: white;
+	font-size: 1.4em;
+	font-family: 標楷體;
+	line-height: 35px;
+	width: 200px;
+	text-align: left;
 }
 
 .multibr::before {
-  content: "\A\A\A"; 
-  white-space: pre;
+	content: "\A\A\A";
+	white-space: pre;
 }
 
+/* 各頁的區塊標題（原本每頁各寫一份 inline style） */
+.section-title {
+	font-family: 標楷體;
+	cursor: default;
+	transition: .5s;
 }
 
-canvas { 
-	background: gray; 
-}
-
-section
-{
-	width: 20%; 
-    margin-right:auto;
-    margin-left:auto;
-}
-
-.animated {
-  opacity: 0;
-}
-
-.fadeIn {
-  opacity: 1;
+.section-title:hover {
+	color: #fff;
+	text-shadow: 0 0 5px #03e9f4,
+	             0 0 25px #03e9f4,
+	             0 0 50px #03e9f4,
+	             0 0 100px #03e9f4;
 }
 
 .noselect {
 	-webkit-touch-callout: none; /* iOS Safari */
-		-webkit-user-select: none; /* Safari */
-			-khtml-user-select: none; /* Konqueror HTML */
-				-moz-user-select: none; /* Firefox */
-					-ms-user-select: none; /* Internet Explorer/Edge */
-						user-select: none; /* Non-prefixed version, currently
-							supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	user-select: none;
 }
 /* #########################################################上排列表################################################################ */
 
-.showmenu{
+.showmenu {
 	display: none;
+}
+
+.showmenu img {
+	max-height: 100%;
+	max-width: 100%;
+	width: 30px;
+	height: 30px;
+	padding: 30%;
 }
 
 .container3 {
@@ -205,7 +141,6 @@ header::after {
 	clear: both;
 }
 
-
 .logo {
     float: left;
     height: 60px;
@@ -218,7 +153,6 @@ header::after {
     display: flex; /* 使用 Flexbox 佈局 */
     align-items: center; /* 垂直居中 */
 }
-
 
 ol, ul {
 	margin: 0;
@@ -241,15 +175,6 @@ ol, ul {
 
 .menu li a:hover::before {
 	width: 100%;
-}
-
-.content{
-	padding: 1em;
-	line-height: 1.8;
-}
-
-.content p{
-	margin-bottom: 1em;
 }
 
 /* #########################################################彩虹邊框################################################################ */
@@ -291,82 +216,6 @@ ol, ul {
         background-position: 300%;
     }
 }
-/* #########################################################輸入文字特效################################################################ */
-
-.container {
-	width: 80%;
-	margin: 0% auto;
-}
-
-.typing-txt-block {
-	height: 12vh;
-	display: block;
-	background-image: url("./bg.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-}
-
-.typing-txt-block.bg-animation {
-	-webkit-animation: bg-animation 20s ease-in-out infinite;
-	animation: bg-animation 20s ease-in-out infinite;
-}
-
-@keyframes bg-animation {
-	0% {
-		background-position: top;
-	}
-	50% {
-		background-position: bottom;
-	}
-	100% {
-		background-position: top;
-	}
-}
-
-.typing-txt-block .container h1 {
-	position: absolute;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-	text-transform: uppercase;
-	margin: 3% auto;
-	letter-spacing: 5px;
-	color: transparent;
-}
-
-.typing-txt-block .container h1::before {
-	content: attr(data-text);
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	color: #fff;
-	overflow: hidden;
-	border-right: 1px solid #ffffff;
-	animation: type 3s steps(18), blink 0.5s infinite alternate;
-	-webkit-animation: type 3s steps(18), blink 0.5s infinite alternate;
-	white-space: nowrap;
-}
-
-@keyframes type {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 100%;
-	}
-}
-
-@keyframes blink {
-	from {
-		border-color: transparent;
-	}
-	to {
-		border-color: #ffffff;
-	}
-}
 /* #########################################################solarsystem################################################################ */
 
 :root 
@@ -383,11 +232,8 @@ ol, ul {
 
 *, *::after, *::before
 {
-    -webkit-box-sizing: content-box;
-       -moz-box-sizing: content-box;
             box-sizing: content-box;
 }
-
 
 body #solar-system
 {
@@ -395,15 +241,7 @@ body #solar-system
     width: 100vw;
     height: 70vh;
 
-    -webkit-transform: skewX(-45deg);
-       -moz-transform: skewX(-45deg);
-        -ms-transform: skewX(-45deg);
-         -o-transform: skewX(-45deg);
             transform: skewX(-45deg);
-    -webkit-transform-origin: center;
-       -moz-transform-origin: center;
-        -ms-transform-origin: center;
-         -o-transform-origin: center;
             transform-origin: center;
 
     justify-content: center;
@@ -421,27 +259,13 @@ section #sun
     width: 174.085px; /* ✑ 40* too small compared to the #planets{} dimensions values */
     height: 174.085px;
 
-    -webkit-transform: skewX(45deg);
-       -moz-transform: skewX(45deg);
-        -ms-transform: skewX(45deg);
-         -o-transform: skewX(45deg);
             transform: skewX(45deg);
 
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
             background: var(--glossy-red);
             background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
 
-    -webkit-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
-       -moz-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
-         -o-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
-        -ms-background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
             filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
-    -webkit-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
-       -moz-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
-         -o-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
-        -ms-filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
 }
 
 /* planets */
@@ -457,17 +281,11 @@ article #mercury
     height: 24.397px;
     /* ✑ rotation period of mercury: 58.645 days */
 
-    -webkit-animation: planets-rotation 29.3225s linear infinite;
-       -moz-animation: planets-rotation 29.3225s linear infinite;
-        -ms-animation: planets-rotation 29.3225s linear infinite;
-         -o-animation: planets-rotation 29.3225s linear infinite;
             animation: planets-rotation 29.3225s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--planets-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
     background: var(--hidden-red);
 
@@ -486,17 +304,11 @@ article #venus
     height: 60.518px;
     /* ✑ rotation period of venus 243.023 days */
 
-    -webkit-animation: planets-rotation 121.513s linear infinite;
-       -moz-animation: planets-rotation 121.513s linear infinite;
-        -ms-animation: planets-rotation 121.513s linear infinite;
-         -o-animation: planets-rotation 121.513s linear infinite;
             animation: planets-rotation 121.513s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--planets-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
     background: var(--hidden-red);
 
@@ -515,17 +327,11 @@ article #earth
     height: 63.71px;
     /* ✑ animation-duration: .5s = 24hours on earth */
 
-    -webkit-animation: planets-rotation .4874s linear infinite;
-       -moz-animation: planets-rotation .4874s linear infinite;
-        -ms-animation: planets-rotation .4874s linear infinite;
-         -o-animation: planets-rotation .4874s linear infinite;
             animation: planets-rotation .4874s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--planets-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
     background: var(--hidden-red);
 
@@ -540,21 +346,11 @@ article #earth::after
     height: 40%;
 
     content: '';
-    -webkit-animation: earth-blinking 2s linear infinite;
-       -moz-animation: earth-blinking 2s linear infinite;
-        -ms-animation: earth-blinking 2s linear infinite;
-         -o-animation: earth-blinking 2s linear infinite;
             animation: earth-blinking 2s linear infinite;
 
-    -webkit-border-radius: inherit;
-       -moz-border-radius: inherit;
             border-radius: inherit;
     background: var(--glossy-red);
 
-    -webkit-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-       -moz-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-         -o-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-        -ms-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
             filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
 }
 article #mars
@@ -569,17 +365,11 @@ article #mars
     height: 33.895px;
     /* ✑ animation-duration: .5s = 24hours on earth */
 
-    -webkit-animation: planets-rotation .5128s linear infinite;
-       -moz-animation: planets-rotation .5128s linear infinite;
-        -ms-animation: planets-rotation .5128s linear infinite;
-         -o-animation: planets-rotation .5128s linear infinite;
             animation: planets-rotation .5128s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--planets-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
     background: var(--hidden-red);
 
@@ -595,15 +385,9 @@ article #mercury::after
 
     content: '';
 
-    -webkit-border-radius: inherit;
-       -moz-border-radius: inherit;
             border-radius: inherit;
     background: var(--glossy-red);
 
-    -webkit-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-       -moz-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-         -o-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-        -ms-filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
             filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
 }
 
@@ -618,17 +402,11 @@ section #mercury-trajectory
     height: 203.085px;
     /* ✑ revolution of mercury: 87.969 days */
 
-    -webkit-animation: solar-revolution 43.9845s linear infinite;
-       -moz-animation: solar-revolution 43.9845s linear infinite;
-        -ms-animation: solar-revolution 43.9845s linear infinite;
-         -o-animation: solar-revolution 43.9845s linear infinite;
             animation: solar-revolution 43.9845s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--paths-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
 }
 section #venus-trajectory
@@ -640,17 +418,11 @@ section #venus-trajectory
     height: 257.085px;
     /* ✑ revolution of venus: 224.667 days */
 
-    -webkit-animation: solar-revolution 112.3335s linear infinite;
-       -moz-animation: solar-revolution 112.3335s linear infinite;
-        -ms-animation: solar-revolution 112.3335s linear infinite;
-         -o-animation: solar-revolution 112.3335s linear infinite;
             animation: solar-revolution 112.3335s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--paths-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
 }
 section #earth-trajectory
@@ -662,17 +434,11 @@ section #earth-trajectory
     height: 332.085px;
     /* ✑ revolution of the earth: 365.2422 days */
 
-    -webkit-animation: solar-revolution 182.6211s linear infinite;
-       -moz-animation: solar-revolution 182.6211s linear infinite;
-        -ms-animation: solar-revolution 182.6211s linear infinite;
-         -o-animation: solar-revolution 182.6211s linear infinite;
             animation: solar-revolution 182.6211s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--paths-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
 }
 section #mars-trajectory
@@ -684,17 +450,11 @@ section #mars-trajectory
     height: 446.085px;
     /* ✑ revolution of mars: 686.885 days */
 
-    -webkit-animation: solar-revolution 343.4425s linear infinite;
-       -moz-animation: solar-revolution 343.4425s linear infinite;
-        -ms-animation: solar-revolution 343.4425s linear infinite;
-         -o-animation: solar-revolution 343.4425s linear infinite;
             animation: solar-revolution 343.4425s linear infinite;
 
     border-width: 2px;
     border-style: solid;
     border-color: var(--paths-theme);
-    -webkit-border-radius: 50%;
-       -moz-border-radius: 50%;
             border-radius: 50%;
 }
 
@@ -865,7 +625,7 @@ smartphone*/
 	top: 0;
 	left: 0;
 	opacity: 0.7;
-	background-color: #black;
+	background-color: #000;
 	z-index: 99;
 }
 
@@ -1033,187 +793,41 @@ smartphone*/
     transition-delay: .4s;
 }
 
-/* Galaxy */
-
-.blob {
-	margin:-5% auto 10%;
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-    border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
-    background: url('./Galaxy.jpg');
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 0 15px rgba(0, 0, 0, .2);
-    animation: blob 3.7s linear infinite;
+/* #########################################################聯絡頁################################################################ */
+.contact-list {
+	max-width: 420px;
+	margin: 40px auto 60px;
+	padding: 0 16px;
 }
 
-@keyframes blob {
-    0%, 100% {
-        border-radius:
-            42% 56% 72% 28% / 42% 42% 56% 48%;
-    }
-
-    33% {
-        border-radius:
-            42% 28% 48% 48% / 28% 28% 72% 72%;
-    }
-
-    66% {
-        border-radius:
-            100% 56% 56% 100% / 100% 100% 56% 56%;
-    }
+.contact-list li {
+	margin: 16px 0;
 }
 
-
-/* 骰子*/
-.container2 {
-	margin: 5% auto 10%;
-    display: grid;
-    place-items: center;
-    width: 250px;
-    padding: 60px 0 40px;
-    border-radius: 30px;
-    background: #eeeeee;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+.contact-list a {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 16px 22px;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, .05);
+	color: #f9f9f9;
+	text-decoration: none;
+	font-size: 1.1em;
+	transition: .3s;
 }
 
-/*
-    Dice Styles
-*/
-
-.dice {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    transform-style: preserve-3d;
-    transition: 1s ease;
+.contact-list a:hover {
+	background: rgba(85, 214, 170, .2);
+	color: #55d6aa;
 }
 
-@keyframes rolling {
-    50% {
-        transform: rotateX(455deg) rotateY(455deg);
-    }
+.contact-list i {
+	width: 1.4em;
+	text-align: center;
+	font-size: 1.4em;
 }
 
-.face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    border: 5px solid #f6f3f0;
-    transform-style: preserve-3d;
-    background: linear-gradient(
-        145deg, #dddbd8, #fff
-    );
-}
-
-.face::before {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    background: #f6f3f0;
-    transform: translateZ(-1px);
-}
-
-.face::after {
-    position: absolute;
-    content: '';
-    top: 50%;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #131210;
-}
-
-.front {
-    transform: translateZ(50px);
-}
-
-.back {
-    transform: rotateX(180deg) translateZ(50px);
-}
-
-.top {
-    transform: rotateX(90deg) translateZ(80px);
-}
-
-.bottom {
-    transform: rotateX(-90deg) translateZ(50px);
-}
-
-.right {
-    transform: rotateY(90deg) translateZ(50px);
-}
-
-.left {
-    transform: rotateY(-90deg) translateZ(50px);
-}
-
-.front::after {
-    width: 30px;
-    height: 30px;
-    background: #f63330;
-    margin: -15px 0 0 -15px;
-}
-
-.back::after {
-    margin: -35px 0 0 -30px;
-    box-shadow: 40px 0,
-                0 25px,
-                40px 25px,
-                0 50px,
-                40px 50px;
-}
-
-.top::after {
-    margin: -30px 0 0 -30px;
-    box-shadow: 40px 40px;
-}
-
-.bottom::after {
-    margin: -36px 0 0 -36px;
-    box-shadow: 26px 26px,
-                52px 52px,
-                52px 0,
-                0 52px;
-}
-
-.right::after {
-    margin: -30px 0 0 -30px;
-    box-shadow: 40px 0,
-    0 40px,
-    40px 40px;
-}
-
-.left::after {
-    margin: -35px 0 0 -35px;
-    box-shadow: 25px 25px,
-                50px 50px;
-}
-
-/*
-    Roll Button styles
-*/
-
-.roll {
-    cursor: pointer;
-    color: #b33951;
-    margin-top: 60px;
-    padding: 6px 12px;
-    border-radius: 3px;
-    font: 700 16px 'Montserrat';
-    border: 2px solid #b33951;
-    transition: .4s;
-}
-
-.roll:hover {
-    color: #fff;
-    background: #b33951;
-}
 /* #########################################################Footer################################################################ */
 .footer-content {
     background-color: #333;
@@ -1237,7 +851,6 @@ smartphone*/
 .footer-content .contact-info .email-link:hover {
     color: #8080C0; /* 懸停時改變超連結的顏色 */
 }
-
 
 /* #########################################################RWD響應式頁面################################################################ */
 @media (max-width: 1106px) {
@@ -1289,7 +902,7 @@ smartphone*/
 		float: right;
 		margin-top: 1em;
 	}
-	/*jQ點擊後動態在 body 加上 class */
+	/* site.js 點擊後動態在 body 加上 class */
 	.menu-show .menu{
 		max-height: 500px;
 	}
@@ -1299,119 +912,35 @@ smartphone*/
 		transition: all ease-in-out 400ms;
 	}
 /* #########################################################其他################################################################ */
-	.typing-txt-block .container h1	{
-		position: absolute;
-		top: 25px;
-		font-size:100%;
-	}
-	.typing-txt-block{
-		position: relative;
-		height: 45px;
-	}
-
-	svg {
-		display: block;
-		font: 10.5em 'Montserrat';
-		width: 360px;
-		height: 100px;
-		margin: 0 auto;
-	}
 	h1 {
 		margin: 10% auto;
 	}
-	.left {
-		float: center;
-	}
-	.right {
-		float: center;
-	}
-	hr.split {
-		align: center;
-	}
 	.aboutcss {
-	  color:white; 
-	  font-size:1.0em; 
-	  font-family:標楷體; 
-	  line-height:35px;
-	  width: 200px;
-	}
-
-	.imgprofile {
-		max-width: 50%;
-		max-height: 50%;
-	}
-	.blob {
-		margin:-5% auto 10%;
-		width: 200px;
-		height: 200px;
-		overflow: hidden;
-		border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
-		background: url('./Galaxy.jpg');
-		background-size: cover;
-		background-position: center;
-		box-shadow: 0 0 15px rgba(0, 0, 0, .2);
-		animation: blob 3.7s linear infinite;
+		font-size: 1em;
 	}
 	.box {
-		position: relative;
 		width: 300px;
 		height: 137px;
-		border-radius: 3px;
 	}
 }
+/* 手機：只寫與上面 1106px 區塊不同的部分（此寬度兩個區塊都會生效） */
 @media (max-width: 500px) {
-    .logo {
-        width: 125px;
-        height: 40px;
-        margin: 0 auto; /* 水平置中 */
-    }
-	.showmenu{
+	.logo {
+		width: 125px;
+		height: 40px;
+		margin: 0 auto; /* 水平置中 */
+	}
+	.showmenu {
 		margin-top: 0.5em;
 	}
 	.menu {
-		border-style:solid;
-		border-radius: 30px;
-		text-align: center;
-	/*隱藏選單開始*/
-		max-height: 0px;
-		overflow: hidden;
-	/*隱藏選單結束*/
 		transition: max-height 2.0s;
-		margin-top: 5px;
-		margin-left: 1px;
-		margin-right: 2px;
-	/*絕對定位疊在網頁上*/
-		position: absolute;
-		z-index: 100;
-	/*header 80px+1px boder 線條*/
-		top: 85px;
-		left: 0;
-		right: 0;
-		background: #005757;
 	}
-	.menu li:last-child{
-		margin-bottom: 15px;
-	}
-	.menu li{
-		display: block; 
-		float: none;
-		margin: 0px auto;
-	}
-	.menu li a{
-		font-size: 15px; 
-		line-height: 2;
-		transition: all 0.6s;
-		color : white;
-		padding-bottom: 0px;
-	}
-	.menu li a:hover{
-		background: #69CA62;
-		color: white;
+	.menu li a {
+		font-size: 15px;
 	}
 	.menu li a::before {
 		height: 10px;
-		background-color: #80FFFF;
 		transition: all ease-in-out 300ms;
 	}
-	
 }
