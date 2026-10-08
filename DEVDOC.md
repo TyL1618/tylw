@@ -7,27 +7,39 @@
 
 ### 目錄結構
 
+素材一律放在各層的 `assets/`（分 `css/`、`js/`、`img/`），網頁（`.html`）留在原位，所以頁面網址不變。
+
 ```
-index.html            首頁（太陽系動畫）
-CSS.css               全站共用樣式（含手機版選單）
-site.js               全站共用腳本：手機選單開關、隱藏載入圈圈（不依賴 jQuery）
-icon.png tyl.png menu.png   favicon／logo／選單圖示
+index.html                 首頁（太陽系動畫）
+assets/                    全站共用素材
+  css/site.css             全站共用樣式（含手機版選單）
+  js/site.js               手機選單開關、隱藏載入圈圈（不依賴 jQuery）
+  img/                     icon.png（favicon）、tyl.png（logo）、menu.png（選單圖示）
+    about/selfie3.jpg      關於頁的大頭照
+    works/                 作品列表的縮圖（bj、gs-search、sdes、cpi、nc）
 main/
-  about.html          關於我
-  works.html          作品列表（只放下面三個作品與兩個 GlowScript 外連）
-  contact.html        聯絡方式
-  course-team-code.html   大學課程與同學合作的程式碼（紀念用，沒有任何連結指向它）
+  about.html               關於我
+  works.html               作品列表（只放下面三個作品與兩個 GlowScript 外連）
+  contact.html             聯絡方式
+  course-team-code.html    大學課程與同學合作的程式碼（紀念用，沒有任何連結指向它）
   works/
-    blackjack/        二十一點（BlackJack.html 與 cheat.html 兩種模式，自帶 CSS 與圖片）
-    gs-search.html    臺灣研究所資料檢索系統（查 Google 試算表）
-    s-des.html + S_DES_.js + jquery-3.3.1.min.js   S-DES 加解密（仍用 jQuery）
-exam/                 線上考卷系統
+    gs-search.html         臺灣研究所資料檢索系統（查 Google 試算表）
+    s-des.html             S-DES 加解密
+    assets/js/             S_DES_.js、jquery-3.3.1.min.js（s-des 仍用 jQuery）
+    blackjack/             二十一點（BlackJack.html 與 cheat.html 兩種模式）
+      assets/css/          blackjack.css（自帶樣式，BlackJack.html 另外還載入 site.css）
+      assets/js/           BJ.js、BJcheat.js
+      assets/img/          icon.png、logo.png
+      assets/img/cards/    撲克牌、牌背、佔位圖（JS 以 ./assets/img/cards/XX.png 動態引用）
+exam/                      線上考卷系統（自成一格，結構見下一節）
 ```
 
 ### 慣例
 
 - 頁面之間一律用**相對路徑**連結，這樣本機預覽（`python -m http.server`）跟線上行為一致。
 - 新增頁面：複製 `main/about.html` 的 `<head>` 與 `<header>`，並在每一頁的選單加上連結。
+- 新增素材：放進離使用它的頁面最近的那層 `assets/` 對應子資料夾；全站共用的才放根目錄 `assets/`。
+- JS 裡寫的圖片路徑是相對於「載入它的頁面」，不是相對於 JS 檔本身。
 - 每頁都要有 `<meta charset="utf-8">`（否則本機預覽中文會亂碼）與 `width=device-width` 的 viewport。
 - 區塊標題用 `class="section-title"`（標楷體＋滑過發光），分隔線用 `<hr class="split">`（`narrow` 為 50% 寬）。
 - 本機預覽時瀏覽器可能快取舊的 CSS/HTML，改了沒反應就強制重新整理。
