@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tyl1618.github.io/tylw/sitemap.xml

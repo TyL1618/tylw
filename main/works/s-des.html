@@ -1,59 +1,74 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>S-DES加解密實作</title>
-		<link rel="stylesheet" href="../../assets/css/site.css">
-		<link rel="icon" type="image/png" href="../../assets/img/icon.png">
-		<script src="./assets/js/jquery-3.3.1.min.js"></script>
-		<script src="./assets/js/S_DES_.js"></script>
-		<script src="../../assets/js/site.js" defer></script>
-	</head>
-	<body>
-		<header>
-			<div class="container3">
-				<img src="../../assets/img/tyl.png" class="logo" alt="TyL_1.618">
-				<div>
-					<ul class="menu">
-						<li><a href="../../index.html">Home</a></li>
-						<li><a href="../about.html">About</a></li>
-						<li><a href="../works.html">Works</a></li>
-						<li><a href="../contact.html">Contact</a></li>
-					</ul>
-					<a href="#" class="showmenu" aria-label="選單"><img src="../../assets/img/menu.png" alt=""></a>
-				</div>
-			</div>
-		</header>
-
-	<h1><font face="DFKai-sb" color="white">網路安全導論 S-DES加解密</font></h1>
-	<div style="text-align: center; font-size:130%;">
-		<a href="./assets/js/S_DES_.js" target="show" download style="color:silver"> 下載演算法程式碼 </a> 
-	</div>	
-	<div class="center">
-		<form id="form" onsubmit="return false;"><font size="4" color="#90EE90" face="DFKai-sb">
-		  <br>
-		  請輸入8-bit的二進制訊息進行加密或解密:</font><br>
-		  <input type="text" id="inputText"  maxlength="8">
-		  <br><font size="4" color="#90EE90" face="DFKai-sb">
-		  請輸入10-bit的key:</font><br>
-		  <input type="text" id="inputKey"  maxlength="10"><br><br>
-		  <input type="radio" id="startMeChecked" name="encryptFlag" value="encrypt" checked onclick="setEncryptFlag(true);"><font size="4" color="#90EE90" face="DFKai-sb"> 加密 Encrypt </font>
-		  <input type="radio" name="encryptFlag" value="decrypt" onclick="setEncryptFlag(false);"><font size="4" color="#90EE90" face="DFKai-sb"> 解密 Decrypt </font>
-		  <br><br>
-		  <input type="submit" value="執行" onclick="inputHandler();">
-		  <input type="reset" value="重設">
-		</form>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S-DES 加解密 — TyL</title>
+<meta name="description" content="網路安全導論作業：實作簡化版 DES（S-DES），逐步列出金鑰產生與每一輪運算的中間結果。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/main/works/s-des.html">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="S-DES 加解密 — TyL">
+<meta property="og:description" content="網路安全導論作業：實作簡化版 DES（S-DES），逐步列出金鑰產生與每一輪運算的中間結果。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/main/works/s-des.html">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="./assets/css/s-des.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="../../assets/js/site.js" defer></script>
+<script src="./assets/js/jquery-3.3.1.min.js"></script>
+<script src="./assets/js/S_DES_.js"></script>
+</head>
+<body class="tool">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="../../index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="../../main/works.html" aria-current="page">Works</a><a href="../../main/notes.html">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
 	</div>
-    <div id="inputError" align="center" style="display:none" text-align="center"><font size="4" color="#90EE90">There was an error with the input. Please re-enter</font></div>
+</header>
+<main id="main">
+<div class="wrap tool-wrap">
+	<div class="page-title">
+		<a class="back-link" href="../../main/works.html">← 作品</a>
+		<h1>S-DES 加解密</h1>
+		<p>網路安全導論的作業。輸入 8 位元的二進制訊息與 10 位元的 key，執行後會列出每一個步驟的中間結果。<a href="./assets/js/S_DES_.js" download>下載演算法程式碼</a></p>
+	</div>
 
-    <div id="TESTING"></div>
-    
-    <br>
-    <hr class="mainDivider">
-    
+	<form id="form" class="tool-card" onsubmit="return false;">
+		<div class="field">
+			<label for="inputText">8-bit 二進制訊息</label>
+			<input type="text" id="inputText" maxlength="8" inputmode="numeric" placeholder="例如 10010111" autocomplete="off">
+		</div>
+		<div class="field">
+			<label for="inputKey">10-bit key</label>
+			<input type="text" id="inputKey" maxlength="10" inputmode="numeric" placeholder="例如 1010000010" autocomplete="off">
+		</div>
+		<div class="radios">
+			<label><input type="radio" id="startMeChecked" name="encryptFlag" value="encrypt" checked onclick="setEncryptFlag(true);"> 加密 Encrypt</label>
+			<label><input type="radio" name="encryptFlag" value="decrypt" onclick="setEncryptFlag(false);"> 解密 Decrypt</label>
+		</div>
+		<div class="form-actions">
+			<input type="submit" class="btn-primary" value="執行" onclick="inputHandler();">
+			<input type="reset" value="重設">
+		</div>
+	</form>
 
-    <div id="detailedOutput" align="center">
+	<div id="inputError" role="alert" style="display:none">輸入格式有誤，請重新輸入。</div>
+
+	<div id="TESTING"></div>
+
+	<div id="detailedOutput">
       <h2>輸入的資料</h2>
       <h3>Text</h3>
       <table >
@@ -100,7 +115,6 @@
           </table>
         </div>
       </div>
-      
 
       <h3>LS-1後</h3>
       <div class="splitTableContainer">
@@ -171,9 +185,6 @@
           <tr id="subKeyK2Copy">
           </tr>
       </table>
-
-      
-
 
       <h3>IP後</h3>
       <table>
@@ -362,7 +373,6 @@
           </tr>
       </table>
 
-
       <h3>fk2結果</h3>
       <table>
           <tr id="resultOfRoundFunctionFK2">
@@ -382,12 +392,20 @@
       <hr class="mainDivider">
 
     </div>
-    <script type="text/javascript">
-      $("#detailedOutput").hide();
-      $("#inputError").hide();
-      $("#startMeChecked").prop("checked", true);
-      encryptFlag = true;
-    </script>
+</div>
 
-  </body>
+<script>
+$("#detailedOutput").hide();
+$("#inputError").hide();
+$("#startMeChecked").prop("checked", true);
+encryptFlag = true;
+</script>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../../main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
 </html>

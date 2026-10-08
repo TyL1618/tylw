@@ -1,0 +1,96 @@
+---
+out: main/works/blackjack/BlackJack.html
+title: 二十一點
+description: 大學作業，純手刻的網頁二十一點。下注上限 500 元。
+nav: works
+css: ./assets/css/blackjack.css
+js: ./assets/js/BJ.js
+body_class: game
+---
+<div class="wrap game-wrap">
+	<div class="game-bar">
+		<div>
+			<a class="back-link" href="{{root}}main/works.html">← 作品</a>
+			<h1>二十一點</h1>
+			<p>大學作業，純手刻的網頁二十一點。下注上限 500 元。</p>
+		</div>
+		<nav class="mode-switch" aria-label="遊戲模式"><a href="./BlackJack.html" aria-current="true">一般模式</a><a href="./cheat.html">作弊模式</a></nav>
+	</div>
+
+	<section class="zone">
+		<h2 class="zone-title">Decks/發牌區</h2>
+		<div class="felt deck">
+			<div class="hand">
+				<div class="slot"><img src="./assets/img/cards/back2.webp" alt="牌堆"></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="zone" id="dealer">
+		<h2 class="zone-title">Dealer/莊家</h2>
+			<div class="felt">
+				<div class="hand">
+					<div class="slot"><img id="dealertable1" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="dealertable2" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="dealertable3" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="dealertable4" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="dealertable5" src="./assets/img/cards/black.webp" alt=""></div>
+				</div>
+			</div>
+		<div class="stat">莊家總點數 : <span id="DealerTotalPoints">0</span></div>
+	</section>
+
+	<section class="zone" id="player1">
+		<h2 class="zone-title">Player/玩家</h2>
+			<div class="felt">
+				<div class="hand">
+					<div class="slot"><img id="player1table1" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player1table2" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player1table3" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player1table4" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player1table5" src="./assets/img/cards/black.webp" alt=""></div>
+				</div>
+			</div>
+		<div class="stat">閒家總點數 : <span id="PlayerTotalPoints">0</span></div>
+		<div class="controls">
+				<input type="button" id="startButton" class="btn-primary" value="start/開始" onclick="gamestart()">
+				<input type="button" id="hitButton" value="Hit/抽牌" onclick="hit()" disabled>
+				<input type="button" id="standButton" value="Stand/不抽" onclick="stand()" disabled>
+				<input type="button" id="surrenderButton" class="btn-danger" value="Surrender/投降" onclick="surrender()" disabled>
+				<input type="button" id="doubleButton" value="Double Chips/雙倍賭注" onclick="doublechips()" disabled>
+				<input type="button" id="DuoplayButton" value="Split/切牌" onclick="duo()" disabled>
+				<input type="button" id="ChipsButton" value="Assign Chips/賭金" onclick="chip()" disabled>
+				<input type="text" id="chipsvalue" size="6" inputmode="numeric" placeholder="0~500" aria-label="賭注金額" disabled>
+		</div>
+		<div class="pool-note">初始獎池:500元 (下注限額0~500元)</div>
+		<div id="pool" class="pool"></div>
+	</section>
+
+	<section class="zone" id="player2" style="display: none;">
+		<h2 class="zone-title">Player2/玩家2</h2>
+			<div class="felt">
+				<div class="hand">
+					<div class="slot"><img id="player2table1" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player2table2" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player2table3" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player2table4" src="./assets/img/cards/black.webp" alt=""></div>
+					<div class="slot"><img id="player2table5" src="./assets/img/cards/black.webp" alt=""></div>
+				</div>
+			</div>
+			<div class="controls">
+				<input type="button" id="hitButton2" value="Hit/抽牌" onclick="hit()" disabled>
+				<input type="button" id="standButton2" value="Stand/不抽" onclick="stand()" disabled>
+				<input type="button" id="surrenderButton2" class="btn-danger" value="Surrender/投降" onclick="surrender()" disabled>
+				<input type="button" id="doubleButton2" value="Double Chips/雙倍賭注" onclick="doublechips()" disabled>
+				<input type="button" id="ChipsButton2" value="Assign Chips/賭金" onclick="chip()" disabled>
+				<input type="text" id="chipsvalue2" size="6" inputmode="numeric" placeholder="0~500" aria-label="玩家2賭注金額" disabled>
+			</div>
+			<div class="pool-note">初始獎池:500元 (下注限額0~500元)</div>
+			<div id="pool2" class="pool"></div>
+	</section>
+
+	<section class="zone log" aria-live="polite">
+		<h2 class="zone-title">遊戲紀錄</h2>
+		<div id="log"></div>
+	</section>
+</div>

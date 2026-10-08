@@ -16,16 +16,16 @@ function gamestartcheat()    //新一盤
 	document.getElementById("DealerTotalPoints").textContent=0; //修改莊家點數
 	document.getElementById("PlayerTotalPoints").textContent=0; //修改莊家點數
 	document.getElementById("chipsvalue").value='';
-	document.getElementById("dealertable1").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable2").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable3").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable4").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable5").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table1").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table2").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table3").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table4").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table5").src = "./assets/img/cards/black.png";
+	document.getElementById("dealertable1").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable2").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable3").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable4").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable5").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table1").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table2").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table3").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table4").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table5").src = "./assets/img/cards/black.webp";
 	//重置按鈕
 	document.getElementById("startButton").disabled = true;
 	document.getElementById("hitButton").disabled = true;
@@ -93,7 +93,7 @@ function chipcheat()
 	var randomNum4 = Math.floor(Math.random() * 52);
 	//修改莊家總點數
 	document.getElementById("dealertable1").src = imagesArray[randomNum1];
-	document.getElementById("dealertable2").src = "./assets/img/cards/back1.png";
+	document.getElementById("dealertable2").src = "./assets/img/cards/back1.webp";
 	var dealercard1=0;
 	var dealercard2=0;
 	if(randomNum1<=35)

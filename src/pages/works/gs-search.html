@@ -1,0 +1,124 @@
+---
+out: main/works/gs-search.html
+title: 臺灣研究所資料檢索系統
+description: 資料庫課程期末專題：把 Google 試算表當資料庫，查詢臺灣研究所的師資、學校、報考與論文資訊。
+nav: works
+body_class: tool
+---
+<div class="wrap tool-wrap">
+	<div class="page-title">
+		<a class="back-link" href="{{root}}main/works.html">← 作品</a>
+		<h1>臺灣研究所資料檢索系統</h1>
+		<p>NCHU CSE 資料庫課程期末專題。選擇要查的資訊與學校，填入條件後按搜尋，結果會在新分頁開啟。</p>
+	</div>
+
+	<form name="myForm" id="myForm" class="tool-card" onsubmit="return false;">
+		<div class="field-row">
+			<select id="first" name="first" onchange="renew(this.selectedIndex);" aria-label="資訊類型">
+				<option value="select" selected disabled>選擇資訊</option>
+				<option id="teach"  value="teach">師資資訊</option>
+				<option id="school" value="school">學校資訊</option>
+				<option id="info"   value="info">報考資訊</option>
+				<option id="paper"  value="paper">論文資訊</option>
+			</select>
+			<select id="second" name="second" aria-label="學校">
+				<option id="ALL"   value="ALL">不分學校</option>
+				<option id="NTU"   value="臺灣大學">國立臺灣大學</option>
+				<option id="NCTU"  value="交通大學">國立交通大學</option>
+				<option id="NTHU"  value="清華大學">國立清華大學</option>
+				<option id="NCKU"  value="成功大學">國立成功大學</option>
+				<option id="NCU"   value="中央大學">國立中央大學</option>
+				<option id="NCHU"  value="中興大學">國立中興大學</option>
+				<option id="NSYSU" value="中山大學">國立中山大學</option>
+				<option id="CCU"   value="中正大學">國立中正大學</option>
+			</select>
+		</div>
+
+				<div id="professorcheck" class="fields" style="display: none;">
+					<label>教授名稱<input name="ProName" id="ProName" type="text" placeholder="(ex.陳煥)" autocomplete="off"></label>
+					<label>學術專長<input name="AcadeEx" id="AcadeEx" type="text" placeholder="(ex.人工智慧)" autocomplete="off"></label>
+					<label>單位名稱<input name="Depart" id="Depart" type="text" placeholder="(ex.資訊工程)" autocomplete="off"></label>
+				</div>
+				<div id="infocheck" class="fields" style="display: none;">
+					<label>學年度<input name="Year" id="Year" type="text" placeholder="(ex.109)" autocomplete="off"></label>
+					<label>單位名稱<input name="Depart2" id="Depart2" type="text" placeholder="(ex.資訊工程)" autocomplete="off"></label>
+				</div>
+				<div id="schoolcheck" class="fields" style="display: none;">
+					<label>學校名稱<input name="School" id="School" type="text" placeholder="(ex.中興)" autocomplete="off"></label>
+					<label>所在位置<input name="Address" id="Address" type="text" placeholder="(ex.臺中)" autocomplete="off"></label>
+				</div>
+				<div id="papercheck" class="fields" style="display: none;">
+					<label>教授名稱<input name="ProName2" id="ProName2" type="text" placeholder="(ex.范耀中)" autocomplete="off"></label>
+					<label>論文名稱<input name="Paper" id="Paper" type="text" placeholder="(ex.網路安全)" autocomplete="off"></label>
+					<label>單位名稱<input name="Depart3" id="Depart3" type="text" placeholder="(ex.資訊管理)" autocomplete="off"></label>
+				</div>
+
+		<div class="form-actions">
+			<input type="button" class="btn-primary" value="搜尋" onclick="search()">
+		</div>
+	</form>
+</div>
+
+<script>
+// 依「選擇資訊」的選項顯示對應的輸入欄（選項 0 是 disabled 的提示文字）
+const PANELS = [null, 'professorcheck', 'schoolcheck', 'infocheck', 'papercheck'];
+
+function renew(index) {
+	PANELS.forEach((id) => { if (id) document.getElementById(id).style.display = 'none'; });
+	if (PANELS[index]) document.getElementById(PANELS[index]).style.display = '';
+	// 學校資訊本身就是查學校，不需要再選學校
+	document.getElementById('second').style.display = index === 2 ? 'none' : '';
+}
+
+// 資料來源：Google 試算表，用 gviz 查詢語法取回 HTML 表格
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/14EmAtA2MFDr34XSFIAOMbpnLwtBDqIs6XixaNSFO9JM/gviz/tq';
+
+// gid：試算表下方各分頁的固有編號
+// schoolCol：該分頁中「學校名稱」所在的欄；label：欄位的中文標題
+const SHEETS = {
+	teach:  { gid: '1138920504', schoolCol: 'A', label: ' label A "學校名稱",B "單位名稱",C "教師姓名",D "學術專長",E "網址"' },
+	school: { gid: '58835050' },
+	paper:  { gid: '829588965',  schoolCol: 'B', label: ' label A "指導教授",B "校院名稱",C "單位名稱",D "學術專長",E "論文名稱",F "URI"' },
+	info:   { gid: '1358831441', schoolCol: 'A' }
+};
+
+const FIELD_IDS = ['ProName', 'AcadeEx', 'Depart', 'Depart2', 'Year', 'Paper', 'Depart3', 'ProName2', 'School', 'Address'];
+
+const like = (col, text) => `${col} like '%${text}%'`;
+
+// 組出 gviz 查詢字串；沒填的欄位會變成 `x like '%%'`（等於不限制）
+function buildQuery(type, school, v) {
+	const conds = [
+		like('C', v.ProName), like('D', v.AcadeEx), like('B', v.Depart), like('B', v.Depart2),
+		like('D', v.Year), like('C', v.Depart3), like('E', v.Paper), like('A', v.ProName2)
+	];
+	let tq = 'select * where ' + conds.join(' and ');
+	const sheet = SHEETS[type];
+	if (school !== 'ALL') {
+		if (type === 'school') {
+			tq += ` and ${like('C', v.School)} and ${like('E', v.Address)} and ${like('C', school)}`;
+		} else {
+			tq += ` and ${like(sheet.schoolCol, school)}`;
+		}
+	} else {
+		tq += ` and ${like('E', v.Address)} and ${like('C', v.School)}`;
+	}
+	return tq + (sheet.label || '');
+}
+
+function search() {
+	const form = document.getElementById('myForm');
+	const second = document.getElementById('second');
+	const type = document.getElementById('first').value;
+	const values = {};
+	FIELD_IDS.forEach((id) => { values[id] = form[id].value; });
+
+	if (SHEETS[type]) {
+		const tq = buildQuery(type, second.value, values);
+		window.open(`${SHEET_URL}?gid=${SHEETS[type].gid}&tqx=out:html&tq=${encodeURIComponent(tq)}`, '', 'noopener=true');
+	}
+
+	FIELD_IDS.forEach((id) => { form[id].value = ''; });
+	second.selectedIndex = 0;
+}
+		</script>

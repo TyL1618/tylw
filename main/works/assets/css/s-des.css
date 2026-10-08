@@ -1,0 +1,40 @@
+/* S-DES 頁面：執行後列出的各步驟結果（表格由 S_DES_.js 動態填入） */
+
+#inputError {
+	margin: 16px 0 0; padding: 12px 16px;
+	border: 1px solid var(--danger); border-radius: var(--radius-sm);
+	background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); font-weight: 600;
+}
+
+#detailedOutput { margin-top: 28px; text-align: center; }
+
+#detailedOutput h2 {
+	margin: 40px 0 6px; padding-top: 28px; border-top: 1px solid var(--border-strong);
+	font-size: 1.2rem; color: var(--accent);
+}
+#detailedOutput h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+#detailedOutput h3 { margin: 22px 0 8px; font-size: 1rem; color: var(--text); }
+#detailedOutput h4 { margin: 0 0 6px; font-size: .88rem; font-weight: 500; color: var(--muted); }
+
+/* 位元表格：每一位元一個小方格，等寬字型 */
+#detailedOutput table { margin: 0 auto; border-collapse: separate; border-spacing: 4px; }
+#detailedOutput td {
+	min-width: 34px; padding: 6px 8px;
+	border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface);
+	color: var(--text); font: 600 1rem/1.2 var(--mono); text-align: center;
+}
+#finalResult td { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+.splitTableContainer { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 40px; }
+.splitTable { text-align: center; }
+
+/* 原本頁面裡分隔用的 <hr> */
+#detailedOutput hr { display: none; }
+#detailedOutput > br { display: none; }
+
+/* 手機：10 位元的 Key 一排要塞進 320px 寬，格子縮小 */
+@media (max-width: 480px) {
+	#detailedOutput table { border-spacing: 2px; }
+	#detailedOutput td { min-width: 0; width: 22px; padding: 5px 0; font-size: .85rem; border-radius: 4px; }
+	.splitTableContainer { gap: 12px 20px; }
+}

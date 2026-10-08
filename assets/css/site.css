@@ -1,946 +1,386 @@
-/* #########################################################電腦版框架################################################################ */
+/* 個人網站 — 全站樣式
+   設計原則：深色為主（自動跟隨系統淺色）、單一強調色、系統字型、零外部資源。
+   所有顏色／間距都用變數，改版面只需要動 :root。 */
+
+:root {
+	color-scheme: dark light;
+
+	--bg: #0c0f0e;
+	--surface: #121715;
+	--surface-2: #171d1a;
+	--border: #242c28;
+	--border-strong: #34403a;
+	--text: #e7ede9;
+	--muted: #9aa8a1;
+	--accent: #55d6aa;
+	--accent-ink: #04251a;
+	--accent-soft: rgba(85, 214, 170, .12);
+	--danger: #e0716b;
+
+	--sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, "Liberation Mono", monospace;
+
+	--radius: 14px;
+	--radius-sm: 9px;
+	--max: 1040px;
+	--gutter: clamp(18px, 5vw, 40px);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--bg: #f7f9f8;
+		--surface: #ffffff;
+		--surface-2: #f0f4f2;
+		--border: #dfe6e3;
+		--border-strong: #c6d1cc;
+		--text: #14211c;
+		--muted: #536660;
+		--accent: #0c7a5a;
+		--accent-ink: #ffffff;
+		--accent-soft: rgba(12, 122, 90, .09);
+		--danger: #b8433d;
+	}
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
 body {
-	background-color: black;
-	-ms-overflow-style: none; /* for Internet Explorer, Edge */
-	scrollbar-width: none; /* for Firefox */
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
-
-body::-webkit-scrollbar {
-	display: none; /* for Chrome, Safari, and Opera */
-}
-
-h1, h2, h3, h4, h5, h6 {
-	text-align: center;
-	color: white;
-}
-
-td, th, p {
-	text-align: center;
-	color: #90EE90;
-}
-
-img {
-	width: auto;
-	height: auto;
-	max-width: 100%;
-	max-height: 100%;
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	user-select: none;
-	-webkit-user-drag: none;
-}
-
-.imgcollection {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-hr.split {
-	width: 70%;
-	border: 0;
-	height: 6px;
-	background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(255,255,255,0.75), rgba(0,0,0,0));
-}
-
-hr.split.narrow {
-	width: 50%;
-}
-
-.center {
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.aboutcss {
-	color: white;
-	font-size: 1.4em;
-	font-family: 標楷體;
-	line-height: 35px;
-	width: 200px;
-	text-align: left;
-}
-
-.multibr::before {
-	content: "\A\A\A";
-	white-space: pre;
-}
-
-/* 各頁的區塊標題（原本每頁各寫一份 inline style） */
-.section-title {
-	font-family: 標楷體;
-	cursor: default;
-	transition: .5s;
-}
-
-.section-title:hover {
-	color: #fff;
-	text-shadow: 0 0 5px #03e9f4,
-	             0 0 25px #03e9f4,
-	             0 0 50px #03e9f4,
-	             0 0 100px #03e9f4;
-}
-
-.noselect {
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	user-select: none;
-}
-/* #########################################################上排列表################################################################ */
-
-.showmenu {
-	display: none;
-}
-
-.showmenu img {
-	max-height: 100%;
-	max-width: 100%;
-	width: 30px;
-	height: 30px;
-	padding: 30%;
-}
-
-.container3 {
-	max-width: 80%;
-	width: 80%;
-	margin: 0 auto;
-	height: auto;
-}
-
-.menu {
-	float:right;
-}
-
-.menu li {
-	float: left;
-	display: block;
-	margin-left: 70px;
-	padding-top: 23px;
-	padding-bottom: 0px;
-	position: relative;
-}
-
-.menu li a {
-	display: block;
-	color: #444;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 25px;
-}
-
-header {
-	background: #55d6aa !important;
-	position: relative;
-}
-
-header::after {
-	content: '';
-	display: table;
-	clear: both;
-}
-
-.logo {
-    float: left;
-    height: 60px;
-    width: 190px;
-    padding: 10px 0;
-    margin-left: -5%;
-    max-width: 50%;
-    max-height: 50%;
-    transition: all 0.5s ease; /* 添加過渡效果 */
-    display: flex; /* 使用 Flexbox 佈局 */
-    align-items: center; /* 垂直居中 */
-}
-
-ol, ul {
+	display: flex; flex-direction: column; min-height: 100vh;
 	margin: 0;
-	padding: 0;
-	list-style: none;
+	background: var(--bg);
+	color: var(--text);
+	font: 16px/1.75 var(--sans);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
-.menu li a::before {
-	content: '';
-	display: block;
-	height: 5px;
-	background-color: #7B7B7B;
+img { max-width: 100%; height: auto; display: block; }
 
-	position: relative;
-	top: 0;
-	width: 0%;
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
 
-	transition: all ease-in-out 500ms;
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.25; letter-spacing: -.01em; }
+p { margin: 0 0 1em; }
+
+.sr-only {
+	position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+	overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-.menu li a:hover::before {
-	width: 100%;
+.skip-link {
+	position: absolute; left: 12px; top: -60px; z-index: 100;
+	padding: 8px 14px; border-radius: var(--radius-sm);
+	background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ===== 頁首 ===== */
+.site-header {
+	position: sticky; top: 0; z-index: 50;
+	background: var(--bg);
+	background: color-mix(in srgb, var(--bg) 82%, transparent);
+	-webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--border);
 }
 
-/* #########################################################彩虹邊框################################################################ */
-.box {
-    position: relative;
-    width: 600px;
-    height: 274px;
-    border-radius: 3px;
+.site-header .wrap {
+	display: flex; align-items: center; justify-content: space-between;
+	gap: 16px; min-height: 64px; flex-wrap: wrap;
 }
 
-.box::before,
-.box::after {
-    content: '';
-    z-index: -1;
-    position: absolute;
-    width: calc(100% + 10px);
-    height: calc(100% + 10px);
-    top: -5px;
-    left: -5px;
-    border-radius: 5px;
-    background: linear-gradient(45deg,
-        #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
-        #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff
-    );
-    background-size: 300%;
-    animation: border 12s linear infinite;
+.brand { display: inline-flex; align-items: center; color: var(--text); text-decoration: none; }
+.brand:hover { text-decoration: none; }
+
+/* TyL 字標：字母用文字色，結尾底線用強調色（像終端機游標），載入時閃三下，滑過時持續閃 */
+.logo { display: block; width: auto; stroke-width: 6; }
+.logo-letters { stroke: currentColor; }
+.logo-cursor { stroke: var(--accent); animation: cursor-blink 1.2s steps(1) 3; }
+.brand .logo { height: 24px; stroke-width: 7.5; }
+.brand:hover .logo-cursor { animation: cursor-blink 1s steps(1) infinite; }
+@keyframes cursor-blink { 50% { opacity: 0; } }
+
+.site-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.site-nav a {
+	padding: 8px 14px; border-radius: 999px;
+	color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 500;
+	transition: color .15s, background .15s;
+}
+.site-nav a:hover { color: var(--text); background: var(--surface-2); }
+.site-nav a[aria-current="page"] { color: var(--text); background: var(--accent-soft); }
+
+/* ===== 版面區塊 ===== */
+main { display: block; flex: 1 0 auto; }
+
+.section { padding-block: clamp(40px, 7vw, 72px); }
+.section + .section { padding-top: 0; }
+
+.section-head {
+	display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+	margin-bottom: 22px;
+}
+.section-head h2 { font-size: 1.35rem; }
+.section-head a { font-size: .92rem; color: var(--muted); text-decoration: none; }
+.section-head a:hover { color: var(--accent); }
+
+.eyebrow {
+	margin: 0 0 14px; color: var(--accent);
+	font: 500 .85rem/1 var(--mono); letter-spacing: .04em;
 }
 
-.box::after {
-    filter: blur(50px);
+.page-title { padding: clamp(40px, 7vw, 72px) 0 8px; }
+.page-title h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); }
+.page-title p { margin: 12px 0 0; max-width: 56ch; color: var(--muted); font-size: 1.05rem; }
+
+/* ===== 首頁 Hero ===== */
+.hero {
+	display: grid; gap: 40px; align-items: center;
+	padding: clamp(40px, 8vw, 88px) 0 clamp(32px, 6vw, 56px);
 }
+@media (min-width: 820px) { .hero { grid-template-columns: 1.15fr .85fr; } }
 
-@keyframes border {
-    0%, 100% {
-        background-position: 0 0;
-    }
+.hero h1.hero-logo { margin: 0; line-height: 0; }
+.hero-logo .logo { height: clamp(64px, 13vw, 104px); }
+.hero .lead { max-width: 34em; margin: 22px 0 0; color: var(--muted); font-size: 1.1rem; }
 
-    50% {
-        background-position: 300%;
-    }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; }
+
+.btn {
+	display: inline-flex; align-items: center; gap: 8px;
+	padding: 10px 18px; border-radius: var(--radius-sm);
+	border: 1px solid var(--border-strong); background: transparent; color: var(--text);
+	font: 600 .95rem/1.2 var(--sans); text-decoration: none; cursor: pointer;
+	transition: background .15s, border-color .15s, color .15s, transform .1s;
 }
-/* #########################################################solarsystem################################################################ */
+.btn:hover { background: var(--surface-2); border-color: var(--accent); text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent); filter: brightness(1.08); border-color: var(--accent); }
+.btn svg, .icon-link svg { width: 18px; height: 18px; flex: none; fill: currentColor; }
 
-:root 
-{
-	color-scheme: only light !important;
-    --dark-color: rgb(0,0,0);
-    --glossy-red: rgba(238, 17, 17, 1);
-    --hidden-red: rgba(238, 17, 17, 0);
-    --light-red: rgba(238, 17, 17, .5);
-    --paths-theme: var(--very-light-red) var(--glossy-red);
-    --planets-theme: var(--light-red) var(--light-red) var(--light-red) var(--glossy-red); 
-    --very-light-red: rgba(238, 17, 17, .25);
+.icon-link {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 42px; height: 42px; border-radius: var(--radius-sm);
+	border: 1px solid var(--border); color: var(--muted); transition: color .15s, border-color .15s;
 }
+.icon-link:hover { color: var(--accent); border-color: var(--accent); }
 
-*, *::after, *::before
-{
-            box-sizing: content-box;
+/* 軌道動畫（裝飾用；致敬舊版的太陽系） */
+.orbits { position: relative; width: min(100%, 360px); aspect-ratio: 1; margin: 0 auto; }
+.orbits .sun {
+	position: absolute; inset: 0; margin: auto; width: 13%; aspect-ratio: 1; border-radius: 50%;
+	background: var(--accent); box-shadow: 0 0 40px 6px var(--accent-soft), 0 0 0 8px var(--accent-soft);
 }
-
-body #solar-system
-{
-    display: flex;
-    width: 100vw;
-    height: 70vh;
-
-            transform: skewX(-45deg);
-            transform-origin: center;
-
-    justify-content: center;
-    align-items: center;
+.orbits .ring {
+	position: absolute; inset: 0; margin: auto; aspect-ratio: 1; border-radius: 50%;
+	border: 1px solid var(--border-strong); animation: spin var(--t) linear infinite;
 }
-
-/* ⚠ size of the sun is not respected here */
-section #sun
-{
-
-    position: fixed;
-    z-index: 100;
-    /* ✑ real radius of the sun: 696340km */
-
-    width: 174.085px; /* ✑ 40* too small compared to the #planets{} dimensions values */
-    height: 174.085px;
-
-            transform: skewX(45deg);
-
-            border-radius: 50%;
-            background: var(--glossy-red);
-            background: linear-gradient(135deg, var(--glossy-red) 20%, var(--hidden-red) 100%);
-
-            filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+.orbits .ring i {
+	position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px;
+	border-radius: 50%; background: var(--accent);
 }
-
-/* planets */
-article #mercury
-{
-    position: fixed;
-    z-index: 99;
-    top: 38px;
-
-    display: flex;
-
-    width: 24.397px; /* ✑ real radius of mercury: 24397km */
-    height: 24.397px;
-    /* ✑ rotation period of mercury: 58.645 days */
-
-            animation: planets-rotation 29.3225s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--planets-theme);
-            border-radius: 50%;
-    background: var(--hidden-red);
-
-    justify-content: center;
-    align-items: center;
-}
-article #venus
-{
-    position: fixed;
-    z-index: 99;
-    top: 15px;
-
-    display: flex;
-
-    width: 60.518px; /* ✑ real radius of venus: 60518km */
-    height: 60.518px;
-    /* ✑ rotation period of venus 243.023 days */
-
-            animation: planets-rotation 121.513s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--planets-theme);
-            border-radius: 50%;
-    background: var(--hidden-red);
-
-    justify-content: center;
-    align-items: center;
-}
-article #earth
-{
-    position: fixed;
-    z-index: 99;
-    top: 35px;
-
-    display: flex;
-
-    width: 63.71px; /* ✑ real radius of the earth: 6371km */
-    height: 63.71px;
-    /* ✑ animation-duration: .5s = 24hours on earth */
-
-            animation: planets-rotation .4874s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--planets-theme);
-            border-radius: 50%;
-    background: var(--hidden-red);
-
-    justify-content: center;
-    align-items: center;
-}
-article #earth::after
-{
-    position: inherit;
-
-    width: 40%;
-    height: 40%;
-
-    content: '';
-            animation: earth-blinking 2s linear infinite;
-
-            border-radius: inherit;
-    background: var(--glossy-red);
-
-            filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-}
-article #mars
-{
-    position: fixed;
-    z-index: 99;
-    top: 288px;
-
-    display: flex;
-
-    width: 33.895px; /* ✑ real radius of mars: 33895km */
-    height: 33.895px;
-    /* ✑ animation-duration: .5s = 24hours on earth */
-
-            animation: planets-rotation .5128s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--planets-theme);
-            border-radius: 50%;
-    background: var(--hidden-red);
-
-    justify-content: center;
-    align-items: center;
-}
-article #mars::after,
-article #venus::after,
-article #mercury::after
-{
-    width: 40%;
-    height: 40%;
-
-    content: '';
-
-            border-radius: inherit;
-    background: var(--glossy-red);
-
-            filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-}
-
-/* planets trajectory's
-⚠ the distances between the planets and the sun are not respected here because of the diameter ot it */
-section #mercury-trajectory
-{
-    position: fixed;
-    z-index: 98;
-
-    width: 203.085px; /* ✑ non-proportional */
-    height: 203.085px;
-    /* ✑ revolution of mercury: 87.969 days */
-
-            animation: solar-revolution 43.9845s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--paths-theme);
-            border-radius: 50%;
-}
-section #venus-trajectory
-{
-    position: fixed;
-    z-index: 98;
-
-    width: 257.085px; /* ✑ non-proportional */
-    height: 257.085px;
-    /* ✑ revolution of venus: 224.667 days */
-
-            animation: solar-revolution 112.3335s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--paths-theme);
-            border-radius: 50%;
-}
-section #earth-trajectory
-{
-    position: fixed;
-    z-index: 98;
-
-    width: 332.085px; /* ✑ non-proportional */
-    height: 332.085px;
-    /* ✑ revolution of the earth: 365.2422 days */
-
-            animation: solar-revolution 182.6211s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--paths-theme);
-            border-radius: 50%;
-}
-section #mars-trajectory
-{
-    position: fixed;
-    z-index: 98;
-
-    width: 446.085px; /* ✑ non-proportional */
-    height: 446.085px;
-    /* ✑ revolution of mars: 686.885 days */
-
-            animation: solar-revolution 343.4425s linear infinite;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--paths-theme);
-            border-radius: 50%;
-}
-
-/*
-▀▄▀▄▀▄▀▄▀▄▀▄ ANIMATIONS ▀▄▀▄▀▄▀▄▀▄▀▄
-*/
-
-@keyframes solar-revolution
-{
-    to
-    {
-        transform: rotate(360deg) ;
-    }
-}
-
-@keyframes planets-rotation
-{
-    to
-    {
-        transform: rotate(360deg) ;
-    }
-}
-@keyframes earth-blinking
-{
-    from
-    {
-        background-color: var(--glossy-red);
-
-        filter: drop-shadow(0 0 .3rem var(--light-red)) blur(.5px);
-    }
-    to
-    {
-        background-color: var(--dark-color);
-
-        filter: drop-shadow(0 0 0 var(--light-red)) blur(0);
-    }
-}
-
-/* media queries
-smartphone*/
-@media only screen and (max-width: 768px)
-{
-    section #sun
-    {
-        width: 87.0425px;
-        height: 87.0425px;
-    }
-    section #mercury-trajectory
-    {
-        width: 101.5425px;
-        height: 101.5425px;
-    }
-    article #mercury
-    {
-        top: 17px;
-
-        width: 12.1985px;
-        height: 12.1985px;
-    }
-    section #venus-trajectory
-    {
-        width: 128.5425px;
-        height: 128.5425px;
-    }
-    article #venus
-    {
-        top: 6px;
-
-        width: 30.259px;
-        height: 30.259px;
-    }
-    section #earth-trajectory
-    {
-        width: 166.0425px;
-        height: 166.0425px;
-    }
-    article #earth
-    {
-        top: 16px;
-
-        width: 31.855px;
-        height: 31.855px;
-    }
-    section #mars-trajectory
-    {
-        width: 223.0425px;
-        height: 223.0425px;
-    }
-    article #mars
-    {
-        top: 56px;
-
-        width: 16.9475px;
-        height: 16.9475px;
-    }
-}
-
-/* 4K Ultra HD */
-@media only screen and (min-width: 1921px)
-{
-    section #sun
-    {
-        width: 348.17px;
-        height: 348.17px;
-    }
-    section #mercury-trajectory
-    {
-        width: 406.17px;
-        height: 406.17px;
-    }
-    article #mercury
-    {
-        top: 82px;
-
-        width: 48.794px; /* ✑ real diameter of mercury: 4879.4km*/
-        height: 48.794px;
-    }
-    section #venus-trajectory
-    {
-        width: 514.17px;
-        height: 514.17px;
-    }
-    article #venus
-    {
-        top: 28px;
-
-        width: 121.036px; /* ✑ real diameter of venus: 12103.6km */
-        height: 121.036px;
-    }
-    section #earth-trajectory
-    {
-        width: 664.17px;
-        height: 664.17px;
-    }
-    article #earth
-    {
-        top: 68px;
-
-        width: 127.42px; /* ✑ real diameter of the earth: 12742km */
-        height: 127.42px;
-    }
-    section #mars-trajectory
-    {
-        width: 892.14px;
-        height: 892.14px;
-    }
-    article #mars
-    {
-        top: 242px;
-
-        width: 67.79px; /* ✑ real diameter of mars: 6779km */
-        height: 67.79px;
-    }
-}
-/*
-8K Ultra HD ...(*￣０￣)ノ
-@media only screen and (min-width: 3841px) {}
-*/
-
-/* 載入圈圈 */
-#loading {
-	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	opacity: 0.7;
-	background-color: #000;
-	z-index: 99;
-}
-
-.loader-wrapper {
-    width: 100px;
-    height: 100px;
-}
-
-.loader-wrapper .loader {
-    width: 100%;
-    height: 100%;
-    border: 10px solid transparent;
-    border-radius: 50%;
-    animation: rotate 5s linear infinite;
-}
-
-.loader-wrapper .loader-outer {
-    border-top-color: #4bc8eb;
-    border-bottom-color: #f13a8f;
-}
-
-.loader-wrapper .loader-inner {
-    border-top-color: #36f372;
-    border-bottom-color: #fff;
-    animation-duration: 4s;
-}
-
-@keyframes rotate {
-    0% {
-        transform: scale(1) rotate(360deg);
-    }
-
-    50% {
-        transform: scale(.6) rotate(-360deg);
-    }
-}
-
-/* 個人資料 */
+.orbits .r1 { width: 32%; --t: 18s; }
+.orbits .r2 { width: 50%; --t: 31s; }
+.orbits .r3 { width: 72%; --t: 52s; }
+.orbits .r4 { width: 98%; --t: 84s; }
+.orbits .r1 i, .orbits .r3 i { width: 6px; height: 6px; top: -3px; margin-left: -3px; opacity: .7; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== 卡片 ===== */
+.cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
 
 .card {
-	margin:5% auto 8%;
-    position: relative;
-    width: 360px;
-    height: 420px;
-    font-family: 'Open Sans';
+	display: flex; flex-direction: column; overflow: hidden;
+	border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+	transition: border-color .2s, transform .2s;
+}
+.card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+
+.card-thumb { display: block; aspect-ratio: 16 / 10; background: var(--surface-2); border-bottom: 1px solid var(--border); overflow: hidden; }
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.card:hover .card-thumb img { transform: scale(1.03); }
+
+.card-body { display: flex; flex: 1; flex-direction: column; gap: 10px; padding: 18px 20px 20px; }
+.card h3 { font-size: 1.1rem; }
+.card h3 a { color: var(--text); text-decoration: none; }
+.card h3 a:hover { color: var(--accent); }
+.card p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.65; }
+.card-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: auto; padding-top: 6px; font-size: .9rem; font-weight: 500; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tag {
+	padding: 2px 10px; border: 1px solid var(--border-strong); border-radius: 999px;
+	color: var(--muted); font: 500 .75rem/1.7 var(--mono);
 }
 
-.card .card-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    border-radius: 8px;
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, .05);
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+/* ===== 筆記清單 ===== */
+.note-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.note-list li { border-bottom: 1px solid var(--border); }
+.note-list a, .note-list .item {
+	display: grid; gap: 4px 24px; padding: 20px 4px; color: inherit; text-decoration: none;
+	grid-template-columns: 1fr;
 }
+@media (min-width: 700px) { .note-list a, .note-list .item { grid-template-columns: 110px 1fr; } }
+.note-list .item h3 { color: var(--text); }
+.note-list .item h3::after { content: "　短記"; color: var(--muted); font: 400 .72rem var(--mono); letter-spacing: .04em; }
+.note-list a h3::after { content: "　全文"; color: var(--accent); font: 400 .72rem var(--mono); letter-spacing: .04em; }
+.note-list .item p { grid-column: -2 / -1; margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+.note-list time { color: var(--muted); font: 400 .85rem/1.9 var(--mono); }
+.note-list h3 { font-size: 1.1rem; transition: color .15s; }
+.note-list a:hover h3 { color: var(--accent); }
+.note-list p { grid-column: -2 / -1; margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+.note-list .tags { grid-column: -2 / -1; margin-top: 6px; }
+.prose-head .tags { margin-top: 14px; }
 
-.card .circle {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: 2s ease-in infinite alternate;
+/* ===== 文章 ===== */
+.prose { max-width: 70ch; padding-bottom: 64px; }
+.prose-head { padding: clamp(40px, 7vw, 72px) 0 24px; max-width: 70ch; }
+.prose-head h1 { font-size: clamp(1.8rem, 4.2vw, 2.4rem); line-height: 1.3; }
+.prose-head .meta { margin-top: 14px; color: var(--muted); font: 400 .88rem/1 var(--mono); }
+.prose h2 { margin: 2.2em 0 .7em; font-size: 1.35rem; }
+.prose h3 { margin: 1.8em 0 .5em; font-size: 1.1rem; }
+.prose ul, .prose ol { padding-left: 1.4em; margin: 0 0 1.2em; }
+.prose li { margin: .35em 0; }
+.prose code {
+	padding: 1px 6px; border-radius: 6px; background: var(--surface-2);
+	font: .88em var(--mono); border: 1px solid var(--border);
 }
-
-.card .circle:nth-child(1) {
-    width: 120px;
-    height: 120px;
-    top: -50px;
-    left: -50px;
-    background: linear-gradient(
-        #e524c3, #8626b2
-    );
-    animation-name: move-up;
+.prose pre {
+	overflow-x: auto; margin: 1.4em 0; padding: 16px 18px;
+	border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface);
+	font: .86rem/1.65 var(--mono); tab-size: 4;
 }
-
-.card .circle:nth-child(2) {
-    width: 180px;
-    height: 180px;
-    bottom: -80px;
-    right: -86px;
-    background: linear-gradient(
-        #d64612, #e48307
-    );
-    animation-name: move-down;
+.prose pre code { padding: 0; border: 0; background: none; font-size: inherit; }
+.prose blockquote {
+	margin: 1.4em 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--accent);
+	color: var(--muted);
 }
-
-@keyframes move-up {
-    to {
-        transform: translateY(-10px);
-    }
+.prose table {
+	display: block; overflow-x: auto; width: 100%;
+	margin: 1.4em 0; border-collapse: collapse; font-size: .92rem;
 }
-
-@keyframes move-down {
-    to {
-        transform: translateY(10px);
-    }
+.prose th, .prose td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.prose th { color: var(--muted); font-weight: 600; white-space: nowrap; border-bottom-color: var(--border-strong); }
+.prose ol { padding-left: 1.5em; }
+.callout {
+	margin: 1.6em 0; padding: 14px 18px; border: 1px solid var(--border-strong);
+	border-radius: var(--radius-sm); background: var(--accent-soft);
 }
+.callout p:last-child { margin: 0; }
+.back-link { display: inline-block; margin-top: 8px; color: var(--muted); text-decoration: none; font-size: .92rem; }
+.back-link:hover { color: var(--accent); }
 
-.card .profile img {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 12px solid rgba(255, 255, 255, .05);
+/* ===== 關於 ===== */
+.about-grid { display: grid; gap: 40px; padding: 8px 0 24px; }
+@media (min-width: 820px) { .about-grid { grid-template-columns: 240px 1fr; gap: 56px; } }
+
+.portrait {
+	width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
+	border: 1px solid var(--border-strong); padding: 5px; background: var(--surface);
 }
+@media (min-width: 820px) { .portrait { width: 220px; height: 220px; } }
 
-.card .profile h2 {
-    color: #f9f9f9;
-    font-size: 26px;
-    margin-top: 8px;
+.facts { margin: 22px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: .93rem; }
+.facts li { margin: 6px 0; }
+.facts b { color: var(--text); font-weight: 600; }
+
+.block { margin-bottom: 40px; }
+.block > h2 { margin-bottom: 14px; font-size: 1.2rem; }
+
+.timeline { margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--border-strong); }
+.timeline li { position: relative; padding: 0 0 20px 22px; }
+.timeline li::before {
+	content: ""; position: absolute; left: -5px; top: .62em; width: 9px; height: 9px;
+	border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
 }
+.timeline strong { display: block; font-weight: 600; }
+.timeline span { color: var(--muted); font-size: .93rem; }
 
-.card .profile p {
-    color: #e0e0e0;
-    font-size: 18px;
-}
+.skill-groups { display: grid; gap: 18px; }
+.skill-group h3 { margin-bottom: 8px; color: var(--muted); font: 500 .8rem/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
 
-.card .profile {
-    transform: translateY(20px);
-    transition: .4s ease-out;
-}
-
-.card:hover .profile {
-    transform: translateY(0);
-}
-
-.card .social-icons {
-    margin-top: 30px;
-}
-
-.card .social-icons i {
-    cursor: pointer;
-    color: #ddd;
-    margin: 0 8px;
-    font-size: 22px;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: .2s;
-}
-
-.card:hover .social-icons i {
-    opacity: 1;
-    transform: translateY(0); 
-}
-
-.card .social-icons i:hover {
-    color: #e48307;
-}
-
-.card .social-icons i:nth-child(1) {
-    transition-delay: .1s;
-}
-
-.card .social-icons i:nth-child(2) {
-    transition-delay: .2s;
-}
-
-.card .social-icons i:nth-child(3) {
-    transition-delay: .3s;
-}
-
-.card .social-icons i:nth-child(4) {
-    transition-delay: .4s;
-}
-
-/* #########################################################聯絡頁################################################################ */
-.contact-list {
-	max-width: 420px;
-	margin: 40px auto 60px;
-	padding: 0 16px;
-}
-
-.contact-list li {
-	margin: 16px 0;
-}
-
+/* ===== 聯絡 ===== */
+.contact-list { display: grid; gap: 12px; max-width: 520px; margin: 24px 0 0; padding: 0; list-style: none; }
 .contact-list a {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	padding: 16px 22px;
-	border-radius: 8px;
-	background: rgba(255, 255, 255, .05);
-	color: #f9f9f9;
-	text-decoration: none;
-	font-size: 1.1em;
-	transition: .3s;
+	display: flex; align-items: center; gap: 16px; padding: 16px 20px;
+	border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+	color: var(--text); text-decoration: none; transition: border-color .15s, background .15s;
+}
+.contact-list a:hover { border-color: var(--accent); background: var(--surface-2); }
+.contact-list svg { width: 22px; height: 22px; flex: none; fill: var(--accent); }
+.contact-list small { display: block; color: var(--muted); font-size: .8rem; line-height: 1.3; }
+.contact-list span { font-weight: 600; word-break: break-all; }
+.contact-list.secondary { margin-top: 14px; }
+.contact-list.secondary a { background: transparent; }
+.contact-list.secondary svg { fill: var(--muted); }
+
+/* ===== 工具頁（表單） ===== */
+.tool-wrap { max-width: 760px; padding-bottom: 32px; }
+.page-title .back-link { margin: 0 0 12px; }
+
+.tool-card {
+	display: grid; gap: 18px; margin-top: 24px; padding: clamp(18px, 4vw, 28px);
+	border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
 }
 
-.contact-list a:hover {
-	background: rgba(85, 214, 170, .2);
-	color: #55d6aa;
+.field, .fields label { display: grid; gap: 6px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.fields { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.field-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.field-row select { flex: 1 1 200px; }
+
+.tool-card input[type="text"], .tool-card select {
+	width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+	background: var(--bg); color: var(--text); font: 400 1rem var(--sans);
+}
+.tool-card input[type="text"]:focus, .tool-card select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tool-card input::placeholder { color: var(--muted); opacity: .6; }
+
+.radios { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: .95rem; }
+.radios label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.radios input { accent-color: var(--accent); }
+
+.form-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.tool-card input[type="submit"], .tool-card input[type="reset"], .tool-card input[type="button"] {
+	padding: 10px 22px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+	background: transparent; color: var(--text); font: 600 .95rem var(--sans); cursor: pointer;
+	transition: background .15s, border-color .15s, filter .15s;
+}
+.tool-card input[type="reset"]:hover { border-color: var(--accent); background: var(--surface-2); }
+.tool-card .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.tool-card .btn-primary:hover { filter: brightness(1.08); }
+
+/* ===== 頁尾 ===== */
+.site-footer { margin-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: .88rem; }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 22px; padding-bottom: 28px; }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent); }
+
+/* ===== 進場動畫（沒有 JS 時一律直接顯示） ===== */
+html.js .reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+html.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	.orbits .ring { animation: none; }
+	.logo-cursor, .brand:hover .logo-cursor { animation: none; }
+	html.js .reveal { opacity: 1; transform: none; transition: none; }
+	.card, .card-thumb img { transition: none; }
 }
 
-.contact-list i {
-	width: 1.4em;
-	text-align: center;
-	font-size: 1.4em;
+@media (max-width: 560px) {
+	.site-header .wrap { padding-top: 10px; padding-bottom: 8px; }
+	.site-nav { width: 100%; margin: 0 -6px; }
 }
 
-/* #########################################################Footer################################################################ */
-.footer-content {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-	margin: 5px 0;
-	text-align: center;
-}
-
-.footer-content .copyright {
-    color: #fff;
-    margin-top: 10px;
-	text-align: center;
-}
-
-.footer-content .contact-info .email-link {
-    color: #81C0C0; /* 設置超連結的初始顏色 */
-    text-decoration: none; /* 移除超連結的下劃線 */
-}
-
-.footer-content .contact-info .email-link:hover {
-    color: #8080C0; /* 懸停時改變超連結的顏色 */
-}
-
-/* #########################################################RWD響應式頁面################################################################ */
-@media (max-width: 1106px) {
-/* #########################################################上排列表################################################################ */
-	.menu {
-		border-style:solid;
-		border-radius: 30px;
-		text-align: center;
-	/*隱藏選單開始*/
-		max-height: 0px;
-		overflow: hidden;
-	/*隱藏選單結束*/
-		transition: max-height 1.0s;
-		margin-top: 5px;
-		margin-left: 1px;
-		margin-right: 2px;
-	/*絕對定位疊在網頁上*/
-		position: absolute;
-		z-index: 100;
-	/*header 80px+1px boder 線條*/
-		top: 85px;
-		left: 0;
-		right: 0;
-		background: #005757;
-	}
-	.menu li:last-child{
-		margin-bottom: 15px;
-	}
-	.menu li{
-		display: block; 
-		float: none;
-		margin: 0px auto;
-		padding-top: 0px; /* 調整項目上方間距 */
-		padding-bottom: 0px; /* 調整項目下方間距 */
-	}
-	.menu li a{
-		font-size: 20px; 
-		line-height: 2;
-		transition: all 0.6s;
-		color : white;
-		padding-bottom: 0px;
-	}
-	.menu li a:hover{
-		background: #69CA62;
-		color: white;
-	}
-	.showmenu{
-		display: block;
-		float: right;
-		margin-top: 1em;
-	}
-	/* site.js 點擊後動態在 body 加上 class */
-	.menu-show .menu{
-		max-height: 500px;
-	}
-	.menu li a::before {
-		height: 15px;
-		background-color: #80FFFF;
-		transition: all ease-in-out 400ms;
-	}
-/* #########################################################其他################################################################ */
-	h1 {
-		margin: 10% auto;
-	}
-	.aboutcss {
-		font-size: 1em;
-	}
-	.box {
-		width: 300px;
-		height: 137px;
-	}
-}
-/* 手機：只寫與上面 1106px 區塊不同的部分（此寬度兩個區塊都會生效） */
-@media (max-width: 500px) {
-	.logo {
-		width: 125px;
-		height: 40px;
-		margin: 0 auto; /* 水平置中 */
-	}
-	.showmenu {
-		margin-top: 0.5em;
-	}
-	.menu {
-		transition: max-height 2.0s;
-	}
-	.menu li a {
-		font-size: 15px;
-	}
-	.menu li a::before {
-		height: 10px;
-		transition: all ease-in-out 300ms;
-	}
+/* 最窄的手機（約 320–400px）：縮小導覽間距，讓四個項目維持同一行 */
+@media (max-width: 400px) {
+	.site-nav { gap: 0; margin: 0 -9px; }
+	.site-nav a { padding: 8px 10px; font-size: .9rem; }
 }

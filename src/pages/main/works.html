@@ -1,0 +1,23 @@
+---
+out: main/works.html
+title: 作品
+description: {{handle}} 的作品：網頁二十一點、研究所資料檢索系統、S-DES 加解密，以及 GlowScript 物理模擬。
+nav: works
+---
+<div class="wrap">
+	<div class="page-title reveal">
+		<h1>作品</h1>
+		<p>大多是學生時期的課程作業與專題，純前端、不依賴後端。每一個都附上試玩連結。</p>
+	</div>
+</div>
+
+<section class="section wrap reveal" style="padding-top: 24px">
+	<h2 class="sr-only">全部作品</h2>
+	<div class="cards">
+		{{> card-blackjack}}
+		{{> card-gs-search}}
+		{{> card-s-des}}
+		{{> card-collision-pi}}
+		{{> card-newtons-cradle}}
+	</div>
+</section>

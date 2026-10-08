@@ -1,0 +1,77 @@
+---
+out: main/notes/custom-protocol.html
+title: 看起來像 Modbus，其實不是
+description: 「TCP＋讀寫暫存器」的外觀很容易讓人直接套 Modbus。接手新機台前先做的五件事。
+nav: notes
+---
+<div class="wrap">
+	<header class="prose-head reveal">
+		<a class="back-link" href="{{root}}main/notes.html">← 技術筆記</a>
+		<h1>看起來像 Modbus，其實不是：接手新機台前先做的五件事</h1>
+		<p class="meta"><time datetime="2026-09">2026-09</time>　・　儀器軟體／通訊協議</p>
+		<ul class="tags" aria-label="用到的技術"><li class="tag">通訊協議</li><li class="tag">TCP</li><li class="tag">封包分析</li><li class="tag">Python</li></ul>
+	</header>
+
+	<article class="prose reveal">
+		<p>我是軟體背景，現在負責儀器端的整套軟體。第一次接手新機台，PC 端的操作模式是「用 TCP 連線，然後讀寫暫存器」，這跟 Modbus TCP 長得一模一樣，所以我很自然地拿 <code>pymodbus</code> 這類標準函式庫去連，結果連不上。</p>
+		<p>後來才搞清楚，那台機器用的是自訂封包格式，只是外觀像 Modbus。更糟的是，幾個月後換了另一個專案，我又犯了一次同樣的錯。這篇是我事後整理出來的檢查清單，目的是讓第三次不會發生。</p>
+
+		{{> ai-note}}
+
+		<h2>為什麼會誤判</h2>
+		<ul>
+			<li>Modbus 太普及了，「TCP＋讀寫暫存器」的操作模式幾乎直接聯想到它。</li>
+			<li>規格文件的位址表常同時列出兩欄，例如「PC 位址」和「MODBUS 位址」。但其中一欄可能只是作者自己的註記，並不代表通訊協議真的是 Modbus。</li>
+			<li>自訂協議可以做得「外觀像」：同樣是 TCP、同樣有位址和數值，內部的封包結構卻完全不同。</li>
+		</ul>
+
+		<h2>五件事</h2>
+
+		<h3>1. 預設它是自訂協議</h3>
+		<p>不要一開始就用標準函式庫試連線。先假設是自訂的，等證據顯示它真的是 Modbus，再切換。這個預設值的差別，在於連不上的時候你會往對的方向找原因。</p>
+
+		<h3>2. 找規格文件，並確認哪一段是你這個機型的</h3>
+		<p>文件常常混雜好幾個機型。先釐清哪些內容屬於自己手上的這台，位址欄位也要看清楚用的是哪一欄：<strong>實際要用的是「PC 位址」</strong>，不是看起來比較眼熟的那一欄。</p>
+
+		<h3>3. 找前人留下的逆向範例</h3>
+		<p>能動、但幾乎沒有註解的舊程式，價值比想像中高。用它實際送出的封包做 hex dump，再跟文件對照，比單靠啃文件更快確認真實行為。</p>
+
+		<h3>4. 對照三個常見特徵</h3>
+		<p>不是每個機型都一樣，但值得先檢查：</p>
+		<ul>
+			<li><strong>封包是固定長度</strong>，而不是 Modbus 那種長度會變的 PDU。</li>
+			<li><strong>Checksum 是自己算的</strong>，常見是加總或 XOR，而不是標準 CRC16。</li>
+			<li><strong>指令碼是自訂的</strong>，不是 Modbus 的 function code。</li>
+		</ul>
+
+		<h3>5. 先原封不動重送範例封包</h3>
+		<p>在動手寫自己的協議層之前，先確認「照著範例送一模一樣的封包，對方會回應」。確認這一步通了，再一次只改一個欄位，觀察回應怎麼變。</p>
+
+<pre><code>import socket
+
+def hexdump(b: bytes) -> str:
+    return " ".join(f"{x:02X}" for x in b)
+
+# 示意：把範例程式實際送出的封包原樣貼進來
+FRAME_HEX = "AA 01 00 10 00 02 00"
+
+with socket.create_connection((HOST, PORT), timeout=2) as s:
+    s.sendall(bytes.fromhex(FRAME_HEX))
+    print("RX", hexdump(s.recv(256)))</code></pre>
+
+		<p>需要自己組封包時，常見的 checksum 寫起來通常很短，下面是兩種示意。一樣的道理：先拿範例封包驗證自己算出來的值跟它的一不一樣，再相信自己的實作。</p>
+
+<pre><code>def checksum_sum8(payload: bytes) -> int:
+    return sum(payload) &amp; 0xFF
+
+def checksum_xor(payload: bytes) -> int:
+    c = 0
+    for b in payload:
+        c ^= b
+    return c</code></pre>
+
+		<h2>結語</h2>
+		<p>同一個坑踩兩次，不是因為不知道，而是兩次的情境剛好都「看起來像 Modbus」。把檢查清單寫下來、放在開新專案時一定會看到的地方，比記在腦袋裡可靠得多。</p>
+		<p>開新機台的第一步不是寫連線程式，而是先問：<strong>它真的是我以為的那個協議嗎？</strong></p>
+	</article>
+</div>

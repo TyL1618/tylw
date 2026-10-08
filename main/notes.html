@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>筆記 — TyL</title>
+<meta name="description" content="TyL 的技術筆記：工作上做過的事，踩過哪些坑、用到哪些技術。依月份排列，有完整文章，也有短記。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/main/notes.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="筆記 — TyL">
+<meta property="og:description" content="TyL 的技術筆記：工作上做過的事，踩過哪些坑、用到哪些技術。依月份排列，有完整文章，也有短記。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/main/notes.html">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/site.js" defer></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="../index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="../main/works.html">Works</a><a href="../main/notes.html" aria-current="page">Notes</a><a href="../main/about.html">About</a><a href="../main/contact.html">Contact</a></nav>
+	</div>
+</header>
+<main id="main">
+<div class="wrap">
+	<div class="page-title reveal">
+		<h1>技術筆記</h1>
+		<p>工作上做過的事：踩過哪些坑、用到哪些技術，只寫重點。依月份由新到舊；標「全文」的有完整文章，標「短記」的是幾行就說完的紀錄。</p>
+	</div>
+
+	<div class="callout reveal" style="max-width: 70ch; margin-top: 8px"><p><strong>AI 協作標示</strong>　這裡談到的工作專案，是我與 AI 助手（Claude）協作開發的；筆記依開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。不含公司、客戶或機型名稱。<a href="../main/about.html#ai">詳細說明</a></p></div>
+
+	<section class="section reveal" style="padding-top: 24px">
+		<ul class="note-list">
+			<li><a href="../main/notes/transport-framing.html">
+				<time datetime="2026-09">2026-09</time>
+				<h3>偶發的「讀回不一致」：一次傳輸層封包框架的錯位</h3>
+				<p>對儀器寫入一長串設定後，偶爾會讀回不一致。根因是收發框架會錯位，而且永遠不會自己恢復。</p>
+				<ul class="tags"><li class="tag">TCP</li><li class="tag">socket</li><li class="tag">封包框架</li><li class="tag">Python</li><li class="tag">單元測試</li></ul>
+			</a></li>
+			<li><a href="../main/notes/measure-before-guessing.html">
+				<time datetime="2026-09">2026-09</time>
+				<h3>登入頁「第 2 秒卡一下」：修了七輪都沒好，直到我改成先量再猜</h3>
+				<p>把主執行緒的停頓對齊時間軸，根因是一張 1490 萬像素的 LOGO；而且丟到背景執行緒完全沒用。</p>
+				<ul class="tags"><li class="tag">PyQt</li><li class="tag">效能剖析</li><li class="tag">GIL</li><li class="tag">圖片解碼</li><li class="tag">快取</li></ul>
+			</a></li>
+			<li><a href="../main/notes/custom-protocol.html">
+				<time datetime="2026-09">2026-09</time>
+				<h3>看起來像 Modbus，其實不是：接手新機台前先做的五件事</h3>
+				<p>「TCP＋讀寫暫存器」的外觀很容易讓人直接套 Modbus。我在這裡踩過兩次，後來整理成一份檢查清單。</p>
+				<ul class="tags"><li class="tag">通訊協議</li><li class="tag">TCP</li><li class="tag">封包分析</li><li class="tag">Python</li></ul>
+			</a></li>
+			<li><div class="item">
+				<time datetime="2026-09">2026-09</time>
+				<h3>印表機資料流的解碼：換行規則與跨批次狀態</h3>
+				<p>CR 與 LF 都會換行，但「CR LF」相連只算一次。用一個旗標跨「讀取批次」保留狀態，才不會在資料剛好被切在兩者中間時誤判成兩次換行；原始碼欄位仍完整顯示每一個 byte。</p>
+				<ul class="tags"><li class="tag">序列埠</li><li class="tag">串流解碼</li><li class="tag">Qt</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-09">2026-09</time>
+				<h3>兩邊講同一句「連線中」，意思卻相反</h3>
+				<p>使用者口中的「連線中」是「現在是通的」，系統裡同一個詞卻是「還沒確定連上的過渡態」。把狀態拆開，只有真的連上才用像「已連線」的字眼，過渡態一律加刪節號。</p>
+				<ul class="tags"><li class="tag">狀態機</li><li class="tag">UI 文案</li><li class="tag">i18n</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-09">2026-09</time>
+				<h3>用假資料自動截圖，產生使用手冊 PDF</h3>
+				<p>介面一改，手冊就過期。改成用假資料的環境自動截圖並排版成 PDF，改了介面重跑一次就好，不必手動重截。</p>
+				<ul class="tags"><li class="tag">自動化</li><li class="tag">PDF</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-09">2026-09</time>
+				<h3>設定檔裡的管理者密碼改存 PBKDF2 雜湊</h3>
+				<p>管理者密碼從明文改成 PBKDF2 雜湊，不再在設定檔裡存放可以直接讀出來的密碼。</p>
+				<ul class="tags"><li class="tag">資安</li><li class="tag">PBKDF2</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-09">2026-09</time>
+				<h3>請 AI 協助除錯時，它看到的環境可能不是你的</h3>
+				<p>AI 助手的終端機跑在沙箱裡，它讀到的 %APPDATA% 被系統重導向到另一個目錄：它以為在修我的資料庫，其實從頭到尾改的都是沙箱裡的副本。教訓：任何和本機檔案狀態有關的結論，以我自己終端機的輸出為準；驗證時把 APPDATA 指到明確的暫時目錄；並寫一個唯讀的診斷工具，專門回答「程式實際在用的是哪一份資料庫」。</p>
+				<ul class="tags"><li class="tag">AI 協作</li><li class="tag">Windows</li><li class="tag">除錯</li></ul>
+			</div></li>
+			<li><a href="../main/notes/config-externalization.html">
+				<time datetime="2026-08">2026-08</time>
+				<h3>新機型不該等於重新打包：把設定搬出程式碼</h3>
+				<p>把機型對照、狀態碼、調校參數、語言與角色權限搬到資料庫與外部設定檔，讓使用者自己就能調整。最危險的是「畫面看起來完全正常」的那種錯。</p>
+				<ul class="tags"><li class="tag">資料驅動設計</li><li class="tag">Supabase</li><li class="tag">MySQL</li><li class="tag">PyInstaller</li><li class="tag">i18n</li><li class="tag">權限模型</li></ul>
+			</a></li>
+			<li><a href="../main/notes/packaging-pitfalls.html">
+				<time datetime="2026-08">2026-08</time>
+				<h3>打包與發版的連環坑：防毒、批次檔誤判、50 MB 上限，以及「Python 能跑、exe 不行」</h3>
+				<p>同一個月裡連續踩到的四個坑：被防毒擋下、打包崩潰卻被批次檔誤判成功、免費方案的檔案上限、以及一個只在交付環境才會出現的型別 bug。</p>
+				<ul class="tags"><li class="tag">PyInstaller</li><li class="tag">批次檔</li><li class="tag">GitHub Releases</li><li class="tag">發版流程</li></ul>
+			</a></li>
+			<li><a href="../main/notes/qthread-crash.html">
+				<time datetime="2026-07">2026-07</time>
+				<h3>程式「什麼都沒做就自己閃退」：從當機紀錄追到 Qt 執行緒的 race condition</h3>
+				<p>三筆一模一樣的當機紀錄指向同一個地方：執行緒在還沒真正結束時就被銷毀。改用執行緒池，從源頭消除。</p>
+				<ul class="tags"><li class="tag">PyQt</li><li class="tag">多執行緒</li><li class="tag">QThreadPool</li><li class="tag">當機分析</li></ul>
+			</a></li>
+			<li><a href="../main/notes/rls-attack-test.html">
+				<time datetime="2026-07">2026-07</time>
+				<h3>自己攻擊自己的系統：權限收緊的遷移，反而開了一扇後門</h3>
+				<p>實際執行攻擊測試：註冊時信任客戶端傳的角色，任何人都能把自己變成管理者。改成邀請制，並記下儲存區 policy 的一個前綴坑。</p>
+				<ul class="tags"><li class="tag">PostgreSQL</li><li class="tag">RLS</li><li class="tag">Supabase</li><li class="tag">資安測試</li></ul>
+			</a></li>
+			<li><div class="item">
+				<time datetime="2026-07">2026-07</time>
+				<h3>多顆晶片共用同一個 IP：用鎖把請求序列化</h3>
+				<p>多顆晶片可能經由同一個 hub、共用同一個 IP，同時送請求會互相碰撞。以 IP 為 key 取同一把鎖：同 IP 序列化、不同 IP 互不阻塞。另外設定 TCP Keep-Alive，並用「連線存活秒數」協助判斷是不是被閒置逾時踢掉。</p>
+				<ul class="tags"><li class="tag">Modbus TCP</li><li class="tag">執行緒鎖</li><li class="tag">TCP Keep-Alive</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-07">2026-07</time>
+				<h3>壓力測試：同時 5 到 200 路連線</h3>
+				<p>全程 100% 連線成功、輪詢健康度 100%；200 路時 CPU 約每核心 3%、記憶體約 770 MB、執行緒約 213 條，都和連線數近乎線性。軟體本身沒有碰到瓶頸。</p>
+				<ul class="tags"><li class="tag">壓力測試</li><li class="tag">效能量測</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-07">2026-07</time>
+				<h3>現場網路排查：雙網卡同網段，封包從錯的網卡出去</h3>
+				<p>同一台電腦有兩張網卡落在同一個網段時，封包可能從錯的網卡送出。用 route add 指定該 IP 走哪張網卡；找不到設備時，用子網掃描找出開放 502 埠的機器。</p>
+				<ul class="tags"><li class="tag">網路設定</li><li class="tag">PowerShell</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-07">2026-07</time>
+				<h3>GUI 動畫卡頓：掉幀的真兇是進度條，不是大圖表</h3>
+				<p>把繪製成本降到原本的 1/3～1/6。設備詳情頁的掉幀不是錯覺，也不是大圖表，而是一條帶光暈的進度條。</p>
+				<ul class="tags"><li class="tag">Qt</li><li class="tag">繪圖效能</li></ul>
+			</div></li>
+			<li><div class="item">
+				<time datetime="2026-07">2026-07</time>
+				<h3>畫面只剩左上角、其餘全黑：與其修好它，不如讓它壞不了</h3>
+				<p>縮放檢視其實寄生在捲軸狀態上。先前用每 300 ms 自我修復一次的計時器治症狀；根治是把場景範圍設成剛好等於可視範圍，讓「捲動」物理上不可能發生，修復計時器就能全部拿掉。</p>
+				<ul class="tags"><li class="tag">Qt</li><li class="tag">QGraphicsView</li></ul>
+			</div></li>
+		</ul>
+	</section>
+</div>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
+</html>

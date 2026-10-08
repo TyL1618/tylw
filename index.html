@@ -1,59 +1,157 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" translate="no">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="google" content="notranslate">
-		<title>Home</title>
-		<link rel="icon" type="image/png" href="./assets/img/icon.png">
-		<link rel="stylesheet" href="./assets/css/site.css">
-		<script src="./assets/js/site.js" defer></script>
-	</head>
-	<body>
-		<header>
-			<div class="container3">
-				<img src="./assets/img/tyl.png" class="logo" alt="TyL_1.618">
-				<div>
-					<ul class="menu">
-						<li><a href="./index.html">Home</a></li>
-						<li><a href="./main/about.html">About</a></li>
-						<li><a href="./main/works.html">Works</a></li>
-						<li><a href="./main/contact.html">Contact</a></li>
-					</ul>
-					<a href="#" class="showmenu" aria-label="選單"><img src="./assets/img/menu.png" alt=""></a>
-				</div>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TyL — 個人網站</title>
+<meta name="description" content="TyL 的個人網站：軟體出身，負責材料特性測試儀器的整套軟體。放我做過的作品與一些技術筆記。">
+<meta name="theme-color" content="#0c0f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://tyl1618.github.io/tylw/">
+<link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="TyL — 個人網站">
+<meta property="og:description" content="TyL 的個人網站：軟體出身，負責材料特性測試儀器的整套軟體。放我做過的作品與一些技術筆記。">
+<meta property="og:url" content="https://tyl1618.github.io/tylw/">
+<meta property="og:image" content="https://tyl1618.github.io/tylw/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="./assets/css/site.css">
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="./assets/js/site.js" defer></script>
+
+</head>
+<body class="">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header class="site-header">
+	<div class="wrap">
+		<a class="brand" href="./index.html"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></a>
+		<nav class="site-nav" aria-label="主要選單"><a href="./main/works.html">Works</a><a href="./main/notes.html">Notes</a><a href="./main/about.html">About</a><a href="./main/contact.html">Contact</a></nav>
+	</div>
+</header>
+<main id="main">
+<div class="wrap">
+	<section class="hero">
+		<div class="reveal">
+			<p class="eyebrow">$ whoami</p>
+			<h1 class="hero-logo"><svg class="logo" viewBox="0 0 116 48" role="img" aria-label="TyL" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
+	<path class="logo-cursor" d="M98 40H110"/>
+</svg></h1>
+			<p class="lead">軟體出身，現在負責材料特性測試儀器的整套軟體：GUI、資料庫、App／PWA，到網路設定。這裡放我做過的東西，和一些技術筆記。</p>
+			<div class="actions">
+				<a class="btn btn-primary" href="./main/works.html">看作品</a>
+				<a class="btn" href="./main/notes.html">技術筆記</a>
+				<a class="icon-link" href="https://github.com/TyL1618" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.04-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.22.7.83.58C20.57 22.3 24 17.8 24 12.5 24 5.87 18.63.5 12 .5z"/></svg></a>
+				<a class="icon-link" href="./main/contact.html" data-user="tyl161803" data-domain="gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13A1.5 1.5 0 0 1 3.5 4zm.7 2.2L12 12.3l7.8-6.1H4.2zM20 8.2l-7.4 5.7a1 1 0 0 1-1.2 0L4 8.2V18h16V8.2z"/></svg></a>
 			</div>
-		</header>
+		</div>
+		<div class="orbits" aria-hidden="true">
+	<span class="sun"></span>
+	<span class="ring r1"><i></i></span>
+	<span class="ring r2"><i></i></span>
+	<span class="ring r3"><i></i></span>
+	<span class="ring r4"><i></i></span>
+</div>
+	</section>
+</div>
 
-		<hr class="split">
+<section class="section wrap reveal">
+	<div class="section-head">
+		<h2>精選作品</h2>
+		<a href="./main/works.html">全部作品 →</a>
+	</div>
+	<div class="cards">
+		<article class="card">
+	<a class="card-thumb" href="./main/works/blackjack/BlackJack.html" tabindex="-1" aria-hidden="true"><img src="./assets/img/works/blackjack.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="./main/works/blackjack/BlackJack.html">二十一點 <span lang="en">Blackjack</span></a></h3>
+		<p>大學作業。純手刻的網頁版二十一點，有加倍、投降、分牌與賭金機制，另外藏了一個作弊模式。</p>
+		<ul class="tags">
+			<li class="tag">JavaScript</li>
+			<li class="tag">HTML / CSS</li>
+		</ul>
+		<div class="card-links">
+			<a href="./main/works/blackjack/BlackJack.html">試玩</a>
+			<a href="./main/works/blackjack/cheat.html">作弊模式</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="./main/works/gs-search.html" tabindex="-1" aria-hidden="true"><img src="./assets/img/works/gs-search.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="./main/works/gs-search.html">臺灣研究所資料檢索系統</a></h3>
+		<p>資料庫課程的期末專題。沒有後端，直接把 Google 試算表當資料庫，查詢師資、學校、報考與論文資訊。</p>
+		<ul class="tags">
+			<li class="tag">JavaScript</li>
+			<li class="tag">Google Sheets</li>
+			<li class="tag">查詢語法</li>
+		</ul>
+		<div class="card-links">
+			<a href="./main/works/gs-search.html">使用</a>
+		</div>
+	</div>
+</article>
+		<article class="card">
+	<a class="card-thumb" href="./main/works/s-des.html" tabindex="-1" aria-hidden="true"><img src="./assets/img/works/s-des.webp" width="960" height="600" loading="lazy" alt=""></a>
+	<div class="card-body">
+		<h3><a href="./main/works/s-des.html">S-DES 加解密</a></h3>
+		<p>網路安全導論的作業。實作簡化版 DES，並逐步列出金鑰產生與每一輪運算的中間結果。</p>
+		<ul class="tags">
+			<li class="tag">JavaScript</li>
+			<li class="tag">密碼學</li>
+		</ul>
+		<div class="card-links">
+			<a href="./main/works/s-des.html">使用</a>
+		</div>
+	</div>
+</article>
+	</div>
+</section>
 
-		<!-- 太陽系 -->
-		<section id="solar-system">
-			<div id="sun"></div>
-			<article id="mercury-trajectory">
-				<div id="mercury"></div>
-			</article>
-			<article id="venus-trajectory">
-				<div id="venus"></div>
-			</article>
-			<article id="earth-trajectory">
-				<div id="earth"></div>
-			</article>
-			<article id="mars-trajectory">
-				<div id="mars"></div>
-			</article>
-		</section>
+<section class="section wrap reveal">
+	<div class="section-head">
+		<h2>技術筆記</h2>
+		<a href="./main/notes.html">全部筆記 →</a>
+	</div>
+	<ul class="note-list">
+		<li><a href="./main/notes/transport-framing.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>偶發的「讀回不一致」：一次傳輸層封包框架的錯位</h3>
+			<p>對儀器寫入一長串設定後，偶爾會讀回不一致。根因是收發框架會錯位，而且永遠不會自己恢復。</p>
+			<ul class="tags"><li class="tag">TCP</li><li class="tag">socket</li><li class="tag">封包框架</li><li class="tag">Python</li><li class="tag">單元測試</li></ul>
+		</a></li>
+		<li><a href="./main/notes/measure-before-guessing.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>登入頁「第 2 秒卡一下」：修了七輪都沒好，直到我改成先量再猜</h3>
+			<p>把主執行緒的停頓對齊時間軸，根因是一張 1490 萬像素的 LOGO；而且丟到背景執行緒完全沒用。</p>
+			<ul class="tags"><li class="tag">PyQt</li><li class="tag">效能剖析</li><li class="tag">GIL</li><li class="tag">圖片解碼</li><li class="tag">快取</li></ul>
+		</a></li>
+		<li><a href="./main/notes/custom-protocol.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>看起來像 Modbus，其實不是：接手新機台前先做的五件事</h3>
+			<p>「TCP＋讀寫暫存器」的外觀很容易讓人直接套 Modbus。我在這裡踩過兩次，後來整理成一份檢查清單。</p>
+			<ul class="tags"><li class="tag">通訊協議</li><li class="tag">TCP</li><li class="tag">封包分析</li><li class="tag">Python</li></ul>
+		</a></li>
+	</ul>
+</section>
 
-		<footer>
-			<hr class="split">
-			<div class="footer-content">
-				<div class="contact-info">
-					<p>Email: <a href="mailto:tyl161803@gmail.com" class="email-link">tyl161803@gmail.com</a></p>
-				</div>
-				<div class="copyright">
-					&copy; tyl_1.618 All rights reserved.
-				</div>
-			</div>
-		</footer>
-	</body>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"TyL","url":"https://tyl1618.github.io/tylw/","sameAs":["https://github.com/TyL1618"]}
+</script>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<span>&copy; 2026 TyL</span>
+		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="./main/about.html#ai">說明</a>）</span>
+	</div>
+</footer>
+</body>
 </html>

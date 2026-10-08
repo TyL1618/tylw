@@ -1,18 +1,18 @@
 var imagesArray = [];
 var cheater1=[40,41,42,43,44,45,46,47,48,49,50,51];
-imagesArray.push("./assets/img/cards/2C.png", "./assets/img/cards/2D.png", "./assets/img/cards/2H.png" ,"./assets/img/cards/2S.png");
-imagesArray.push("./assets/img/cards/3C.png", "./assets/img/cards/3D.png", "./assets/img/cards/3H.png" ,"./assets/img/cards/3S.png");
-imagesArray.push("./assets/img/cards/4C.png", "./assets/img/cards/4D.png", "./assets/img/cards/4H.png" ,"./assets/img/cards/4S.png");
-imagesArray.push("./assets/img/cards/5C.png", "./assets/img/cards/5D.png", "./assets/img/cards/5H.png" ,"./assets/img/cards/5S.png");
-imagesArray.push("./assets/img/cards/6C.png", "./assets/img/cards/6D.png", "./assets/img/cards/6H.png" ,"./assets/img/cards/6S.png");
-imagesArray.push("./assets/img/cards/7C.png", "./assets/img/cards/7D.png", "./assets/img/cards/7H.png" ,"./assets/img/cards/7S.png");
-imagesArray.push("./assets/img/cards/8C.png", "./assets/img/cards/8D.png", "./assets/img/cards/8H.png" ,"./assets/img/cards/8S.png");
-imagesArray.push("./assets/img/cards/9C.png", "./assets/img/cards/9D.png", "./assets/img/cards/9H.png" ,"./assets/img/cards/9S.png");
-imagesArray.push("./assets/img/cards/10C.png", "./assets/img/cards/10D.png", "./assets/img/cards/10H.png" ,"./assets/img/cards/10S.png");
-imagesArray.push("./assets/img/cards/AC.png", "./assets/img/cards/AD.png", "./assets/img/cards/AH.png" ,"./assets/img/cards/AS.png");
-imagesArray.push("./assets/img/cards/JC.png", "./assets/img/cards/JD.png", "./assets/img/cards/JH.png" ,"./assets/img/cards/JS.png");
-imagesArray.push("./assets/img/cards/QC.png", "./assets/img/cards/QD.png", "./assets/img/cards/QH.png" ,"./assets/img/cards/QS.png");
-imagesArray.push("./assets/img/cards/KC.png", "./assets/img/cards/KD.png", "./assets/img/cards/KH.png" ,"./assets/img/cards/KS.png");
+imagesArray.push("./assets/img/cards/2C.webp", "./assets/img/cards/2D.webp", "./assets/img/cards/2H.webp" ,"./assets/img/cards/2S.webp");
+imagesArray.push("./assets/img/cards/3C.webp", "./assets/img/cards/3D.webp", "./assets/img/cards/3H.webp" ,"./assets/img/cards/3S.webp");
+imagesArray.push("./assets/img/cards/4C.webp", "./assets/img/cards/4D.webp", "./assets/img/cards/4H.webp" ,"./assets/img/cards/4S.webp");
+imagesArray.push("./assets/img/cards/5C.webp", "./assets/img/cards/5D.webp", "./assets/img/cards/5H.webp" ,"./assets/img/cards/5S.webp");
+imagesArray.push("./assets/img/cards/6C.webp", "./assets/img/cards/6D.webp", "./assets/img/cards/6H.webp" ,"./assets/img/cards/6S.webp");
+imagesArray.push("./assets/img/cards/7C.webp", "./assets/img/cards/7D.webp", "./assets/img/cards/7H.webp" ,"./assets/img/cards/7S.webp");
+imagesArray.push("./assets/img/cards/8C.webp", "./assets/img/cards/8D.webp", "./assets/img/cards/8H.webp" ,"./assets/img/cards/8S.webp");
+imagesArray.push("./assets/img/cards/9C.webp", "./assets/img/cards/9D.webp", "./assets/img/cards/9H.webp" ,"./assets/img/cards/9S.webp");
+imagesArray.push("./assets/img/cards/10C.webp", "./assets/img/cards/10D.webp", "./assets/img/cards/10H.webp" ,"./assets/img/cards/10S.webp");
+imagesArray.push("./assets/img/cards/AC.webp", "./assets/img/cards/AD.webp", "./assets/img/cards/AH.webp" ,"./assets/img/cards/AS.webp");
+imagesArray.push("./assets/img/cards/JC.webp", "./assets/img/cards/JD.webp", "./assets/img/cards/JH.webp" ,"./assets/img/cards/JS.webp");
+imagesArray.push("./assets/img/cards/QC.webp", "./assets/img/cards/QD.webp", "./assets/img/cards/QH.webp" ,"./assets/img/cards/QS.webp");
+imagesArray.push("./assets/img/cards/KC.webp", "./assets/img/cards/KD.webp", "./assets/img/cards/KH.webp" ,"./assets/img/cards/KS.webp");
 var splitmode=0;
 var splitcardtemp=0;
 var splitcardval=0;
@@ -65,16 +65,16 @@ function gamestart()    //新一盤
 	document.getElementById("DealerTotalPoints").textContent=0; //修改莊家點數
 	document.getElementById("PlayerTotalPoints").textContent=0; //修改莊家點數
 	document.getElementById("chipsvalue").value='';
-	document.getElementById("dealertable1").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable2").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable3").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable4").src = "./assets/img/cards/black.png";
-	document.getElementById("dealertable5").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table1").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table2").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table3").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table4").src = "./assets/img/cards/black.png";
-	document.getElementById("player1table5").src = "./assets/img/cards/black.png";
+	document.getElementById("dealertable1").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable2").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable3").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable4").src = "./assets/img/cards/black.webp";
+	document.getElementById("dealertable5").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table1").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table2").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table3").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table4").src = "./assets/img/cards/black.webp";
+	document.getElementById("player1table5").src = "./assets/img/cards/black.webp";
 	//重置按鈕
 	document.getElementById("startButton").disabled = true;
 	document.getElementById("hitButton").disabled = true;
@@ -1193,7 +1193,7 @@ function chip()
 	}
 	//修改莊家總點數
 	document.getElementById("dealertable1").src = imagesArray[randomNum1];
-	document.getElementById("dealertable2").src = "./assets/img/cards/back1.png";
+	document.getElementById("dealertable2").src = "./assets/img/cards/back1.webp";
 	var dealercard1=0;
 	var dealercard2=0;
 	if(randomNum1<=35)
@@ -1322,7 +1322,7 @@ function split()
 {
 	playercardtotal-=splitcardval;  //player1總點數扣回
 	playercount=0;
-	document.getElementById("player1table2").src = "./assets/img/cards/black.png";  //player1 第二張收回
+	document.getElementById("player1table2").src = "./assets/img/cards/black.webp";  //player1 第二張收回
 	document.getElementById("player2table1").src = imagesArray[splitcardtemp];  //player2 第一張出現
 	player2cardtotal+=splitcardval;  //player2 總點數
 }

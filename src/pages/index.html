@@ -1,0 +1,65 @@
+---
+out: index.html
+title_full: {{handle}} — 個人網站
+description: {{handle}} 的個人網站：軟體出身，負責材料特性測試儀器的整套軟體。放我做過的作品與一些技術筆記。
+nav: none
+---
+<div class="wrap">
+	<section class="hero">
+		<div class="reveal">
+			<p class="eyebrow">$ whoami</p>
+			<h1 class="hero-logo">{{> logo}}</h1>
+			<p class="lead">軟體出身，現在負責材料特性測試儀器的整套軟體：GUI、資料庫、App／PWA，到網路設定。這裡放我做過的東西，和一些技術筆記。</p>
+			<div class="actions">
+				<a class="btn btn-primary" href="{{root}}main/works.html">看作品</a>
+				<a class="btn" href="{{root}}main/notes.html">技術筆記</a>
+				<a class="icon-link" href="https://github.com/TyL1618" target="_blank" rel="noopener" aria-label="GitHub">{{> icon-github}}</a>
+				<a class="icon-link" href="{{root}}main/contact.html" data-user="tyl161803" data-domain="gmail.com" aria-label="Email">{{> icon-mail}}</a>
+			</div>
+		</div>
+		{{> orbits}}
+	</section>
+</div>
+
+<section class="section wrap reveal">
+	<div class="section-head">
+		<h2>精選作品</h2>
+		<a href="{{root}}main/works.html">全部作品 →</a>
+	</div>
+	<div class="cards">
+		{{> card-blackjack}}
+		{{> card-gs-search}}
+		{{> card-s-des}}
+	</div>
+</section>
+
+<section class="section wrap reveal">
+	<div class="section-head">
+		<h2>技術筆記</h2>
+		<a href="{{root}}main/notes.html">全部筆記 →</a>
+	</div>
+	<ul class="note-list">
+		<li><a href="{{root}}main/notes/transport-framing.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>偶發的「讀回不一致」：一次傳輸層封包框架的錯位</h3>
+			<p>對儀器寫入一長串設定後，偶爾會讀回不一致。根因是收發框架會錯位，而且永遠不會自己恢復。</p>
+			<ul class="tags"><li class="tag">TCP</li><li class="tag">socket</li><li class="tag">封包框架</li><li class="tag">Python</li><li class="tag">單元測試</li></ul>
+		</a></li>
+		<li><a href="{{root}}main/notes/measure-before-guessing.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>登入頁「第 2 秒卡一下」：修了七輪都沒好，直到我改成先量再猜</h3>
+			<p>把主執行緒的停頓對齊時間軸，根因是一張 1490 萬像素的 LOGO；而且丟到背景執行緒完全沒用。</p>
+			<ul class="tags"><li class="tag">PyQt</li><li class="tag">效能剖析</li><li class="tag">GIL</li><li class="tag">圖片解碼</li><li class="tag">快取</li></ul>
+		</a></li>
+		<li><a href="{{root}}main/notes/custom-protocol.html">
+			<time datetime="2026-09">2026-09</time>
+			<h3>看起來像 Modbus，其實不是：接手新機台前先做的五件事</h3>
+			<p>「TCP＋讀寫暫存器」的外觀很容易讓人直接套 Modbus。我在這裡踩過兩次，後來整理成一份檢查清單。</p>
+			<ul class="tags"><li class="tag">通訊協議</li><li class="tag">TCP</li><li class="tag">封包分析</li><li class="tag">Python</li></ul>
+		</a></li>
+	</ul>
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"{{handle}}","url":"{{base}}","sameAs":["https://github.com/TyL1618"]}
+</script>

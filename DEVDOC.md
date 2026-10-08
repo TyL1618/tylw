@@ -2,52 +2,69 @@
 
 ## 個人網站（根目錄、`main/`）
 
-純靜態（原生 HTML/CSS/JS，無建置步驟、無後端），部署在 GitHub Pages：<https://tyl1618.github.io/tylw/>。
-`exam/` 是獨立的線上考卷系統（見下一節），刻意不連到個人網站，也不共用 CSS/JS。
+純靜態網站，部署在 GitHub Pages：<https://tyl1618.github.io/tylw/>。**沒有外部資源**（不用 CDN、字型、圖示套件），所有頁面共用一份設計系統。
+`exam/` 是獨立的線上考卷系統（見下一節），刻意不連到個人網站，個人網站也不要連過去或提到它。
 
-### 目錄結構
+### 怎麼改：改 `src/`，再執行建置
 
-素材一律放在各層的 `assets/`（分 `css/`、`js/`、`img/`），網頁（`.html`）留在原位，所以頁面網址不變。
+網頁的共用部分（`<head>`、頁首、頁尾）由一個零相依的小腳本產生，**輸出的 HTML 要一起 commit**（GitHub Pages 直接提供）。
+
+```bash
+node tools/build-site.mjs           # 依 src/ 產生所有頁面 + sitemap.xml + robots.txt
+node tools/build-site.mjs --check   # 不寫檔：輸出是否最新、所有本地連結／圖片是否存在
+```
 
 ```
-index.html                 首頁（太陽系動畫）
+src/
+  layout.html            全站共用的 <head>、頁首、頁尾（SEO／分享預覽的 meta 都在這裡）
+  partials/*.html        可重複使用的片段，用 {{> 名稱}} 引用（SVG 圖示、軌道動畫、作品卡片）
+  pages/**/*.html        每頁一個檔案：最上面 front matter（out、title、description、nav、css、js…），後面是內容
+tools/build-site.mjs     建置腳本，front matter 欄位說明寫在檔案開頭
+```
+
+- `{{root}}` 會被換成「該頁到網站根目錄」的相對路徑，所以頁面之間一律用相對路徑，本機預覽與線上行為一致。
+- **不要直接改輸出的 HTML**（`index.html`、`main/*.html`、`main/notes/*`、`main/works/*.html` 等），下次建置會被蓋掉。
+- `main/course-team-code.html` 不在建置範圍內：大學課程與同學合作的程式碼，紀念用，沒有任何連結指向它。
+
+### 目錄結構（輸出）
+
+```
+index.html                 首頁
+404.html  sitemap.xml  robots.txt
 assets/                    全站共用素材
-  css/site.css             全站共用樣式（含手機版選單）
-  js/site.js               手機選單開關、隱藏載入圈圈（不依賴 jQuery）
-  img/                     icon.png（favicon）、tyl.png（logo）、menu.png（選單圖示）
-    about/selfie3.jpg      關於頁的大頭照
-    works/                 作品列表的縮圖（bj、gs-search、sdes、cpi、nc）
+  css/site.css             設計系統：顏色／字型／間距都是 :root 變數，自動跟隨系統深淺色
+  js/site.js               捲動進場動畫、Email 組裝（不依賴任何套件）
+  img/                     favicon.svg、icon-32.png、apple-touch-icon.png、og-image.png（分享預覽圖）
+    about/                 大頭照（webp）
+    works/                 作品縮圖（webp，960x600）
 main/
-  about.html               關於我
-  works.html               作品列表（只放下面三個作品與兩個 GlowScript 外連）
-  contact.html             聯絡方式
-  course-team-code.html    大學課程與同學合作的程式碼（紀念用，沒有任何連結指向它）
+  works.html  notes.html  about.html  contact.html
+  notes/                   技術筆記（一篇一個檔案）
   works/
-    gs-search.html         臺灣研究所資料檢索系統（查 Google 試算表）
-    s-des.html             S-DES 加解密
-    assets/js/             S_DES_.js、jquery-3.3.1.min.js（s-des 仍用 jQuery）
-    blackjack/             二十一點（BlackJack.html 與 cheat.html 兩種模式；遊戲邏輯只靠元素 ID，改版面時 ID 要保留）
-      assets/css/          blackjack.css（自成一格的完整樣式，不依賴 site.css）
-      assets/js/           BJ.js、BJcheat.js
-      assets/img/          icon.png、logo.png
-      assets/img/cards/    撲克牌、牌背、佔位圖（JS 以 ./assets/img/cards/XX.png 動態引用）
-exam/                      線上考卷系統（自成一格，結構見下一節）
+    gs-search.html         臺灣研究所資料檢索系統
+    s-des.html             S-DES 加解密（仍用 jQuery 3.3.1，自行託管；演算法檔 S_DES_.js 是課堂作業原樣）
+    assets/css|js/         這兩個頁面專用的樣式與腳本
+    blackjack/             二十一點（BlackJack.html 一般模式、cheat.html 作弊模式）
+      assets/css/js/img/   遊戲樣式、BJ.js／BJcheat.js、撲克牌（webp，JS 以 ./assets/img/cards/XX.webp 動態引用）
+exam/                      線上考卷系統（自成一格）
 ```
 
-### 慣例
+### 常見工作
 
-- 頁面之間一律用**相對路徑**連結，這樣本機預覽（`python -m http.server`）跟線上行為一致。
-- 新增頁面：複製 `main/about.html` 的 `<head>` 與 `<header>`，並在每一頁的選單加上連結。
-- 新增素材：放進離使用它的頁面最近的那層 `assets/` 對應子資料夾；全站共用的才放根目錄 `assets/`。
-- JS 裡寫的圖片路徑是相對於「載入它的頁面」，不是相對於 JS 檔本身。
-- 每頁都要有 `<meta charset="utf-8">`（否則本機預覽中文會亂碼）與 `width=device-width` 的 viewport。
-- 區塊標題用 `class="section-title"`（標楷體＋滑過發光），分隔線用 `<hr class="split">`（`narrow` 為 50% 寬）。
-- 本機預覽時瀏覽器可能快取舊的 CSS/HTML，改了沒反應就強制重新整理。
+- **筆記只放業界做過的事，只寫重點**：踩過哪些坑、用到哪些技術。大學作業不放筆記（它們只在作品頁）。不寫公司、客戶、機型名稱，也不寫任何特定機台的實際封包或內部細節；**不寫牽涉對方公司行為的內容**；範例程式碼一律是示意用的。每篇文章要標出「用到的技術」標籤。建議結構：症狀／情境（通用化）→ 根因或踩過的坑 → 做法 → 結果 → 帶走的幾件事。
+- **日期只寫到月份**（例如 `2026-09`），不寫到日。
+- **AI 協作要明確標示**：每篇文章開頭用 `{{> ai-note}}`，筆記頁、關於頁（`#ai`）與頁尾也有說明。大學時期的作品與最初版網站是手寫的，沒有 AI。
+- **筆記是時間軸**：全文（有完整文章）與短記（幾行就說完）依月份由新到舊混排。清單與首頁的「技術筆記」區塊由 `tools/gen-notes-index.py` 依裡面的 `ENTRIES` 資料產生。
+- **新增筆記**：①（全文才需要）複製 `src/pages/main/notes/` 裡一篇，改 front matter 與內容；②在 `tools/gen-notes-index.py` 的 `ENTRIES` 加一筆（全文給 slug，短記給 `None`）；③依序執行 `python tools/gen-notes-index.py` 與 `node tools/build-site.mjs`。
+- **新增作品**：在 `assets/img/works/` 放一張 960x600 的 webp 縮圖，在 `src/partials/` 新增 `card-xxx.html`，到 `works.html`（和首頁）引用，建置。
+- **改色／字型／間距**：只動 `assets/css/site.css` 最上面的 `:root` 變數。
+- **二十一點的遊戲邏輯只靠元素 ID**，改版面時 ID 與 `onclick` 要保留。
 
-### 外部相依
+### 設計決策
 
-- Font Awesome 4.7（`about`、`contact` 的社群圖示）、AOS 2.3.4（捲動進場動畫）：都從 cdnjs 載入，版本已固定。
-- `gs-search.html` 的資料來源是一份 Google 試算表（網址與各分頁 gid 寫在頁面內的 `SHEET_URL`、`SHEETS`）。
+- 深色為主、單一強調色（`#55d6aa`）、系統字型、克制的動態；支援 `prefers-color-scheme` 與 `prefers-reduced-motion`。
+- Email 不直接寫在 HTML，由 `site.js` 載入後組出來（擋一般爬蟲）。
+- 圖片一律 WebP，並標上寬高避免版面跳動；縮圖用 `loading="lazy"`。
 
 ---
 
@@ -94,7 +111,7 @@ exam/
    **一定要先跑過第 2 步再 commit**，否則明文答案會進到公開的 git 歷史。建議直接用這條一次做完：
 
    ```bash
-   cd /d "C:\Users\tyl16\Documents\Private\tylw\tylw" && node exam\tools\build.mjs && git add exam && git commit -m "Add weekly exam" && git push
+   cd /d "C:\Users\tyl16\Documents\Private\tylw" && node exam\tools\build.mjs && git add exam && git commit -m "Add weekly exam" && git push
    ```
 
 ### 答案加密
