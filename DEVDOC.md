@@ -65,6 +65,8 @@ exam/                      線上考卷系統（自成一格）
 
 ### 設計決策
 
+- **雙語標題**：關於頁完整雙語（標題、簡介英文版、學歷、技能分類與標籤、興趣）；作品、技術筆記、聯絡與首頁區塊的標題也附英文，寫法是 `中文 <span class="en" lang="en">/ English</span>`。長篇技術筆記文章維持中文。網站上**不放中文全名**，只用羅馬拼音（`build-site.mjs` 的 `REAL_NAME`），也不寫「網路上用 TyL」這類說明。
+
 - 深色為主、單一強調色（`#55d6aa`）、系統字型、克制的動態；支援 `prefers-color-scheme` 與 `prefers-reduced-motion`（捲動進場動畫在該設定下停用）。
 - 手機版（≤560px）導覽列收成右上角漢堡選單（`.nav-toggle`，site.js 第 0 區）；沒有 JS 時退回一列直接顯示。
 - 首頁太陽系（`src/partials/orbits.html` + `assets/js/site.js` 第 3 區）是 SVG 傾斜橢圓＋requestAnimationFrame：行星週期 6.8／17.3／28／52.7 秒，繞到近端變大變亮、繞到太陽後方被遮擋。**刻意不理會 `prefers-reduced-motion`**（使用者的 Windows 關閉了動畫，若遵守就永遠是靜止的），改以右下角暫停鈕滿足 WCAG 2.2.2（選擇存在 localStorage `solar-paused`）；離開畫面或分頁隱藏時自動停止。想改成遵守系統設定：在 `site.js` 初始化處，系統為 reduce 時預設 `setPaused(true, false)`。

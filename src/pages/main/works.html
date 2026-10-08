@@ -6,17 +6,17 @@ nav: works
 ---
 <div class="wrap">
 	<div class="page-title reveal">
-		<h1>作品</h1>
+		<h1>作品 <span class="en" lang="en">/ Works</span></h1>
 		<div class="seg" role="tablist" aria-label="作品分類" data-tabs>
-			<button type="button" class="seg-btn" role="tab" id="tab-recent" aria-controls="panel-recent" aria-selected="true">近期作品</button>
-			<button type="button" class="seg-btn" role="tab" id="tab-past" aria-controls="panel-past" aria-selected="false" tabindex="-1">過去作品</button>
+			<button type="button" class="seg-btn" role="tab" id="tab-recent" aria-controls="panel-recent" aria-selected="true">近期作品 <span class="en" lang="en">/ Recent</span></button>
+			<button type="button" class="seg-btn" role="tab" id="tab-past" aria-controls="panel-past" aria-selected="false" tabindex="-1">過去作品 <span class="en" lang="en">/ Past</span></button>
 		</div>
 	</div>
 </div>
 
 <div class="tab-stage wrap" data-tab-stage>
 <section class="section tabpanel" id="panel-recent" role="tabpanel" aria-labelledby="tab-recent" style="padding-top: 24px">
-	<div class="section-head"><h2>近期作品</h2></div>
+	<div class="section-head"><h2>近期作品 <span class="en" lang="en">/ Recent Works</span></h2></div>
 	<div class="cards">
 		{{> card-taiexrider}}
 		{{> card-securechat}}
@@ -27,7 +27,7 @@ nav: works
 </section>
 
 <section class="section tabpanel" id="panel-past" role="tabpanel" aria-labelledby="tab-past" style="padding-top: 24px">
-	<div class="section-head"><h2>過去作品</h2></div>
+	<div class="section-head"><h2>過去作品 <span class="en" lang="en">/ Past Works</span></h2></div>
 	<p class="section-note">大學課程作業與專題，純前端、不依賴後端，都可以直接試玩。</p>
 	<div class="cards">
 		{{> card-blackjack}}

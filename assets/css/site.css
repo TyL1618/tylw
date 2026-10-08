@@ -321,6 +321,10 @@ html.js .tabpanel .section-head { position: absolute; width: 1px; height: 1px; o
 .facts li { margin: 6px 0; }
 .facts b { color: var(--text); font-weight: 600; }
 
+.en { color: var(--muted); font-weight: 500; }
+h3 .en, .tag .en { font-weight: 400; }
+.en-block { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted); }
+.en-sub { display: block; margin-top: 2px; color: var(--muted); font-size: .88rem; font-weight: 400; }
 .block { margin-bottom: 40px; }
 .block > h2 { margin-bottom: 14px; font-size: 1.2rem; }
 

@@ -13,7 +13,7 @@
 // front matter 欄位：
 //   out          輸出路徑（必填，例如 main/about.html）
 //   title        頁面標題（會自動加上「 — 網路代號」；首頁用 title_full 覆寫）
-//   （front matter 與內容裡可用 {{handle}}＝網路代號、{{real_name}}＝本名）
+//   （front matter 與內容裡可用 {{handle}}＝網路代號、{{real_name}}＝本名（只用羅馬拼音，不放中文全名））
 //   description  給搜尋引擎與分享預覽用的一句話
 //   nav          導覽列要標示哪一項：works | notes | about | contact | none
 //   css / js     額外載入的樣式／腳本，逗號分隔，路徑相對於「輸出檔」
@@ -30,7 +30,7 @@ const SRC = join(ROOT, 'src');
 const BASE_URL = 'https://tyl1618.github.io/tylw/';
 // 網站對外的名稱只改這裡。HANDLE 是網路代號（頁首、標題、頁尾都用它）；本名只在「關於」頁出現。
 const HANDLE = 'TyL';
-const REAL_NAME = '蔡昀龍';
+const REAL_NAME = 'Yun Long Tsai';
 const SITE = HANDLE;
 const OG_IMAGE = 'assets/img/og-image.png';
 // Cloudflare Web Analytics 的 token（匿名、不使用 cookie）。留空就不載入統計。頁尾不放任何說明（使用者決定）。
