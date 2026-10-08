@@ -1,5 +1,12 @@
 // 全站共用腳本（無相依套件）
 (() => {
+	// -1. 不給右鍵、複製、選取、拖曳（圖片也不能另存）；輸入欄位例外，才能輸入與貼上。
+	//     這只能擋一般操作，擋不了檢視原始碼或截圖。
+	const inField = (e) => e.target instanceof Element && !!e.target.closest('input, textarea, select');
+	['contextmenu', 'copy', 'cut', 'dragstart', 'selectstart'].forEach((type) => {
+		document.addEventListener(type, (e) => { if (!inField(e)) e.preventDefault(); });
+	});
+
 	// 0. 手機版漢堡選單：點按鈕開關；點選項、按 Esc、點選單外面、放大到桌機寬度都會收起
 	const navBtn = document.querySelector('.nav-toggle');
 	const nav = document.getElementById('site-nav');

@@ -58,6 +58,11 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* 內容不給選取、複製、拖曳（搭配 site.js 擋右鍵與複製）；表單欄位例外，才能輸入與貼上 */
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input[type="text"], input[type="search"], input[type="number"], input[type="email"], textarea { -webkit-user-select: text; user-select: text; }
+img, svg { -webkit-user-drag: none; -webkit-touch-callout: none; }
+
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 
