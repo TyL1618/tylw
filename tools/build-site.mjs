@@ -12,7 +12,7 @@
 //
 // front matter 欄位：
 //   out          輸出路徑（必填，例如 main/about.html）
-//   title        頁面標題（會自動加上「 — 網路代號」；首頁用 title_full 覆寫）
+//   title        頁面標題（會自動加上「 | 網路代號」；首頁用 title_full 覆寫）
 //   （front matter 與內容裡可用 {{handle}}＝網路代號、{{real_name}}＝本名（只用羅馬拼音，不放中文全名））
 //   description  給搜尋引擎與分享預覽用的一句話
 //   nav          導覽列要標示哪一項：home | works | notes | about | contact | none
@@ -86,7 +86,7 @@ function render({ meta, content, src }) {
 	const root = meta.root ?? (depth === 0 ? './' : '../'.repeat(depth));
 	const url = BASE_URL + (out === 'index.html' ? '' : out);
 	const fill = (s) => String(s ?? '').replaceAll('{{handle}}', HANDLE).replaceAll('{{real_name}}', REAL_NAME);
-	const title = fill(meta.title_full ?? `${meta.title} — ${SITE}`);
+	const title = fill(meta.title_full ?? `${meta.title} | ${SITE}`);
 	const nav = NAV.map(([key, path, label]) =>
 		`<a href="${root}${path}"${meta.nav === key ? ' aria-current="page"' : ''}>${label}</a>`).join('');
 	const head = [
