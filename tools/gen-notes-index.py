@@ -99,7 +99,7 @@ nav: notes
 		<p>工作上做過的事：踩過哪些坑、用到哪些技術，只寫重點。依月份由新到舊；標「全文」的有完整文章，標「短記」的是幾行就說完的紀錄。</p>
 	</div>
 
-	<div class="callout reveal" style="max-width: 70ch; margin-top: 8px"><p><strong>AI 協作標示</strong>　這裡談到的工作專案，是我與 AI 助手（Claude）協作開發的；筆記依開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。不含公司、客戶或機型名稱。<a href="{{{{root}}}}main/about.html#ai">詳細說明</a></p></div>
+	<div class="callout reveal" style="max-width: 70ch; margin-top: 8px"><p><strong>AI 協作標示</strong>　這裡談到的工作專案，是我與 AI 助手（Claude）協作開發的；筆記依開發紀錄整理，文字由 AI 協助撰寫，經我審閱後發布。不含公司、客戶或機型名稱。</p></div>
 
 	<section class="section reveal" style="padding-top: 24px">
 		<ul class="note-list">

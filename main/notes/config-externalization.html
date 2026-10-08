@@ -33,7 +33,11 @@
 	<g class="logo-letters"><path d="M6 8H30M18 8V40"/><path d="M38 18L50 34M62 18L46 44"/><path d="M72 8V40H92"/></g>
 	<path class="logo-cursor" d="M98 40H110"/>
 </svg></a>
-		<nav class="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
+		<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="開啟選單">
+			<svg viewBox="0 0 24 24" class="i-open" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+			<svg viewBox="0 0 24 24" class="i-close" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+		</button>
+		<nav class="site-nav" id="site-nav" aria-label="主要選單"><a href="../../main/works.html">Works</a><a href="../../main/notes.html" aria-current="page">Notes</a><a href="../../main/about.html">About</a><a href="../../main/contact.html">Contact</a></nav>
 	</div>
 </header>
 <main id="main">
@@ -121,7 +125,6 @@
 <footer class="site-footer">
 	<div class="wrap">
 		<span>&copy; 2026 TyL</span>
-		<span>純靜態網站・沒有追蹤・沒有外部資源・部分內容與 AI 協作（<a href="../../main/about.html#ai">說明</a>）</span>
 	</div>
 </footer>
 </body>

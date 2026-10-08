@@ -53,7 +53,7 @@ exam/                      線上考卷系統（自成一格）
 
 - **筆記只放業界做過的事，只寫重點**：踩過哪些坑、用到哪些技術。大學作業不放筆記（它們只在作品頁）。不寫公司、客戶、機型名稱，也不寫任何特定機台的實際封包或內部細節；**不寫牽涉對方公司行為的內容**；範例程式碼一律是示意用的。每篇文章要標出「用到的技術」標籤。建議結構：症狀／情境（通用化）→ 根因或踩過的坑 → 做法 → 結果 → 帶走的幾件事。
 - **日期只寫到月份**（例如 `2026-09`），不寫到日。
-- **AI 協作要明確標示**：每篇文章開頭用 `{{> ai-note}}`，筆記頁、關於頁（`#ai`）與頁尾也有說明。大學時期的作品與最初版網站是手寫的，沒有 AI。
+- **AI 協作要明確標示**：只在筆記範圍內：每篇文章開頭用 `{{> ai-note}}`，筆記頁頂端有說明。**頁尾與關於頁都不放**（使用者明確說過 AI 協作只在筆記內提到就好，頁尾只留 © 與名稱）。大學時期的作品與最初版網站是手寫的，沒有 AI。
 - **筆記是時間軸**：全文（有完整文章）與短記（幾行就說完）依月份由新到舊混排。清單與首頁的「技術筆記」區塊由 `tools/gen-notes-index.py` 依裡面的 `ENTRIES` 資料產生。
 - **新增筆記**：①（全文才需要）複製 `src/pages/main/notes/` 裡一篇，改 front matter 與內容；②在 `tools/gen-notes-index.py` 的 `ENTRIES` 加一筆（全文給 slug，短記給 `None`）；③依序執行 `python tools/gen-notes-index.py` 與 `node tools/build-site.mjs`。
 - **新增作品**：在 `assets/img/works/` 放一張 960x600 的 webp 縮圖，在 `src/partials/` 新增 `card-xxx.html`，到 `works.html`（和首頁）引用，建置。
@@ -63,6 +63,7 @@ exam/                      線上考卷系統（自成一格）
 ### 設計決策
 
 - 深色為主、單一強調色（`#55d6aa`）、系統字型、克制的動態；支援 `prefers-color-scheme` 與 `prefers-reduced-motion`（捲動進場動畫在該設定下停用）。
+- 手機版（≤560px）導覽列收成右上角漢堡選單（`.nav-toggle`，site.js 第 0 區）；沒有 JS 時退回一列直接顯示。
 - 首頁太陽系（`src/partials/orbits.html` + `assets/js/site.js` 第 3 區）是 SVG 傾斜橢圓＋requestAnimationFrame：行星週期 6.8／17.3／28／52.7 秒，繞到近端變大變亮、繞到太陽後方被遮擋。**刻意不理會 `prefers-reduced-motion`**（使用者的 Windows 關閉了動畫，若遵守就永遠是靜止的），改以右下角暫停鈕滿足 WCAG 2.2.2（選擇存在 localStorage `solar-paused`）；離開畫面或分頁隱藏時自動停止。想改成遵守系統設定：在 `site.js` 初始化處，系統為 reduce 時預設 `setPaused(true, false)`。
 - Email 不直接寫在 HTML，由 `site.js` 載入後組出來（擋一般爬蟲）。
 - 圖片一律 WebP，並標上寬高避免版面跳動；縮圖用 `loading="lazy"`。

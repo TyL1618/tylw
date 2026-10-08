@@ -1,5 +1,25 @@
 // 全站共用腳本（無相依套件）
 (() => {
+	// 0. 手機版漢堡選單：點按鈕開關；點選項、按 Esc、點選單外面、放大到桌機寬度都會收起
+	const navBtn = document.querySelector('.nav-toggle');
+	const nav = document.getElementById('site-nav');
+	if (navBtn && nav) {
+		const setNav = (open) => {
+			nav.classList.toggle('open', open);
+			navBtn.setAttribute('aria-expanded', String(open));
+			navBtn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+		};
+		navBtn.addEventListener('click', () => setNav(!nav.classList.contains('open')));
+		nav.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && nav.classList.contains('open')) { setNav(false); navBtn.focus(); }
+		});
+		document.addEventListener('click', (e) => {
+			if (nav.classList.contains('open') && !nav.contains(e.target) && !navBtn.contains(e.target)) setNav(false);
+		});
+		window.matchMedia('(min-width: 561px)').addEventListener('change', (e) => { if (e.matches) setNav(false); });
+	}
+
 	// 1. 捲動進場：沒有 IntersectionObserver 或偏好減少動態時，直接全部顯示
 	const items = document.querySelectorAll('.reveal');
 	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
