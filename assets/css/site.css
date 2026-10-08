@@ -171,27 +171,26 @@ main { display: block; flex: 1 0 auto; }
 }
 .icon-link:hover { color: var(--accent); border-color: var(--accent); }
 
-/* 軌道動畫（裝飾用；致敬舊版的太陽系） */
-.orbits { position: relative; width: min(100%, 360px); aspect-ratio: 1; margin: 0 auto; }
-.orbits .sun {
-	position: absolute; inset: 0; margin: auto; width: 13%; aspect-ratio: 1; border-radius: 50%;
-	background: var(--accent); box-shadow: 0 0 40px 6px var(--accent-soft), 0 0 0 8px var(--accent-soft);
-}
-.orbits .ring {
-	position: absolute; inset: 0; margin: auto; aspect-ratio: 1; border-radius: 50%;
-	border: 1px solid var(--border-strong); animation: spin var(--t) linear infinite;
-}
-.orbits .ring i {
-	position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px;
-	border-radius: 50%; background: var(--accent);
-}
-.orbits .r1 { width: 32%; --t: 18s; }
-.orbits .r2 { width: 50%; --t: 31s; }
-.orbits .r3 { width: 72%; --t: 52s; }
-.orbits .r4 { width: 98%; --t: 84s; }
-.orbits .r1 i, .orbits .r3 i { width: 6px; height: 6px; top: -3px; margin-left: -3px; opacity: .7; }
+/* 傾斜的太陽系（裝飾用；致敬舊版）。行星位置由 site.js 逐幀計算，這裡只管外觀 */
+.solar { position: relative; width: min(100%, 460px); margin: 0 auto; }
+.solar > svg { display: block; width: 100%; height: auto; overflow: visible; }
+.solar-rings ellipse { fill: none; stroke: var(--border-strong); stroke-width: 1; }
+.solar .core { fill: var(--accent); }
+.solar .halo-1 { fill: var(--accent); opacity: .16; }
+.solar .halo-2 { fill: var(--accent); opacity: .07; }
+.solar-planet { fill: var(--accent); }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+.solar-toggle {
+	position: absolute; right: 0; bottom: -6px; width: 34px; height: 34px;
+	display: grid; place-items: center; padding: 0;
+	border: 1px solid var(--border); border-radius: 50%; background: var(--bg);
+	color: var(--muted); cursor: pointer; transition: color .15s, border-color .15s;
+}
+.solar-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.solar-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+.solar-toggle .i-play { display: none; }
+.solar-toggle[aria-pressed="true"] .i-pause { display: none; }
+.solar-toggle[aria-pressed="true"] .i-play { display: block; }
 
 /* ===== 卡片 ===== */
 .cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
@@ -368,7 +367,6 @@ html.js .reveal.in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
 	html { scroll-behavior: auto; }
-	.orbits .ring { animation: none; }
 	.logo-cursor, .brand:hover .logo-cursor { animation: none; }
 	html.js .reveal { opacity: 1; transform: none; transition: none; }
 	.card, .card-thumb img { transition: none; }

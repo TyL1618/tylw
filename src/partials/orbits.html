@@ -1,7 +1,23 @@
-<div class="orbits" aria-hidden="true">
-	<span class="sun"></span>
-	<span class="ring r1"><i></i></span>
-	<span class="ring r2"><i></i></span>
-	<span class="ring r3"><i></i></span>
-	<span class="ring r4"><i></i></span>
+<div class="solar" data-solar>
+	<svg viewBox="-215 -150 430 300" aria-hidden="true" focusable="false">
+		<g transform="rotate(-16)">
+			<g class="solar-rings">
+				<ellipse rx="52" ry="20"/>
+				<ellipse rx="84" ry="32"/>
+				<ellipse rx="120" ry="46"/>
+				<ellipse rx="160" ry="61"/>
+			</g>
+			<g class="solar-back"></g>
+			<g class="solar-sun">
+				<circle r="40" class="halo-2"/>
+				<circle r="27" class="halo-1"/>
+				<circle r="14" class="core"/>
+			</g>
+			<g class="solar-front"></g>
+		</g>
+	</svg>
+	<button type="button" class="solar-toggle" aria-pressed="false" aria-label="暫停軌道動畫" title="暫停／播放">
+		<svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+		<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+	</button>
 </div>
