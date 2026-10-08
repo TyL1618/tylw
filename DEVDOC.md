@@ -70,7 +70,7 @@ exam/                      線上考卷系統（自成一格）
 - 深色為主、單一強調色（`#55d6aa`）、系統字型、克制的動態；支援 `prefers-color-scheme` 與 `prefers-reduced-motion`（捲動進場動畫在該設定下停用）。
 - 手機版（≤560px）導覽列收成右上角漢堡選單（`.nav-toggle`，site.js 第 0 區）；沒有 JS 時退回一列直接顯示。
 - 首頁太陽系（`src/partials/orbits.html` + `assets/js/site.js` 第 3 區）是 SVG 傾斜橢圓＋requestAnimationFrame：行星週期 6.8／17.3／28／52.7 秒，繞到近端變大變亮、繞到太陽後方被遮擋。**刻意不理會 `prefers-reduced-motion`**（使用者的 Windows 關閉了動畫，若遵守就永遠是靜止的），改以右下角暫停鈕滿足 WCAG 2.2.2（選擇存在 localStorage `solar-paused`）；離開畫面或分頁隱藏時自動停止。想改成遵守系統設定：在 `site.js` 初始化處，系統為 reduce 時預設 `setPaused(true, false)`。
-- Email 不直接寫在 HTML，由 `site.js` 載入後組出來（擋一般爬蟲）。
+- Email 不直接寫在 HTML，由 `site.js` 載入後組出來（擋一般爬蟲）。點 Email 會複製信箱並短暫顯示「已複製」（因為有些電腦沒設定郵件程式，mailto 會沒反應；全站又擋了複製與右鍵），聯絡頁另有「用 Gmail 網頁寫信」連結，網址同樣由 JS 組出。
 - 圖片一律 WebP，並標上寬高避免版面跳動；縮圖用 `loading="lazy"`。
 
 ---

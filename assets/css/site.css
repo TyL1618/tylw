@@ -369,6 +369,7 @@ h3 .en, .tag .en { font-weight: 400; }
 .contact-list svg { width: 22px; height: 22px; flex: none; fill: var(--accent); }
 .contact-list small { display: block; color: var(--muted); font-size: .8rem; line-height: 1.3; }
 .contact-list span { font-weight: 600; word-break: break-all; }
+.mail-alt { max-width: 520px; margin: 14px 0 0; color: var(--muted); font-size: .88rem; }
 
 /* ===== 工具頁（表單） ===== */
 .tool-wrap { max-width: 760px; padding-bottom: 32px; }

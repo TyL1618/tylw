@@ -87,6 +87,21 @@
 		if (el.tagName === 'A') el.href = `mailto:${addr}`;
 		const label = el.querySelector('[data-mail-text]') || (el.children.length ? null : el);
 		if (label) label.textContent = addr;
+		// 有些電腦沒設定郵件程式，點 mailto 會沒反應：點的時候順便複製信箱，並在原處短暫顯示「已複製」
+		if (el.tagName === 'A' && el.querySelector('[data-mail-text]') && navigator.clipboard) {
+			el.addEventListener('click', () => {
+				navigator.clipboard.writeText(addr).then(() => {
+					const t = el.querySelector('[data-mail-text]');
+					t.textContent = '已複製 / Copied';
+					setTimeout(() => { t.textContent = addr; }, 1600);
+				}, () => { /* 複製失敗就維持原狀 */ });
+			});
+		}
+	});
+	// Gmail 網頁版寫信連結（同樣由 JS 組出網址，不直接寫在 HTML）
+	const first = document.querySelector('[data-user][data-domain]');
+	document.querySelectorAll('[data-gmail]').forEach((el) => {
+		if (first) el.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(`${first.dataset.user}@${first.dataset.domain}`)}`;
 	});
 	// 3. 傾斜的太陽系（首頁裝飾）：橢圓軌道、行星依真實公轉週期比例運行、近大遠小，
 	//    繞到太陽後方會被遮住。預設就會動；右下角有暫停按鈕（記在這個瀏覽器），
