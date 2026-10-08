@@ -47,6 +47,22 @@
 		if (location.hash === '#past') select(btns[1], false);
 	}
 
+	// -2. 預先載入：滑鼠移到（或手指碰到、鍵盤聚焦）站內連結時，先把那一頁抓進快取，點下去就幾乎瞬間換頁
+	const prefetched = new Set();
+	const prefetch = (e) => {
+		const a = e.target instanceof Element && e.target.closest('a[href]');
+		if (!a || a.target === '_blank' || a.origin !== location.origin || /^(mailto|tel):/.test(a.href)) return;
+		const url = a.href.split('#')[0];
+		if (url === location.href.split('#')[0] || prefetched.has(url) || /\/exam\//.test(url)) return;
+		prefetched.add(url);
+		const l = document.createElement('link');
+		l.rel = 'prefetch'; l.href = url;
+		document.head.appendChild(l);
+	};
+	document.addEventListener('pointerover', prefetch, { passive: true });
+	document.addEventListener('touchstart', prefetch, { passive: true });
+	document.addEventListener('focusin', prefetch);
+
 	// 0. 手機版漢堡選單：點按鈕開關；點選項、按 Esc、點選單外面、放大到桌機寬度都會收起
 	const navBtn = document.querySelector('.nav-toggle');
 	const nav = document.getElementById('site-nav');

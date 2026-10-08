@@ -156,7 +156,6 @@ html.js .tabpanel .section-head { position: absolute; width: 1px; height: 1px; o
 /* 偏好減少動態時只保留淡入淡出（點擊才觸發、約 0.2 秒），不位移 */
 @media (prefers-reduced-motion: reduce) { .tabpanel, .tabpanel.is-fading { transform: none; } }
 
-.section-note { margin: -6px 0 18px; color: var(--muted); font-size: .95rem; }
 .section-head a { font-size: .92rem; color: var(--muted); text-decoration: none; }
 .section-head a:hover { color: var(--accent); }
 
