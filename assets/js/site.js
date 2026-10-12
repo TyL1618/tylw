@@ -96,6 +96,7 @@
 		}
 	}
 	let ticking = false;
+	let pinned = null;
 	const onScroll = () => {
 		ticking = false;
 		if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -106,11 +107,19 @@
 		if (tocLinks.length) {
 			let cur = 0;
 			tocHeads.forEach((h, i) => { if (h.getBoundingClientRect().top <= 120) cur = i; });
+			// 捲到頁面最底時，最後幾個章節的標題永遠碰不到上緣，所以直接算最後一個
+			if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) cur = tocHeads.length - 1;
+			// 剛點過目錄時，以點的那一項為準，直到使用者自己捲動（滾輪、觸控、鍵盤、拖捲軸）
+			if (pinned !== null) cur = pinned;
 			tocLinks.forEach((a, i) => a.classList.toggle('on', i === cur));
 		}
 	};
 	window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 	window.addEventListener('resize', onScroll);
+	tocLinks.forEach((a, i) => a.addEventListener('click', () => { pinned = i; onScroll(); }));
+	['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((type) => {
+		window.addEventListener(type, () => { if (pinned !== null) { pinned = null; onScroll(); } }, { passive: true });
+	});
 	onScroll();
 
 	// -2.5 首頁 $ whoami：每個瀏覽工作階段只打一次字（約 0.6 秒），打完游標消失
