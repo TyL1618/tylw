@@ -101,10 +101,17 @@ function render({ meta, content, src }) {
 	].join('\n');
 	const scripts = (meta.js ? meta.js.split(',').map((s) => `<script src="${s.trim()}"></script>`) : []).join('\n');
 
+	const pagerLink = (cls, href, title, label) => `<a class="${cls}" rel="${cls}" href="${root}${href}"><small>${label}</small>${esc(title)}</a>`;
+	const pager = (meta.prev_href || meta.next_href)
+		? '<div class="wrap"><nav class="note-pager" aria-label="上一篇與下一篇">'
+			+ (meta.prev_href ? pagerLink('prev', meta.prev_href, meta.prev_title, '← 上一篇 / Previous') : '<span></span>')
+			+ (meta.next_href ? pagerLink('next', meta.next_href, meta.next_title, '下一篇 / Next →') : '<span></span>')
+			+ '</nav></div>'
+		: '';
 	const vars = {
 		title: esc(title), description: esc(fill(meta.description)), canonical: url, handle: HANDLE, real_name: REAL_NAME,
 		og_image: BASE_URL + OG_IMAGE, root, base: BASE_URL, nav, head, scripts,
-		body_class: meta.body_class ?? '', site: SITE, site_css: SITE_CSS,
+		body_class: meta.body_class ?? '', site: SITE, site_css: SITE_CSS, pager,
 		analytics: CF_ANALYTICS_TOKEN
 			? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${CF_ANALYTICS_TOKEN}"}'></script>` : '',
 	};

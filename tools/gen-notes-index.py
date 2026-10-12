@@ -120,8 +120,26 @@ def update_home():
     p.write_text(new, encoding='utf-8', newline='')
 
 
+def update_pagers():
+    """依時間軸順序，為每一篇全文寫入上一篇（較舊）／下一篇（較新）的 front matter，build-site.mjs 會據此產生頁尾導覽。"""
+    full = [e for e in sorted_entries() if e[4]]  # 新到舊
+    for i, e in enumerate(full):
+        newer = full[i - 1] if i > 0 else None
+        older = full[i + 1] if i + 1 < len(full) else None
+        p = ROOT / f'src/pages/main/notes/{e[4]}.html'
+        s = p.read_text(encoding='utf-8')
+        m = re.match(r'---\n(.*?)\n---\n', s, flags=re.S)
+        lines = [ln for ln in m.group(1).split('\n') if not ln.startswith(('prev_href:', 'prev_title:', 'next_href:', 'next_title:'))]
+        if older:
+            lines += [f'prev_href: main/notes/{older[4]}.html', f'prev_title: {older[1]}']
+        if newer:
+            lines += [f'next_href: main/notes/{newer[4]}.html', f'next_title: {newer[1]}']
+        p.write_text('---\n' + '\n'.join(lines) + '\n---\n' + s[m.end():], encoding='utf-8', newline='')
+
+
 if __name__ == '__main__':
     (ROOT / 'src/pages/main/notes.html').write_text(build_notes_page(), encoding='utf-8', newline='')
     update_home()
+    update_pagers()
     full = sum(1 for e in ENTRIES if e[4])
     print(f'已產生：{full} 篇全文、{len(ENTRIES) - full} 則短記')

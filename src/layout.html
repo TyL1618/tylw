@@ -21,7 +21,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <style>{{site_css}}</style>
 {{head}}
-<script>document.documentElement.classList.add('js')</script>
+<link rel="expect" href="#main" blocking="render">
+<script>document.documentElement.classList.add('js');addEventListener('pagereveal',function(){var r=document.querySelectorAll('.reveal');r.forEach(function(e){if(e.getBoundingClientRect().top<innerHeight){e.style.transition='none';e.classList.add('in')}});requestAnimationFrame(function(){requestAnimationFrame(function(){r.forEach(function(e){e.style.transition=''})})})})</script>
 <script src="{{root}}assets/js/site.js" defer></script>
 {{scripts}}
 </head>
@@ -39,6 +40,7 @@
 </header>
 <main id="main">
 {{content}}
+{{pager}}
 </main>
 <footer class="site-footer">
 	<div class="wrap">

@@ -59,6 +59,21 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* 捲軸：細、圓角、跟著配色，滑過時微微變成主色。Chrome／Edge／Safari 用 ::-webkit-scrollbar，Firefox 用 scrollbar-color */
+@supports selector(::-webkit-scrollbar) {
+	::-webkit-scrollbar { width: 12px; height: 12px; background: transparent; }
+	::-webkit-scrollbar-track { background: transparent; }
+	::-webkit-scrollbar-corner { background: transparent; }
+	::-webkit-scrollbar-thumb {
+		background: var(--border-strong); background-clip: padding-box;
+		border: 3px solid transparent; border-radius: 999px;
+	}
+	::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent) 55%, var(--border-strong)); background-clip: padding-box; }
+}
+@supports not selector(::-webkit-scrollbar) {
+	html, * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+}
+
 /* 內容不給選取、複製、拖曳（搭配 site.js 擋右鍵與複製）；表單欄位例外，才能輸入與貼上 */
 body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 input[type="text"], input[type="search"], input[type="number"], input[type="email"], textarea { -webkit-user-select: text; user-select: text; }
@@ -70,6 +85,10 @@ a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
 h1, h2, h3, h4 { margin: 0; line-height: 1.25; letter-spacing: -.01em; }
+h1, h2, h3 { text-wrap: balance; }
+p, li, blockquote { text-wrap: pretty; }
+body { text-autospace: normal; }
+.prose h2, .prose h3 { scroll-margin-top: 84px; }
 p { margin: 0 0 1em; }
 
 .skip-link {
@@ -87,8 +106,11 @@ p { margin: 0 0 1em; }
 	background: var(--bg);
 	background: color-mix(in srgb, var(--bg) 82%, transparent);
 	-webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-	border-bottom: 1px solid var(--border);
+	border-bottom: 1px solid transparent;
+	transition: border-color .2s, box-shadow .2s;
 }
+html:not(.js) .site-header, .site-header.is-scrolled { border-bottom-color: var(--border); }
+.site-header.is-scrolled { box-shadow: 0 10px 28px -18px rgba(0, 0, 0, .55); }
 
 .site-header .wrap {
 	display: flex; align-items: center; justify-content: space-between;
@@ -410,6 +432,64 @@ h3 .en, .tag .en { font-weight: 400; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: center; text-align: center; gap: 8px 24px; padding-top: 22px; padding-bottom: 28px; }
 .site-footer a { color: var(--muted); }
 .site-footer a:hover { color: var(--accent); }
+
+/* ===== 換頁過渡（跨頁 View Transition）：新版 Chrome／Edge／Safari 會淡入淡出，頁首固定不動；不支援的瀏覽器自動忽略 ===== */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+::view-transition-group(root) { animation-duration: .2s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-timing-function: ease-out; }
+
+/* ===== 文章閱讀輔助：進度條、側邊目錄、上一篇／下一篇 ===== */
+.read-progress {
+	position: fixed; top: 0; left: 0; z-index: 60; width: 100%; height: 2px; pointer-events: none;
+	background: var(--accent); transform: scaleX(0); transform-origin: 0 50%;
+}
+.toc { display: none; }
+@media (min-width: 1100px) {
+	.wrap.has-toc { display: grid; grid-template-columns: minmax(0, 70ch) 220px; column-gap: 56px; align-content: start; }
+	.has-toc > .prose-head, .has-toc > .prose { grid-column: 1; max-width: none; }
+	.has-toc > .prose-head { grid-row: 1; }
+	.has-toc > .prose { grid-row: 2; }
+	.has-toc > .toc { display: block; grid-column: 2; grid-row: 1 / span 2; padding-top: clamp(40px, 7vw, 72px); }
+	.toc-inner { position: sticky; top: 92px; max-height: calc(100vh - 116px); overflow-y: auto; padding-top: 6px; }
+	.toc-title { margin: 0 0 12px; color: var(--muted); font: 500 .75rem/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+	.toc ol { margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--border); }
+	.toc a {
+		display: block; margin-left: -1px; padding: 5px 0 5px 14px; border-left: 2px solid transparent;
+		color: var(--muted); font-size: .86rem; line-height: 1.5; text-decoration: none; transition: color .15s, border-color .15s;
+	}
+	.toc a:hover { color: var(--text); }
+	.toc a.on { color: var(--text); border-left-color: var(--accent); }
+}
+.note-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 70ch; padding: 8px 0 72px; }
+.note-pager a, .note-pager span {
+	display: block; padding: 14px 18px; border: 1px solid var(--border); border-radius: var(--radius);
+	background: var(--surface); color: var(--text); font-weight: 600; line-height: 1.5; text-decoration: none;
+	transition: border-color .15s, background .15s;
+}
+.note-pager span { visibility: hidden; }
+.note-pager a:hover { border-color: var(--accent); background: var(--surface-2); }
+.note-pager small { display: block; margin-bottom: 4px; color: var(--muted); font: 400 .78rem/1.3 var(--mono); }
+.note-pager .next { text-align: right; }
+@media (max-width: 560px) { .note-pager { grid-template-columns: 1fr; } .note-pager span { display: none; } }
+
+/* 首頁 $ whoami 打字時的游標 */
+.eyebrow.typing::after { content: "\2588"; margin-left: 2px; color: var(--accent); animation: cursor-blink 1s steps(1) infinite; }
+
+/* 404 的終端機風格錯誤訊息 */
+.page-title .term { margin: 14px 0 0; color: var(--danger); font: 400 .9rem/1.6 var(--mono); }
+.page-title .eyebrow { margin: 0 0 12px; color: var(--accent); font: 500 .85rem/1 var(--mono); }
+
+/* ===== 列印：去掉導覽與裝飾，白底黑字，連結後面印出網址 ===== */
+@media print {
+	:root { --bg: #fff; --surface: #fff; --surface-2: #f3f3f3; --border: #ccc; --border-strong: #bbb; --text: #111; --muted: #444; --accent: #0a6b4f; --accent-soft: #eee; }
+	body { background: #fff; color: #111; font-size: 11pt; }
+	.site-header, .site-footer, .read-progress, .toc, .note-pager, .solar, .nav-toggle, .skip-link, .actions { display: none !important; }
+	html.js .reveal { opacity: 1 !important; transform: none !important; }
+	.prose a[href^="http"]::after { content: " (" attr(href) ")"; color: #555; font-size: .85em; word-break: break-all; }
+	.prose pre { white-space: pre-wrap; }
+	.card, .callout { break-inside: avoid; }
+}
 
 /* ===== 進場動畫（沒有 JS 時一律直接顯示） ===== */
 html.js .reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }

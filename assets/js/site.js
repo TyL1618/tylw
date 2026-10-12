@@ -47,6 +47,94 @@
 		if (location.hash === '#past') select(btns[1], false);
 	}
 
+	// -3. 捲動相關：頁首捲動後才出現分隔線；文章頁另有閱讀進度條、側邊目錄（寬螢幕）、預估閱讀時間
+	const header = document.querySelector('.site-header');
+	const art = document.querySelector('article.prose');
+	let bar = null;
+	const tocLinks = [];
+	let tocHeads = [];
+	if (art) {
+		bar = document.createElement('div');
+		bar.className = 'read-progress';
+		bar.setAttribute('aria-hidden', 'true');
+		document.body.appendChild(bar);
+
+		const meta = document.querySelector('.prose-head .meta');
+		if (meta) {
+			const text = art.innerText || '';
+			const cjk = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+			const words = (text.replace(/[\u4e00-\u9fff]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+			const min = Math.max(1, Math.round(cjk / 400 + words / 220));
+			meta.append(`\u3000・\u3000約 ${min} 分鐘`);
+		}
+
+		tocHeads = Array.from(art.querySelectorAll('h2'));
+		if (tocHeads.length >= 3) {
+			const toc = document.createElement('nav');
+			toc.className = 'toc';
+			toc.setAttribute('aria-label', '文章目錄');
+			const inner = document.createElement('div');
+			inner.className = 'toc-inner';
+			const title = document.createElement('p');
+			title.className = 'toc-title';
+			title.textContent = '目錄 / Contents';
+			const ol = document.createElement('ol');
+			tocHeads.forEach((h, i) => {
+				if (!h.id) h.id = `sec-${i + 1}`;
+				const li = document.createElement('li');
+				const a = document.createElement('a');
+				a.href = `#${h.id}`;
+				a.textContent = h.textContent;
+				li.appendChild(a);
+				ol.appendChild(li);
+				tocLinks.push(a);
+			});
+			inner.append(title, ol);
+			toc.appendChild(inner);
+			art.parentElement.classList.add('has-toc');
+			art.parentElement.appendChild(toc);
+		}
+	}
+	let ticking = false;
+	const onScroll = () => {
+		ticking = false;
+		if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+		if (bar) {
+			const max = document.documentElement.scrollHeight - window.innerHeight;
+			bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+		}
+		if (tocLinks.length) {
+			let cur = 0;
+			tocHeads.forEach((h, i) => { if (h.getBoundingClientRect().top <= 120) cur = i; });
+			tocLinks.forEach((a, i) => a.classList.toggle('on', i === cur));
+		}
+	};
+	window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+	window.addEventListener('resize', onScroll);
+	onScroll();
+
+	// -2.5 首頁 $ whoami：每個瀏覽工作階段只打一次字（約 0.6 秒），打完游標消失
+	const eyebrow = document.querySelector('.hero .eyebrow');
+	if (eyebrow) {
+		let played = false;
+		try { played = sessionStorage.getItem('whoami-typed') === '1'; } catch (e) { /* ignore */ }
+		if (!played) {
+			const full = eyebrow.textContent;
+			eyebrow.setAttribute('aria-label', full);
+			eyebrow.style.minHeight = '.85rem';
+			eyebrow.textContent = '';
+			eyebrow.classList.add('typing');
+			let i = 0;
+			const step = () => {
+				eyebrow.textContent = full.slice(0, ++i);
+				if (i < full.length) setTimeout(step, 70);
+				else setTimeout(() => eyebrow.classList.remove('typing'), 600);
+			};
+			setTimeout(step, 250);
+			try { sessionStorage.setItem('whoami-typed', '1'); } catch (e) { /* ignore */ }
+		}
+	}
+
 	// -2. 預先載入：滑鼠移到（或手指碰到、鍵盤聚焦）站內連結時，先把那一頁抓進快取，點下去就幾乎瞬間換頁
 	const prefetched = new Set();
 	const prefetch = (e) => {

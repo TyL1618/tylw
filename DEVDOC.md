@@ -61,6 +61,11 @@ exam/                      線上考卷系統（自成一格）
 - **作品頁分兩區，用切換鈕「近期作品／過去作品」一次顯示一區**（淡出再淡入約 0.4 秒；支援方向鍵與網址 `#past`；沒有 JS 時兩區上下排列）。邏輯在 `site.js` 的 `data-tabs` 區塊。近期作品（TaiexRider、SecureChat、NeonSweep、UFO Duel、CyberMind）與過去作品（學生時期）。有與 Claude 協作的專案，卡片上有一行小字 `Co-developed with Claude`；早期無 AI 的作品不標。TaiexRider 只連 Google Play（不連網頁版、不連原始碼）。UFO Duel、CyberMind 連 Cloudflare Workers 上的線上版（`*.tyl161803.workers.dev`）。UFO Duel 的連線對戰依賴 Supabase，免費專案閒置會被暫停；單機模式不受影響。
 - **新增作品**：在 `assets/img/works/` 放一張 960x600 的 webp 縮圖，在 `src/partials/` 新增 `card-xxx.html`，到 `works.html`（和首頁）引用，建置。
 - **改色／字型／間距**：只動 `assets/css/site.css` 最上面的 `:root` 變數。（建置時會把整份 `site.css` 去註解、收合空白後**內嵌**進每一頁的 `<style>`，所以改完一定要重新建置；站內頁面不再另外載入 `site.css`。原因：GitHub Pages 每個請求約等 0.3 秒，少一次往返首次顯示快約 0.37 秒。壓縮只收合 ASCII 空白，不能用 `\s`，會吃掉 `content: "　全文"` 裡的全形空白。）
+- **排版細節**：標題 `text-wrap: balance`、內文 `text-wrap: pretty`、`text-autospace: normal`（中英文間距）。頁首平常沒有分隔線，捲動後才出現（`site.js` 加 `.is-scrolled`）。
+- **文章閱讀輔助**（`site.js` 的「-3」區，只在 `article.prose` 頁面）：頂端細進度條、預估閱讀時間（加在 `.meta` 後面）、≥1100px 寬螢幕的側邊目錄（由 `h2` 動態產生，隨捲動標示目前章節）。頁尾的「上一篇／下一篇」由 `tools/gen-notes-index.py` 依時間軸順序把 `prev_href/prev_title/next_href/next_title` 寫進每篇全文的 front matter，`build-site.mjs` 產生導覽；**新增或調整筆記後要照常執行 gen-notes-index.py 再建置**。
+- **首頁 `$ whoami`**：每個瀏覽工作階段只打一次字（約 0.6 秒）。404 是終端機風格訊息。`@media print` 會去掉導覽與裝飾、白底黑字，連結後面印出網址。
+- **捲軸**：細、圓角、透明軌道，滑過時微微變主色（Chrome／Edge／Safari 用 `::-webkit-scrollbar`，Firefox 用 `scrollbar-color`），寫在 `site.css` 的 `img` 規則後面。
+- **換頁過渡**：`site.css` 的 `@view-transition { navigation: auto; }` 讓站內換頁在新版 Chrome／Edge／Safari 淡入淡出（約 0.2 秒），頁首（`view-transition-name`）固定不動；不支援的瀏覽器自動忽略。`layout.html` 的 head 另有 `pagereveal` 小腳本：第一屏的 `.reveal` 區塊一律直接顯示、不做淡入（否則過渡會先拍到空白頁），並配 `<link rel="expect" href="#main" blocking="render">` 確保內容先解析完再畫。
 - **預先載入**：`site.js` 在滑鼠移到／手指碰到／鍵盤聚焦站內連結時，用 `<link rel="prefetch">` 先抓那一頁（同一頁只抓一次，不抓外部連結、mailto 與 `exam/`），讓換頁接近瞬間。
 - **二十一點的遊戲邏輯只靠元素 ID**，改版面時 ID 與 `onclick` 要保留。
 
