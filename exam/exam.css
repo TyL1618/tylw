@@ -55,7 +55,7 @@ body {
 .wrap {
   max-width: 720px;
   margin: 0 auto;
-  padding: 20px 16px 140px;
+  padding: 20px 16px 180px; /* 底部進度列出現離開警示會變高，留足空間不蓋住最後一題 */
 }
 h1, h2, h3, p, ul { margin: 0; }
 button { font: inherit; color: inherit; }
@@ -225,6 +225,10 @@ a { color: var(--accent); }
 .bar-sub { font-size: .9rem; color: var(--muted); }
 .meter { height: 8px; border-radius: 999px; background: var(--line); margin-top: 6px; overflow: hidden; }
 .meter > div { height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.bar-time { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.bar-warn { margin-top: 6px; font-size: .85rem; font-weight: 700; color: var(--bad); }
+.run-stats { margin-top: 8px; }
+.cats li.warn { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); font-weight: 700; }
 .end-actions { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; }
 
 @media (min-width: 640px) {

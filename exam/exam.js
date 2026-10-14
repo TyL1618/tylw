@@ -70,6 +70,34 @@
   const leaving = () => live != null && !live.submitted;
   let currentHash = location.hash;
 
+  // 自己跳出的 confirm 會讓視窗短暫失焦，不能算成「離開頁面」
+  let dialogOpen = false;
+  const ask = (msg) => { dialogOpen = true; try { return confirm(msg); } finally { dialogOpen = false; } };
+
+  // 偵測離開頁面：分頁被切走、App 被切到背景、視窗失去焦點（例如並排開別的視窗查資料）都算。
+  // 一次「離開」從離開那刻算到回來；少於 1 秒當作誤觸不計。只在作答中記錄。
+  const AWAY_MIN_MS = 1000;
+  let awaySince = null;
+  let onAwayChange = () => {};
+  const isAway = () => document.hidden || !document.hasFocus();
+  function trackAway() {
+    if (!leaving() || dialogOpen) return;
+    if (isAway()) {
+      if (awaySince == null) awaySince = Date.now();
+    } else if (awaySince != null) {
+      const ms = Date.now() - awaySince;
+      awaySince = null;
+      if (ms >= AWAY_MIN_MS) {
+        live.stats.leaves++;
+        live.stats.awayMs += ms;
+        onAwayChange();
+      }
+    }
+  }
+  document.addEventListener('visibilitychange', trackAway);
+  window.addEventListener('blur', trackAway);
+  window.addEventListener('focus', trackAway);
+
   // 關閉分頁／重新整理／網址列換頁：瀏覽器只允許跳出它自己的確認視窗，文字無法自訂
   window.addEventListener('beforeunload', (e) => {
     if (!leaving()) return;
@@ -81,19 +109,31 @@
   document.addEventListener('click', (e) => {
     const a = e.target instanceof Element && e.target.closest('a[href^="#/"]');
     if (!a || !leaving() || a.getAttribute('href') === currentHash) return;
-    if (confirm(LEAVE_MSG)) live = null; // 已經同意離開，接著的 hashchange 不再重複詢問
+    if (ask(LEAVE_MSG)) live = null; // 已經同意離開，接著的 hashchange 不再重複詢問
     else e.preventDefault();
   });
 
   // 瀏覽器的上一頁／手動改網址：事後才知道，按取消就把網址推回原本的考卷
   window.addEventListener('hashchange', () => {
-    if (leaving() && !confirm(LEAVE_MSG)) {
+    if (leaving() && !ask(LEAVE_MSG)) {
       history.pushState(null, '', currentHash || '#/');
       return;
     }
     currentHash = location.hash;
     route();
   });
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+  function fmtDur(ms) {
+    const s = Math.max(0, Math.round(ms / 1000));
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+    return (h ? `${h}:${pad2(m)}` : String(m)) + `:${pad2(s % 60)}`;
+  }
+  function fmtStamp(ts) {
+    const d = new Date(ts);
+    return `${d.getFullYear()}/${pad2(d.getMonth() + 1)}/${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  }
+  const awayText = (st) => `離開頁面 ${st.leaves} 次` + (st.leaves ? `（共 ${fmtDur(st.awayMs)}）` : '');
 
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -164,7 +204,8 @@
       if (exam.shuffleOptions) shuffle(optOrder);
       return { n: i + 1, q, optOrder, correct: optOrder.indexOf(q.answer), picked: null };
     });
-    return { exam, items, submitted: false };
+    // stats：作答時間與「離開頁面」紀錄，交卷後顯示在成績單上
+    return { exam, items, submitted: false, stats: { start: Date.now(), end: null, leaves: 0, awayMs: 0 } };
   }
 
   const isRight = (it) => it.picked === it.correct;
@@ -297,6 +338,11 @@
         h('span', { class: 'pct', text: `${pct}%` })
       ),
       cats.length ? h('ul', { class: 'cats', 'aria-label': '各題型答對率' }, cats) : null,
+      h('ul', { class: 'cats run-stats', 'aria-label': '作答紀錄' },
+        h('li', { text: `交卷時間 ${fmtStamp(state.stats.end)}` }),
+        h('li', { text: `作答時間 ${fmtDur(state.stats.end - state.stats.start)}` }),
+        h('li', { class: state.stats.leaves ? 'warn' : '', text: awayText(state.stats) })
+      ),
       wrongBox,
       h('div', { class: 'summary-actions' },
         wrong.length
@@ -310,9 +356,14 @@
     );
   }
 
+  let timerId = 0;
+
   function renderExam(state, { focusSummary = false } = {}) {
     const { exam, items } = state;
     live = state.submitted ? null : state;
+    awaySince = null;
+    onAwayChange = () => {};
+    clearInterval(timerId);
     document.title = `${exam.title}｜${BASE_TITLE}`;
     const total = items.length;
 
@@ -353,15 +404,26 @@
       submitBtn.addEventListener('click', () => {
         if (items.some((it) => it.picked == null)) return;
         state.submitted = true;
+        state.stats.end = Date.now();
         renderExam(state, { focusSummary: true });
       });
       todoBox = h('section', { class: 'todo-box', hidden: true },
         h('h2', { text: '還沒寫的題號' }),
         h('div', { class: 'chips' })
       );
+      const timeEl = h('div', { class: 'bar-time', 'aria-hidden': 'true', text: '0:00' });
+      const warnEl = h('div', { class: 'bar-warn', role: 'alert', hidden: true });
+      onAwayChange = () => {
+        warnEl.hidden = false;
+        warnEl.textContent = `⚠ ${awayText(state.stats)}，會記錄在成績單上`;
+      };
+      timerId = setInterval(() => { timeEl.textContent = fmtDur(Date.now() - state.stats.start); }, 1000);
       bar = h('div', { class: 'bar' },
         h('div', { class: 'bar-inner' },
-          h('div', { class: 'bar-info', 'aria-live': 'polite' }, progText, progSub, meter),
+          h('div', { class: 'bar-info' },
+            h('div', { 'aria-live': 'polite' }, progText, progSub),
+            meter, warnEl),
+          timeEl,
           submitBtn
         )
       );
@@ -404,6 +466,7 @@
   function route() {
     const token = ++routeToken;
     live = null;
+    clearInterval(timerId);
     const m = location.hash.match(/^#\/exam\/([^/?#]+)/);
     if (m) showExam(decodeURIComponent(m[1]), token);
     else showHome(token);
