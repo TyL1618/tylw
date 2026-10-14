@@ -62,6 +62,39 @@
     if (devtools || copyLike) e.preventDefault();
   });
 
+  /* ---------- 作答中不能隨便離開 ---------- */
+
+  // 正在作答、還沒交卷的考卷狀態；沒有就是 null。離開會丟掉進度（題序也會重新打亂），所以要先確認。
+  let live = null;
+  const LEAVE_MSG = '考卷還沒交卷，離開會失去目前的作答進度。確定要離開嗎？';
+  const leaving = () => live != null && !live.submitted;
+  let currentHash = location.hash;
+
+  // 關閉分頁／重新整理／網址列換頁：瀏覽器只允許跳出它自己的確認視窗，文字無法自訂
+  window.addEventListener('beforeunload', (e) => {
+    if (!leaving()) return;
+    e.preventDefault();
+    e.returnValue = '';
+  });
+
+  // 站內連結（考卷列表等）：作答中先問，按取消就留在原處
+  document.addEventListener('click', (e) => {
+    const a = e.target instanceof Element && e.target.closest('a[href^="#/"]');
+    if (!a || !leaving() || a.getAttribute('href') === currentHash) return;
+    if (confirm(LEAVE_MSG)) live = null; // 已經同意離開，接著的 hashchange 不再重複詢問
+    else e.preventDefault();
+  });
+
+  // 瀏覽器的上一頁／手動改網址：事後才知道，按取消就把網址推回原本的考卷
+  window.addEventListener('hashchange', () => {
+    if (leaving() && !confirm(LEAVE_MSG)) {
+      history.pushState(null, '', currentHash || '#/');
+      return;
+    }
+    currentHash = location.hash;
+    route();
+  });
+
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function jumpTo(n) {
@@ -124,7 +157,7 @@
 
   function buildState(exam) {
     const order = exam.questions.map((_, i) => i);
-    if (exam.shuffleQuestions) shuffle(order);
+    shuffle(order); // 題序一律在每次進來（含重做）時重新打亂，不看考卷檔的 shuffleQuestions
     const items = order.map((qi, i) => {
       const q = exam.questions[qi];
       const optOrder = [0, 1, 2, 3];
@@ -279,6 +312,7 @@
 
   function renderExam(state, { focusSummary = false } = {}) {
     const { exam, items } = state;
+    live = state.submitted ? null : state;
     document.title = `${exam.title}｜${BASE_TITLE}`;
     const total = items.length;
 
@@ -369,11 +403,11 @@
 
   function route() {
     const token = ++routeToken;
+    live = null;
     const m = location.hash.match(/^#\/exam\/([^/?#]+)/);
     if (m) showExam(decodeURIComponent(m[1]), token);
     else showHome(token);
   }
 
-  window.addEventListener('hashchange', route);
   route();
 })();
