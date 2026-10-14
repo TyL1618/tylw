@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'src');
-const BASE_URL = 'https://tyl1618.github.io/tylw/';
+const BASE_URL = 'https://tyl1618.github.io/';
 // 網站對外的名稱只改這裡。HANDLE 是網路代號（頁首、標題、頁尾都用它）；本名只在「關於」頁出現。
 const HANDLE = 'TyL';
 const REAL_NAME = 'Yun Long Tsai';
@@ -142,7 +142,7 @@ function checkLinks() {
 			if (/^(https?:|mailto:|tel:|data:|#|javascript:)/.test(r) || r === '') continue;
 			let target = r.split('#')[0].split('?')[0];
 			if (!target) continue;
-			target = target.startsWith('/tylw/') ? join(ROOT, target.slice(6)) : resolve(baseDir, target);
+			target = target.startsWith('/') ? join(ROOT, target.slice(1)) : resolve(baseDir, target);
 			if (!existsSync(target) || (statSync(target).isDirectory() && !existsSync(join(target, 'index.html')))) {
 				problems.push(`${p.out}: 找不到 ${r}`);
 			}

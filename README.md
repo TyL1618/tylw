@@ -1,8 +1,8 @@
-# tylw
+# tyl1618.github.io
 
 個人網站：作品、技術筆記、關於與聯絡。
 
-線上網址：<https://tyl1618.github.io/tylw/>
+線上網址：<https://tyl1618.github.io/>
 
 純靜態網頁，沒有後端、沒有追蹤、沒有外部資源。頁面由 `src/` 經 `node tools/build-site.mjs` 產生（零相依，Node 18+）；本機預覽用任一靜態伺服器，例如：
 
