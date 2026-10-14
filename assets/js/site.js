@@ -144,6 +144,28 @@
 		}
 	}
 
+	// -2.2 隱藏入口：通往 exam/ 考卷系統，畫面上沒有任何連結或提示。
+	//      桌機：任何頁面（不在輸入框時）依序按 e、x、a、m；手機：首頁連點 $ whoami 三下。
+	const examUrl = new URL('../../exam/', document.currentScript.src).href;
+	const goExam = () => { location.href = examUrl; };
+	let typed = '', typedAt = 0;
+	document.addEventListener('keydown', (e) => {
+		if (inField(e) || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+		const now = Date.now();
+		typed = (now - typedAt > 2000 ? '' : typed) + e.key.toLowerCase();
+		typedAt = now;
+		if (typed.endsWith('exam')) goExam();
+	});
+	if (eyebrow) {
+		let taps = 0, tapAt = 0;
+		eyebrow.addEventListener('click', () => {
+			const now = Date.now();
+			taps = now - tapAt > 1200 ? 1 : taps + 1;
+			tapAt = now;
+			if (taps >= 3) goExam();
+		});
+	}
+
 	// -2. 預先載入：滑鼠移到（或手指碰到、鍵盤聚焦）站內連結時，先把那一頁抓進快取，點下去就幾乎瞬間換頁
 	const prefetched = new Set();
 	const prefetch = (e) => {
